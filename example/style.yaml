@@ -1,0 +1,7 @@
+style1:
+  - const: true
+  - default:
+      bg_color: hex(432343)
+      align: default
+  - hovered:
+      bg_color: rgb(255, 255, 253)
