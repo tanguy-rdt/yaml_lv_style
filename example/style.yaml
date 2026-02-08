@@ -1,7 +1,7 @@
 style1:
   - const: true
   - default:
-      bg_color: hex(432343)
-      align: default
+      bg_color: hex(0x432343)
+      align: top_left
   - hovered:
       bg_color: rgb(255, 255, 253)
