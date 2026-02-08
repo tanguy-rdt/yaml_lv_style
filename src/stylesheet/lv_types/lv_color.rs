@@ -3,7 +3,7 @@ use serde::{Deserialize, Deserializer};
 use serde::de::{Error as DeError};
 use regex::Regex;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum LVColor {
     Hex(u32),
     Rgb(u8, u8, u8),
@@ -17,14 +17,14 @@ impl<'de> Deserialize<'de> for LVColor {
         let s = String::deserialize(deserializer)?;
         let s = s.trim();
 
-        let hex_re = Regex::new(r"^hex\(\s*(0x|#)?([0-9a-fA-F]{6})\s*\)$").unwrap();
+        let hex_re = Regex::new(r"^(?:hex|lv_color_hex)\(\s*(?:0x|#)?([0-9a-fA-F]{6})\s*\)$").unwrap();
         if let Some(caps) = hex_re.captures(s) {
-            let val = u32::from_str_radix(&caps[2], 16)
+            let val = u32::from_str_radix(&caps[1], 16)
                 .map_err(|_| DeError::custom(format!("Hex invalide: {}", s)))?;
             return Ok(Self::Hex(val));
         }
 
-        let rgb_re = Regex::new(r"^rgb\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$").unwrap();
+        let rgb_re = Regex::new(r"^(?:rgb|lv_color_make)\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$").unwrap();
         if let Some(caps) = rgb_re.captures(s) {
             let r = caps[1].parse().map_err(|_| DeError::custom("invalid r in RGB color"))?;
             let g = caps[2].parse().map_err(|_| DeError::custom("invalid g in RGB color"))?;
