@@ -5,3 +5,16 @@ style1:
       align: top_left
   - hovered:
       bg_color: rgb(255, 255, 253)
+  - checked:
+      flex_flow: row
+
+
+style2:
+  - const: true
+  - default:
+      bg_color: hex(0x123456)
+      align: top_riht
+  - hovered:
+      bg_color: rgb(0, 1, 2)
+  - checked:
+      flex_flow: row

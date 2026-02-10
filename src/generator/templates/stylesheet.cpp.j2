@@ -1,0 +1,39 @@
+// Automatically generated file: do not modify
+
+#include "stylesheet_{{ stylesheet.name | snake_case }}.h"
+
+{% for style in stylesheet.styles -%}
+{%- for state in style | get_states_of_style %}
+static lv_style_t {{ style.name }}_{{ state }};
+{%- endfor %}
+{%- endfor %}
+
+{% if namespace is defined -%}
+namespace {{ namespace }} {
+{%- endif %}
+
+void init_stylesheet_{{ stylesheet.name | snake_case }}() {
+    {%- for style in stylesheet.styles %}
+    {%- for state, props in style | get_props_by_state %}
+    lv_style_init(&{{ style.name }}_{{ state }}));
+    {%- for prop, value in props | get_props %}
+    lv_style_set_{{ prop }}(&{{ style.name }}_{{ state }}, {{ value }});
+    {%- endfor %}
+    {% endfor %}
+    {%- endfor %}
+}
+
+void set_style({{ stylesheet.name | pascal_case }}Style style_name, lv_obj_t* obj) {
+    switch (style_name) {
+        {%- for style in stylesheet.styles %}
+        case {{ stylesheet.name | pascal_case }}Style::{{ style.name | screaming_snake_case }}:
+        {%- for state in style | get_states_of_style %}
+            lv_obj_add_style(obj, &{{ style.name }}_{{ state }}, {{ state | get_lv_state }})
+        {%- endfor %}
+        {%- endfor %}
+    }
+}
+
+{% if namespace is defined -%}
+} // {{ namespace }}
+{%- endif %}

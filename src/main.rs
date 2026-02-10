@@ -1,7 +1,9 @@
 mod stylesheet;
+mod generator;
 
 use clap::Parser;
 
+use crate::generator::generator::generate;
 use crate::stylesheet::stylesheet::StyleSheet;
 
 #[derive(Parser)]
@@ -30,5 +32,10 @@ fn main() {
                 std::process::exit(1);
             }
         }
+    }
+
+    if let Err(e) = generate(opt.namespace, &stylesheets) {
+        log::error!("{}", e);
+        std::process::exit(4);
     }
 }

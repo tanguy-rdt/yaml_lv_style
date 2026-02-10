@@ -1,0 +1,22 @@
+// Automatically generated file: do not modify
+
+#ifndef STYLESHEET_{{ stylesheet.name | screaming_snake_case }}_H
+#define STYLESHEET_{{ stylesheet.name | screaming_snake_case }}_H
+
+#include <lvgl.h>
+
+#include "styles.h"
+
+{% if namespace is defined -%}
+namespace {{ namespace }} {
+{%- endif %}
+
+void init_stylesheet_{{ stylesheet.name | snake_case }}();
+
+void set_style({{ stylesheet.name | pascal_case }}Style, lv_obj_t*);
+
+{% if namespace is defined -%}
+} // {{ namespace }}
+{%- endif %}
+
+#endif   // STYLESHEET_{{ stylesheet.name | screaming_snake_case }}_H

@@ -1,0 +1,22 @@
+// Automatically generated file: do not modify
+
+#ifndef STYLES_H
+#define STYLES_H
+
+{% if namespace is defined -%}
+namespace {{ namespace }} {
+{% endif %}
+
+{%- for stylesheet in stylesheets %}
+enum class {{ stylesheet.name | pascal_case }}Style {
+    {%- for style in stylesheet.styles %}
+    {{ style.name | screaming_snake_case }};
+    {%- endfor %}
+};
+{% endfor %}
+
+{%- if namespace is defined %}
+} // {{ namespace }}
+{%- endif %}
+
+#endif   // STYLES_H

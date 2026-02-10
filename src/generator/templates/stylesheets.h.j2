@@ -1,0 +1,24 @@
+// Automatically generated file: do not modify
+
+#ifndef STYLESHEETS_H
+#define STYLESHEETS_H
+
+#include <lvgl.h>
+
+#include "styles.h"
+
+{% if namespace is defined -%}
+namespace {{ namespace }} {
+{%- endif %}
+
+void init_stylesheets();
+
+{%- for stylesheet in stylesheets %}
+void set_style({{ stylesheet.name | pascal_case }}Style, lv_obj_t*);
+{%- endfor %}
+
+{% if namespace is defined -%}
+} // {{ namespace }}
+{%- endif %}
+
+#endif   // STYLESHEETS_H

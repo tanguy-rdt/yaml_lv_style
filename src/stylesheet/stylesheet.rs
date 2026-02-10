@@ -1,36 +1,23 @@
 use std::collections::HashMap;
 use std::fs;
+use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-use super::lv_properties::LVProperties;
+use super::style::Style;
 
-#[derive(Debug, Default, Deserialize, Serialize)]
-pub struct Style {
-    pub name: String,
-    pub const_style: Option<bool>,
-    pub default: Option<LVProperties>,
-    pub checked: Option<LVProperties>,
-    pub focused: Option<LVProperties>,
-    pub focus_key: Option<LVProperties>,
-    pub edited: Option<LVProperties>,
-    pub hovered: Option<LVProperties>,
-    pub pressed: Option<LVProperties>,
-    pub disabled: Option<LVProperties>,
-    pub user_1: Option<LVProperties>,
-    pub user_2: Option<LVProperties>,
-    pub user_3: Option<LVProperties>,
-    pub user_4: Option<LVProperties>,
-    pub any: Option<LVProperties>,
-}
-
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize)]
 pub struct StyleSheet {
+    pub name: String,
     pub styles: Vec<Style>,
 }
 
 impl StyleSheet {
     pub fn from_yaml(path: &str) -> Result<Self, String> {
+        let name = Path::new(path).file_stem()
+            .and_then(|s| s.to_str())
+            .unwrap();
+
         let yaml_str = match fs::read_to_string(path) {
             Ok(s) => s,
             Err(e) => return Err(format!("Unable to read the YAML file '{}': {}", path, e)),
@@ -188,6 +175,9 @@ impl StyleSheet {
             styles.push(style);
         }
 
-        Ok(StyleSheet { styles })
+        Ok(StyleSheet {
+            name: name.to_string(),
+            styles
+        })
     }
 }
