@@ -2,7 +2,28 @@
 
 #include "stylesheet_{{ stylesheet.name | snake_case }}.h"
 
+{% if stylesheet | has_const_style -%}
+namespace {
+{%- endif -%}
+
 {% for style in stylesheet.styles -%}
+{% if not style.const_style %}{% continue %}{% endif %}
+{%- for state, props in style | get_props_by_state %}
+const lv_style_const_prop_t {{ style.name }}_{{ state }}_props[] = {
+{%- for prop, value in props | get_props %}
+   LV_STYLE_CONST_{{ prop | screaming_snake_case }}({{ value }}),
+{%- endfor %}
+};
+LV_STYLE_CONST_INIT({{ style.name }}_{{ state }}, {{ style.name }}_{{ state }}_props);
+{% endfor %}
+{%- endfor %}
+
+{%- if stylesheet | has_const_style -%}
+}
+{% endif %}
+
+{% for style in stylesheet.styles -%}
+{% if style.const_style %}{% continue %}{% endif %}
 {%- for state in style | get_states_of_style %}
 static lv_style_t {{ style.name }}_{{ state }};
 {%- endfor %}
@@ -12,8 +33,10 @@ static lv_style_t {{ style.name }}_{{ state }};
 namespace {{ namespace }} {
 {%- endif %}
 
+{%- if stylesheet | has_dyn_style -%}
 void init_stylesheet_{{ stylesheet.name | snake_case }}() {
     {%- for style in stylesheet.styles %}
+    {% if style.const_style %}{% continue %}{% endif %}
     {%- for state, props in style | get_props_by_state %}
     lv_style_init(&{{ style.name }}_{{ state }}));
     {%- for prop, value in props | get_props %}
@@ -22,6 +45,7 @@ void init_stylesheet_{{ stylesheet.name | snake_case }}() {
     {% endfor %}
     {%- endfor %}
 }
+{% endif %}
 
 void set_style({{ stylesheet.name | pascal_case }}Style style_name, lv_obj_t* obj) {
     switch (style_name) {

@@ -5,6 +5,7 @@ use tera::Tera;
 
 use super::filters::case_converters;
 use super::filters::style_extractor;
+use super::filters::style_info;
 
 use crate::stylesheet::stylesheet::StyleSheet;
 
@@ -21,6 +22,8 @@ pub fn generate(namespace: Option<String>, stylesheets: &Vec<StyleSheet>) -> Res
     tera.register_filter("get_props_by_state", style_extractor::get_props_by_state);
     tera.register_filter("get_props", style_extractor::get_props);
     tera.register_filter("get_lv_state", style_extractor::get_lv_state);
+    tera.register_filter("has_const_style", style_info::has_const_style);
+    tera.register_filter("has_dyn_style", style_info::has_dyn_style);
 
     let mut ctx = tera::Context::new();
     ctx.insert("stylesheets", &stylesheets);

@@ -1,5 +1,5 @@
 style1:
-  - const: true
+  - const: false
   - default:
       bg_color: hex(0x432343)
       align: top_left
