@@ -5,7 +5,8 @@ use super::lv_properties::LVProperties;
 #[derive(Debug, Default, PartialEq)]
 #[derive(Deserialize, Serialize)]
 pub struct Style {
-    pub name: String,
+    pub name: Option<String>,
+    #[serde(alias = "const")]
     pub const_style: Option<bool>,
     pub default: Option<LVProperties>,
     pub checked: Option<LVProperties>,
@@ -47,7 +48,7 @@ mod tests {
         };
 
         let style = Style {
-            name: "test_style".to_string(),
+            name: Some("test_style".to_string()),
             const_style: Some(true),
             default: Some(props_default),
             checked: Some(props_hovered),
