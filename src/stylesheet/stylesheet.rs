@@ -13,19 +13,19 @@ pub struct StyleSheet {
 }
 
 impl StyleSheet {
-    pub fn from_yaml(path: &str) -> Result<Self, String> {
-        let name = Path::new(path).file_stem()
+    pub fn from_yaml(path: &Path) -> Result<Self, String> {
+        let name = path.file_stem()
             .and_then(|s| s.to_str())
             .unwrap();
 
         let yaml_str = match fs::read_to_string(path) {
             Ok(s) => s,
-            Err(e) => return Err(format!("Unable to read the YAML file '{}': {}", path, e)),
+            Err(e) => return Err(format!("Unable to read the YAML file '{}': {}", path.display(), e)),
         };
 
         let raw: HashMap<String, Vec<HashMap<String, yaml_serde::Value>>> = match yaml_serde::from_str(&yaml_str) {
             Ok(r) => r,
-            Err(e) => return Err(format!("YAML parsing error '{}': {}", path, e)),
+            Err(e) => return Err(format!("YAML parsing error '{}': {}", path.display(), e)),
         };
 
         let mut styles = Vec::new();

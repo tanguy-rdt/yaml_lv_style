@@ -23,7 +23,7 @@ pub fn get_states_of_style(value: &Value, _: &HashMap<String, Value>) -> TeraRes
     Ok(tera::to_value(states)?)
 }
 
-pub fn get_props_by_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
+pub fn get_props_by_states(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let mut map = match value {
         Value::Object(map) => map.clone(),
         _ => {
@@ -39,6 +39,28 @@ pub fn get_props_by_state(value: &Value, _: &HashMap<String, Value>) -> TeraResu
     Ok(tera::to_value(map)?)
 }
 
+pub fn get_props_by_states_sorted(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
+    let mut map = match value {
+        Value::Object(map) => map.clone(),
+        _ => {
+            log::warn!("Unable to extract the properties by states");
+            return Ok(Value::Null)
+        },
+    };
+
+    map.remove("name");
+    map.remove("const_style");
+
+    let mut sorted_props: Vec<(&String, &Value)> = map
+        .iter()
+        .filter(|(_, v)| !v.is_null())
+        .collect();
+
+    sorted_props.sort_by(|a, b| a.0.cmp(b.0));
+
+    Ok(tera::to_value(sorted_props)?)
+}
+
 pub fn get_props(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let mut map = match value {
         Value::Object(map) => map.clone(),
@@ -51,6 +73,25 @@ pub fn get_props(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value>
     map.retain(|_, v| !v.is_null());
 
     Ok(tera::to_value(map)?)
+}
+
+pub fn get_props_sorted(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
+    let map = match value {
+        Value::Object(map) => map,
+        _ => {
+            log::warn!("Unable to extract the properties of the state");
+            return Ok(Value::Null)
+        },
+    };
+
+    let mut sorted_props: Vec<(&String, &Value)> = map
+        .iter()
+        .filter(|(_, v)| !v.is_null())
+        .collect();
+
+    sorted_props.sort_by(|a, b| a.0.cmp(b.0));
+
+    Ok(tera::to_value(sorted_props)?)
 }
 
 pub fn get_lv_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
