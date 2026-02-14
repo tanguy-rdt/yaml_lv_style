@@ -3,7 +3,8 @@ use serde::{Deserialize, Deserializer};
 use serde::de::{Error as DeError};
 use regex::Regex;
 
-#[derive(Debug, PartialEq)]
+#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
+#[derive(Debug)]
 pub enum LVColor {
     Hex(u32),
     Rgb(u8, u8, u8),

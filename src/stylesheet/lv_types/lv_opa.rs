@@ -1,8 +1,8 @@
 use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
 
-#[cfg_attr(test, derive(strum_macros::EnumIter))]
-#[derive(Debug, PartialEq)]
+#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
+#[derive(Debug)]
 pub enum LVOpa {
     LVOpaTransp,
     LVOpa0,

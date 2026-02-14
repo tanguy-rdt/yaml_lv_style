@@ -71,3 +71,43 @@ impl<'de> Deserialize<'de> for StyleSheet {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::stylesheet::lv_types::lv_color::LVColor::{Hex, Rgb};
+    use super::*;
+
+    #[test]
+    fn test_stylesheet_deserialization() {
+        let yaml = r#"
+style_0:
+  - const: true
+  - default:
+      width: 100
+      bg_color: "hex(0xFF0000)"
+  - hovered:
+      bg_color: "rgb(0, 255, 0)"
+
+style_1:
+  - const: true
+  - default:
+      width: 100
+      bg_color: "hex(0xFF0000)"
+  - hovered:
+      bg_color: "rgb(0, 255, 0)"
+"#;
+
+        let sheet: StyleSheet = yaml_serde::from_str(yaml).unwrap();
+
+        assert_eq!(sheet.styles.len(), 2);
+        for style in sheet.styles.iter() {
+            assert!(style.name.as_ref().unwrap().starts_with("style_"));
+            assert_eq!(style.const_style, Some(true));
+            assert!(style.default.is_some());
+            assert_eq!(style.default.as_ref().unwrap().width, Some(100));
+            assert_eq!(style.default.as_ref().unwrap().bg_color, Some(Hex(0xFF0000)));
+            assert!(style.hovered.is_some());
+            assert_eq!(style.hovered.as_ref().unwrap().bg_color, Some(Rgb(0, 255, 0)));
+        }
+    }
+}
