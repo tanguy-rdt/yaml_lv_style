@@ -18,11 +18,17 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
+            dpkg_arch: amd64
             artifact_name: yaml_lv_style
-            asset_name: yaml_lv_style-linux-x64.tar.gz
+            asset_name: yaml_lv_style-linux-x86_64.tar.gz
+          - os: ubuntu-latest
+            dpkg_arch: arm64
+            artifact_name: yaml_lv_style
+            asset_name: yaml_lv_style-linux-aarch64.tar.gz
           - os: macos-latest
+            dpkg_arch: amd64
             artifact_name: yaml_lv_style
-            asset_name: yaml_lv_style-macos-x64.tar.gz
+            asset_name: yaml_lv_style-macos-x86_64.tar.gz
 
     steps:
       - uses: actions/checkout@v4
@@ -30,17 +36,97 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Build Release
+      - name: Build
         run: cargo build --release --locked
 
-      - name: Prepare Assets (Unix)
+      - name: Create archive
         run: |
-          cd target/release
-          tar -czf ../../${{ matrix.asset_name }} ${{ matrix.artifact_name }}
+          STAGING="${{ matrix.artifact_name }}"
+          mkdir -p "$STAGING"
+          
+          cp "target/release/yaml_lv_style" "$STAGING/"
+          
+          [ -f README.md ] && cp README.md "$STAGING/"
+          [ -f LICENSE-MIT ] && cp LICENSE-MIT "$STAGING/"
+          [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "$STAGING/"
+          [ -f CHANGELOG.md ] && cp CHANGELOG.md "$STAGING/"
+          
+          tar -czf "${{ matrix.asset_name }}" "$STAGING"
 
-      - name: Upload Release Asset
+      - name: Create Debian Package
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          COPYRIGHT_YEARS="2026 - $(date "+%Y")"
+          VERSION=${GITHUB_REF#refs/tags/v}
+          DPKG_DIR="target/debian"
+          DOC_DIR="${DPKG_DIR}/usr/share/doc/yaml_lv_style"
+          
+          rm -rf "${DPKG_DIR}"
+          mkdir -p "${DPKG_DIR}/usr/bin"
+          mkdir -p "${DPKG_DIR}/DEBIAN"
+          mkdir -p "${DOC_DIR}"
+
+          cp "target/release/yaml_lv_style" "${DPKG_DIR}/usr/bin/"
+          chmod 755 "${DPKG_DIR}/usr/bin/yaml_lv_style"
+          
+          [ -f README.md ] && cp README.md "${DOC_DIR}/"
+          [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "${DOC_DIR}/"
+          [ -f LICENSE-MIT ] && cp LICENSE-MIT "${DOC_DIR}/"
+          [ -f CHANGELOG.md ] && cp CHANGELOG.md "${DOC_DIR}/"
+          
+          cat > "${DOC_DIR}/copyright" <<EOF
+          Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+          Upstream-Name: yaml_lv_style
+          Source: https://github.com/tanguy-rdt/yaml_lv_style
+          
+          Files: *
+          Copyright: ${COPYRIGHT_YEARS} tanguy-rdt
+          License: Apache-2.0 or MIT
+          
+          License: Apache-2.0
+            On Debian systems, the complete text of the Apache-2.0 can be found in the
+            file /usr/share/common-licenses/Apache-2.0.
+          
+          License: MIT
+            Permission is hereby granted, free of charge, to any person obtaining a copy
+            of this software and associated documentation files (the "Software"), to deal
+            in the Software without restriction, including without limitation the rights
+            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            copies of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:
+            .
+            The above copyright notice and this permission notice shall be included in all
+            copies or substantial portions of the Software.
+            .
+            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+            SOFTWARE.
+          EOF
+          chmod 644 "${DOC_DIR}/copyright"
+            
+          cat > "${DPKG_DIR}/DEBIAN/control" <<EOF
+          Package: yaml-lv-style
+          Version: ${VERSION}
+          Section: utils
+          Priority: optional
+          Architecture: ${{ matrix.dpkg_arch }}
+          Maintainer: tanguy-rdt <tanguy@roudaut.dev>
+          Homepage: https://github.com/tanguy-rdt/yaml_lv_style
+          Description: Tool to generate LVGL C++ styles from YAML files.
+            Allows easy management of LVGL styles using a clean YAML syntax.
+          EOF
+            
+          fakeroot dpkg-deb --build "${DPKG_DIR}" "yaml_lv_style_${VERSION}_${{ matrix.dpkg_arch }}.deb"
+
+      - name: Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.asset_name }}
+          files: |
+            ${{ matrix.asset_name }}
+            *.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
