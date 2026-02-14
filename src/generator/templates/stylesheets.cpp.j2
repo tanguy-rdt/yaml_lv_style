@@ -5,7 +5,7 @@
 
 #include "stylesheets.h"
 
-{% for stylesheet in stylesheets -%}
+{% for stylesheet in stylesheets | sort(attribute='name') -%}
 #include "stylesheet_{{ stylesheet.name | snake_case }}.h"
 {% endfor %}
 
@@ -17,14 +17,14 @@ namespace {{ namespace }} {
  * @brief Initializes all dynamic styles of the stylesheets
  */
 void init_stylesheets() {
-    {%- for stylesheet in stylesheets %}
+    {%- for stylesheet in stylesheets | sort(attribute='name') %}
     {%- if stylesheet | has_dyn_style %}
     init_stylesheet_{{ stylesheet.name | snake_case }}();
     {%- endif %}
     {%- endfor %}
 }
 
-{% for stylesheet in stylesheets %}
+{% for stylesheet in stylesheets | sort(attribute='name') %}
 /**
  * @brief Applies a style from "{{ stylesheet.name }}" stylesheet to a given LVGL object
  * @param obj The LVGL object pointer

@@ -69,6 +69,6 @@ fn main() {
     let output_dir = opt.output_dir.unwrap_or_else(|| ".".into());
     if let Err(e) = generate(&stylesheets, &output_dir, &opt.namespace, &opt.format) {
         log::error!("{}", e);
-        std::process::exit(4);
+        std::process::exit(2);
     }
 }
