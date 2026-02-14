@@ -7,14 +7,48 @@ style1:
       bg_color: rgb(255, 255, 253)
   - checked:
       flex_flow: row
+  - user_1:
+     bg_color: hex(0x432343)
+     align: top_left
+  - user2:
+     bg_color: rgb(255, 255, 253)
+  - user_3:
+     flex_flow: row
+
 
 
 style2:
-  - const: true
+  - const: false
   - default:
       bg_color: hex(0x123456)
-      align: top_riht
+      align: top_right
   - hovered:
       bg_color: rgb(0, 1, 2)
   - checked:
       flex_flow: row
+
+style3:
+  - const: true
+  - default:
+      bg_color: hex(0x123456)
+      align: top_right
+  - hovered:
+      bg_color: rgb(0, 1, 2)
+      align: top_right
+  - checked:
+      flex_flow: row
+      bg_color: rgb(0, 1, 2)
+      align: top_right
+
+style4:
+  - const: true
+  - default:
+      bg_color: hex(0x123456)
+      align: top_right
+  - hovered:
+      bg_color: rgb(0, 1, 2)
+      align: top_right
+  - checked:
+      flex_flow: row
+      bg_color: rgb(0, 1, 2)
+      align: top_right

@@ -1,0 +1,27 @@
+const_style:
+  - const: true
+  - default:
+#       grid_column_dsc_array: not_yet_implemented
+        grid_column_align: LV_GRID_ALIGN_START
+#       grid_row_dsc_array: not_yet_implemented
+        grid_row_align: LV_GRID_ALIGN_CENTER
+        grid_cell_column_pos: 1
+        grid_cell_x_align: LV_GRID_ALIGN_END
+        grid_cell_column_span: 2
+        grid_cell_row_pos: 2
+        grid_cell_y_align: LV_GRID_ALIGN_STRETCH
+        grid_cell_row_span: 2
+
+dyn_style:
+  - const: false
+  - default:
+#       grid_column_dsc_array: not_yet_implemented
+        grid_column_align: start
+#       grid_row_dsc_array: not_yet_implemented
+        grid_row_align: center
+        grid_cell_column_pos: 1
+        grid_cell_x_align: end
+        grid_cell_column_span: 2
+        grid_cell_row_pos: 2
+        grid_cell_y_align: stretch
+        grid_cell_row_span: 2

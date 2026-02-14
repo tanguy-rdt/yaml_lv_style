@@ -1,0 +1,15 @@
+const_style:
+  - const: true
+  - default:
+      margin_top: 1
+      margin_bottom: 2
+      margin_left: 3
+      margin_right: 4
+
+dyn_style:
+  - const: false
+  - default:
+      margin_top: 1
+      margin_bottom: 2
+      margin_left: 3
+      margin_right: 4

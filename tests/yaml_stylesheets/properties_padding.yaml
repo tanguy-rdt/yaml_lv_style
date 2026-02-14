@@ -1,0 +1,21 @@
+const_style:
+  - const: true
+  - default:
+      pad_top: 1
+      pad_bottom: 2
+      pad_left: 3
+      pad_right: 4
+      pad_row: 5
+      pad_column: 6
+      pad_radial: 7
+
+dyn_style:
+  - const: false
+  - default:
+        pad_top: 1
+        pad_bottom: 2
+        pad_left: 3
+        pad_right: 4
+        pad_row: 5
+        pad_column: 6
+        pad_radial: 7

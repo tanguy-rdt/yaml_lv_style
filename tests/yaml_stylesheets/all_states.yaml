@@ -1,0 +1,55 @@
+const_style:
+  - const: true
+  - default:
+      bg_color: hex(0x432343)
+  - checked:
+      bg_color: rgb(255, 255, 253)
+  - focused:
+      bg_color: hex(0x432343)
+  - focus_key:
+      bg_color: rgb(255, 255, 253)
+  - edited:
+      bg_color: hex(0x432343)
+  - hovered:
+      bg_color: rgb(255, 255, 253)
+  - pressed:
+      bg_color: hex(0x432343)
+  - disabled:
+      bg_color: rgb(255, 255, 253)
+  - user_1:
+      bg_color: hex(0x432343)
+  - user_2:
+      bg_color: rgb(255, 255, 253)
+  - user_3:
+      bg_color: hex(0x432343)
+  - user_4:
+      bg_color: rgb(255, 255, 253)
+  - any:
+
+dyn_style:
+  - const: false
+  - default:
+      bg_color: hex(0x432343)
+  - checked:
+      bg_color: rgb(255, 255, 253)
+  - focused:
+      bg_color: hex(0x432343)
+  - focus_key:
+      bg_color: rgb(255, 255, 253)
+  - edited:
+      bg_color: hex(0x432343)
+  - hovered:
+      bg_color: rgb(255, 255, 253)
+  - pressed:
+      bg_color: hex(0x432343)
+  - disabled:
+      bg_color: rgb(255, 255, 253)
+  - user_1:
+      bg_color: hex(0x432343)
+  - user_2:
+      bg_color: rgb(255, 255, 253)
+  - user_3:
+      bg_color: hex(0x432343)
+  - user_4:
+      bg_color: rgb(255, 255, 253)
+  - any:

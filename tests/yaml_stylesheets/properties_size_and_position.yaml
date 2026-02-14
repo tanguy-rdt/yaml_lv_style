@@ -1,0 +1,51 @@
+const_style:
+  - const: true
+  - default:
+      width: 1
+      min_width: 2
+      max_width: 3
+      height: 4
+      min_height: 5
+      max_height: 6
+      length: 7
+      x: 8
+      y: 9
+      align: top_left
+      transform_width: 1
+      transform_height: 2
+      translate_x: 3
+      translate_y: 4
+      translate_radial: 5
+      transform_scale_x: 6
+      transform_scale_y: 7
+      transform_rotation: 8
+      transform_pivot_x: 9
+      transform_pivot_y: 1
+      transform_skew_x: 2
+      transform_skew_y: 3
+
+dyn_style:
+  - const: false
+  - default:
+        width: 1
+        min_width: 2
+        max_width: 3
+        height: 4
+        min_height: 5
+        max_height: 6
+        length: 7
+        x: 8
+        y: 9
+        align: top_left
+        transform_width: 1
+        transform_height: 2
+        translate_x: 3
+        translate_y: 4
+        translate_radial: 5
+        transform_scale_x: 6
+        transform_scale_y: 7
+        transform_rotation: 8
+        transform_pivot_x: 9
+        transform_pivot_y: 1
+        transform_skew_x: 2
+        transform_skew_y: 3

@@ -1,0 +1,27 @@
+const_style:
+  - const: true
+  - default:
+      text_color: rgb(0, 0, 0)
+      text_opa: cover
+#      text_font: not_yet_implemented
+      text_letter_space: 2
+      text_line_space: 2
+#      text_decor: not_yet_implemented
+      text_align: center
+      text_outline_stroke_color: rgb(0, 0, 0)
+      text_outline_stroke_width: 1
+      text_outline_stroke_opa: cover
+
+dyn_style:
+  - const: false
+  - default:
+        text_color: rgb(0, 0, 0)
+        text_opa: cover
+#      text_font: not_yet_implemented
+        text_letter_space: 2
+        text_line_space: 2
+#      text_decor: not_yet_implemented
+        text_align: center
+        text_outline_stroke_color: rgb(0, 0, 0)
+        text_outline_stroke_width: 1
+        text_outline_stroke_opa: cover
