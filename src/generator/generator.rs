@@ -15,10 +15,18 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
         return Err(format!("Failed to created directory '{}': {}", output_dir.display(), e));
     }
 
-    let mut tera = match tera::Tera::new("src/generator/templates/*.*.j2") {
-        Ok(t) => t,
-        Err(e) => return Err(format!("An error occurred while loading the Tera templates: {}", e)),
-    };
+    let mut tera = tera::Tera::default();
+
+    tera.add_raw_template("styles.h.j2", include_str!("templates/styles.h.j2"))
+        .map_err(|e| format!("An error occurred while loading the Tera template 'styles.h.j2': {}", e))?;
+    tera.add_raw_template("stylesheet.h.j2", include_str!("templates/stylesheet.h.j2"))
+        .map_err(|e| format!("An error occurred while loading the Tera template 'stylesheet.h.j2': {}", e))?;
+    tera.add_raw_template("stylesheet.cpp.j2", include_str!("templates/stylesheet.cpp.j2"))
+        .map_err(|e| format!("An error occurred while loading the Tera template 'stylesheet.cpp.j2': {}", e))?;
+    tera.add_raw_template("stylesheets.h.j2", include_str!("templates/stylesheets.h.j2"))
+        .map_err(|e| format!("An error occurred while loading the Tera template 'stylesheets.h.j2': {}", e))?;
+    tera.add_raw_template("stylesheets.cpp.j2", include_str!("templates/stylesheets.cpp.j2"))
+        .map_err(|e| format!("An error occurred while loading the Tera template 'stylesheets.cpp.j2': {}", e))?;
 
     tera.register_filter("pascal_case", case_converters::pascal_case_filter);
     tera.register_filter("screaming_snake_case", case_converters::screaming_snake_case_filter);
