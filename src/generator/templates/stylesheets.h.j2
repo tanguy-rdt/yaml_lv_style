@@ -25,7 +25,7 @@ void init_stylesheets();
  * @param obj The LVGL object pointer
  * @param style_name The enum value of the style to apply
  */
-void set_style({{ stylesheet.name | pascal_case }}Style, lv_obj_t*);
+void set_style(lv_obj_t*, {{ stylesheet.name | pascal_case }}Style);
 {% endfor %}
 
 {% if namespace is defined -%}

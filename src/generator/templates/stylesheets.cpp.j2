@@ -31,7 +31,7 @@ void init_stylesheets() {
  * @param style_name The enum value of the style to apply
  */
 void set_style(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style style_name) {
-    set_style(obj, style_name);
+    stylesheet_{{ stylesheet.name | snake_case }}_set_style(obj, style_name);
 }
 {% endfor %}
 

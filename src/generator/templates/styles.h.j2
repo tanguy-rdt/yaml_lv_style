@@ -13,7 +13,7 @@ namespace {{ namespace }} {
 {%- for stylesheet in stylesheets | sort(attribute='name') %}
 enum class {{ stylesheet.name | pascal_case }}Style {
     {%- for style in stylesheet.styles | sort(attribute='name') %}
-    {{ style.name | screaming_snake_case }};
+    {{ style.name | screaming_snake_case }},
     {%- endfor %}
 };
 {% endfor %}

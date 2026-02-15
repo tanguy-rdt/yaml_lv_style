@@ -21,10 +21,11 @@ namespace {{ namespace }} {
 void init_stylesheet_{{ stylesheet.name | snake_case }}();
 
 /**
- * @brief Initializes all dynamic styles in the stylesheet
- * Sets properties at runtime for styles not marked as 'const'.
+ * @brief Applies a style to a given LVGL object
+ * @param obj The LVGL object pointer
+ * @param style_name The enum value of the style to apply
  */
-void set_style(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style);
+void stylesheet_{{ stylesheet.name | snake_case }}_set_style(lv_obj_t*, {{ stylesheet.name | pascal_case }}Style);
 
 {% if namespace is defined -%}
 } // {{ namespace }}
