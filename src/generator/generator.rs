@@ -11,9 +11,23 @@ use super::filters::style_info;
 use crate::stylesheet::stylesheet::StyleSheet;
 
 pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Option<String>, format_style: &Option<String>) -> Result<(), String> {
-    if let Err(e) = fs::create_dir_all(output_dir) {
-        return Err(format!("Failed to created directory '{}': {}", output_dir.display(), e));
-    }
+    let output_folder_name = output_dir.file_name()
+        .and_then(|n| n.to_str())
+        .unwrap_or(".");
+
+    let include_styles_header_dir = format!("{}/styles", output_folder_name);
+    let output_styles_header_dir = output_dir.join(format!("styles/include/{}/styles", output_folder_name));
+    fs::create_dir_all(&output_styles_header_dir)
+        .map_err(|e| format!("Failed to created directory '{}': {}", output_dir.display(), e))?;
+
+    let include_stylesheets_header_dir = format!("{}/stylesheets", output_folder_name);
+    let output_stylesheets_header_dir = output_dir.join(format!("stylesheets/include/{}/stylesheets", output_folder_name));
+    fs::create_dir_all(&output_stylesheets_header_dir)
+        .map_err(|e| format!("Failed to created directory '{}': {}", output_dir.display(), e))?;
+
+    let output_stylesheets_source_dir = output_dir.join("stylesheets/src/");
+    fs::create_dir_all(&output_stylesheets_source_dir)
+        .map_err(|e| format!("Failed to created directory '{}': {}", output_dir.display(), e))?;
 
     let mut tera = tera::Tera::default();
 
@@ -40,14 +54,16 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
 
     let mut ctx = tera::Context::new();
     ctx.insert("stylesheets", &stylesheets);
+    ctx.insert("include_styles_header_dir", &include_styles_header_dir);
+    ctx.insert("include_stylesheets_header_dir", &include_stylesheets_header_dir);
     if let Some(namespace) = namespace {
         ctx.insert("namespace", &namespace);
     }
 
     let files_to_render = HashMap::from([
-        ("styles.h.j2", output_dir.join("styles.h")),
-        ("stylesheets.h.j2", output_dir.join("stylesheets.h")),
-        ("stylesheets.cpp.j2", output_dir.join("stylesheets.cpp")),
+        ("styles.h.j2", output_styles_header_dir.join("styles.h")),
+        ("stylesheets.h.j2", output_stylesheets_header_dir.join("stylesheets.h")),
+        ("stylesheets.cpp.j2", output_stylesheets_source_dir.join("stylesheets.cpp")),
     ]);
     create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera)?;
 
@@ -55,8 +71,8 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
         ctx.insert("stylesheet", &stylesheet);
 
         let files_to_render = HashMap::from([
-            ("stylesheet.h.j2", output_dir.join(format!("stylesheet_{}.h", stylesheet.name))),
-            ("stylesheet.cpp.j2", output_dir.join(format!("stylesheet_{}.cpp", stylesheet.name))),
+            ("stylesheet.h.j2", output_stylesheets_header_dir.join(format!("stylesheet_{}.h", stylesheet.name))),
+            ("stylesheet.cpp.j2", output_stylesheets_source_dir.join(format!("stylesheet_{}.cpp", stylesheet.name))),
         ]);
         create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera)?;
 
