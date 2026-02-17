@@ -49,7 +49,14 @@ struct Opt {
                 file in the parent directories of the generated files.\n"
     )]
     format: Option<String>,
+
+    #[arg(
+        short = 'p',
+        help = "Print the generated file paths to stdout",
+    )]
+    print_gen_file_path: bool,
 }
+
 fn main() {
     env_logger::init();
 
@@ -67,7 +74,7 @@ fn main() {
     }
 
     let output_dir = opt.output_dir.unwrap_or_else(|| ".".into());
-    if let Err(e) = generate(&stylesheets, &output_dir, &opt.namespace, &opt.format) {
+    if let Err(e) = generate(&stylesheets, &output_dir, &opt.namespace, &opt.format, opt.print_gen_file_path) {
         log::error!("{}", e);
         std::process::exit(2);
     }

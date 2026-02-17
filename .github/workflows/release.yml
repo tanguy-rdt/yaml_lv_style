@@ -66,16 +66,24 @@ jobs:
       - name: Create archive
         run: |
           STAGING="${{ matrix.artifact_name }}"
-          mkdir -p "$STAGING"
+          DOC_DIR="${STAGING}/doc"
+          COPYRIGHT_DIR="${STAGING}/copyright"
+          CMAKE_DIR="${STAGING}/cmake"
           
-          cp "target/${{ matrix.target }}/release/yaml_lv_style" "$STAGING/"
+          mkdir -p "${DOC_DIR}"
+          mkdir -p "${COPYRIGHT_DIR}"
+          mkdir -p "${CMAKE_DIR}"
           
-          [ -f README.md ] && cp README.md "$STAGING/"
-          [ -f LICENSE-MIT ] && cp LICENSE-MIT "$STAGING/"
-          [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "$STAGING/"
-          [ -f CHANGELOG.md ] && cp CHANGELOG.md "$STAGING/"
+          cp "target/${{ matrix.target }}/release/yaml_lv_style" "${STAGING}/"
           
-          tar -czf "${{ matrix.asset_name }}" "$STAGING"
+          [ -f README.md ] && cp README.md "${DOC_DIR}/"
+          [ -f CHANGELOG.md ] && cp CHANGELOG.md "${DOC_DIR}/"
+          [ -f LICENSE-MIT ] && cp LICENSE-MIT "${COPYRIGHT_DIR}/"
+          [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "${COPYRIGHT_DIR}/"
+          [ -f cmake/FindYamlLvStyle.cmake ] && cp cmake/FindYamlLvStyle.cmake "${CMAKE_DIR}/"
+          [ -f cmake/YamlLvStyleMacros.cmake ] && cp cmake/YamlLvStyleMacros.cmake "${CMAKE_DIR}/"
+          
+          tar -czf "${{ matrix.asset_name }}" "${STAGING}"
 
       - name: Create Debian Package
         if: startsWith(matrix.os, 'ubuntu')

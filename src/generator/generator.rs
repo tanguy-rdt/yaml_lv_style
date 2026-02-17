@@ -10,7 +10,7 @@ use super::filters::style_info;
 
 use crate::stylesheet::stylesheet::StyleSheet;
 
-pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Option<String>, format_style: &Option<String>) -> Result<(), String> {
+pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Option<String>, format_style: &Option<String>, print_gen_file_path: bool) -> Result<(), String> {
     let output_folder_name = output_dir.file_name()
         .and_then(|n| n.to_str())
         .unwrap_or(".");
@@ -65,7 +65,7 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
         ("stylesheets.h.j2", output_stylesheets_header_dir.join("stylesheets.h")),
         ("stylesheets.cpp.j2", output_stylesheets_source_dir.join("stylesheets.cpp")),
     ]);
-    create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera)?;
+    create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera, print_gen_file_path)?;
 
     for stylesheet in stylesheets {
         ctx.insert("stylesheet", &stylesheet);
@@ -74,7 +74,7 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
             ("stylesheet.h.j2", output_stylesheets_header_dir.join(format!("stylesheet_{}.h", stylesheet.name))),
             ("stylesheet.cpp.j2", output_stylesheets_source_dir.join(format!("stylesheet_{}.cpp", stylesheet.name))),
         ]);
-        create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera)?;
+        create_lv_stylesheet(&files_to_render, format_style, &ctx, &tera, print_gen_file_path)?;
 
         ctx.remove("stylesheet");
     }
@@ -82,11 +82,15 @@ pub fn generate(stylesheets: &Vec<StyleSheet>, output_dir: &Path, namespace: &Op
     Ok(())
 }
 
-fn create_lv_stylesheet(files: &HashMap<&str, PathBuf>, format_style: &Option<String>, ctx: &tera::Context, tera: &tera::Tera) -> Result<(), String> {
+fn create_lv_stylesheet(files: &HashMap<&str, PathBuf>, format_style: &Option<String>, ctx: &tera::Context, tera: &tera::Tera, print_gen_file_path: bool) -> Result<(), String> {
     for (template, to_generate) in files {
         let styles_renderd = render(template.as_ref(), &ctx, &tera)?;
         create(styles_renderd, &to_generate)?;
         format(&to_generate, format_style)?;
+
+        if print_gen_file_path {
+            println!("{}", to_generate.display());
+        }
     }
 
     Ok(())
