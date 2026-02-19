@@ -86,6 +86,7 @@ void stylesheet_{{ stylesheet.name | snake_case }}_set_style(lv_obj_t* obj, {{ s
         {%- for state in style | get_states_of_style | sort %}
             lv_obj_add_style(obj, &{{ style.name }}_{{ state }}, {{ state | get_lv_state }});
         {%- endfor %}
+        break;
         {%- endfor %}
     }
 }
