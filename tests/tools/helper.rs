@@ -14,6 +14,7 @@ pub fn yaml_lv_style(yaml_paths: &[&Path], output_dir: &Path) {
     let mut cmd = Command::cargo_bin("yaml_lv_style").unwrap();
 
     cmd.arg("-f")
+        .arg("Google")
         .arg("-i");
 
     for path in yaml_paths {
@@ -40,17 +41,15 @@ fn parse_c_code(code: &str) -> String {
 
 pub fn compare_directory(expected_dir: &Path, generated_dir: &Path) {
     let mut paths_map: HashMap<PathBuf, PathBuf> = HashMap::new();
-    let entries = fs::read_dir(generated_dir).expect("Unable to read directory");
 
-    for entry in entries {
-        let entry = entry.unwrap();
+    for entry in walkdir::WalkDir::new(generated_dir).into_iter().filter_map(|e| e.ok()) {
         let gen_path = entry.path();
         if gen_path.is_file() {
             let ext = gen_path.extension().and_then(|s| s.to_str()).unwrap_or("");
             if ext == "cpp" || ext == "h" {
-                let file_name = gen_path.file_name().unwrap();
-                let exp_path = expected_dir.join(file_name);
-                paths_map.insert(exp_path, gen_path);
+                let relative = gen_path.strip_prefix(generated_dir).unwrap();
+                let exp_path = expected_dir.join(relative);
+                paths_map.insert(exp_path, gen_path.to_path_buf());
             }
         }
     }
@@ -94,7 +93,7 @@ pub fn compare_files(path: &HashMap<PathBuf, PathBuf>) {
                 expected_content,
                 "The content of the file {:?} has diverged. A Unified Diff file has been generated in {:?}",
                 generated_path.file_name().unwrap(),
-                diff_path.file_name().unwrap()
+                diff_path
             );
         }
     }

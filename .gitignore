@@ -1,6 +1,9 @@
 ## Rust
 /target
 
+## Test
+*.diff
+
 ## CMake
 cmake-build-*
 
