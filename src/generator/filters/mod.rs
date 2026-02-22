@@ -1,3 +1,4 @@
-pub mod case_converters;
-pub mod style_extractor;
-pub mod style_info;
+pub mod filters;
+mod case_converters;
+mod style_extractor;
+mod style_info;

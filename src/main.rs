@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
-use crate::generator::generator::generate;
+use crate::generator::generator::Generator;
 use crate::stylesheet::stylesheet::StyleSheet;
 
 #[derive(Parser)]
@@ -74,8 +74,14 @@ fn main() {
     }
 
     let output_dir = opt.output_dir.unwrap_or_else(|| ".".into());
-    if let Err(e) = generate(&stylesheets, &output_dir, &opt.namespace, &opt.format, opt.print_gen_file_path) {
+    let mut generator = Generator::new(output_dir, opt.format);
+    
+    if let Err(e) = generator.generate_cpp(opt.namespace.as_deref(), &stylesheets) {
         log::error!("{}", e);
         std::process::exit(2);
+    }
+
+    if opt.print_gen_file_path {
+        generator.print_generated_files_path();
     }
 }

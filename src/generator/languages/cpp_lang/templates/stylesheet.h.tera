@@ -8,7 +8,7 @@
 
 #include <lvgl.h>
 
-#include "{{ include_styles_header_dir }}/styles.h"
+#include "{{ h_styles_include_path }}"
 
 {% if namespace is defined -%}
 namespace {{ namespace }} {
