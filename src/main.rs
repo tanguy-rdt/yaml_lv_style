@@ -8,6 +8,39 @@ use clap::Parser;
 use crate::generator::generator::Generator;
 use crate::stylesheet::stylesheet::StyleSheet;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum Language {
+    C,
+    Cpp,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum ClangFormatStyle {
+    LLVM,
+    GNU,
+    Google,
+    Chromium,
+    Microsoft,
+    Mozilla,
+    WebKit,
+    File
+}
+
+impl ClangFormatStyle {
+    pub fn to_clang_preset(&self) -> &str {
+        match self {
+            ClangFormatStyle::LLVM => "LLVM",
+            ClangFormatStyle::Google => "Google",
+            ClangFormatStyle::Chromium => "Chromium",
+            ClangFormatStyle::Mozilla => "Mozilla",
+            ClangFormatStyle::WebKit => "WebKit",
+            ClangFormatStyle::Microsoft => "Microsoft",
+            ClangFormatStyle::GNU => "GNU",
+            ClangFormatStyle::File => "file",
+        }
+    }
+}
+
 #[derive(Parser)]
 #[command(version)]
 struct Opt {
@@ -25,9 +58,32 @@ struct Opt {
         short,
         long,
         value_name = "DIR",
-        help = "Directory where the generated C++ files will be saved (defaults to current directory).\n"
+        help = "Directory where the generated files will be saved (defaults to current directory).\n"
     )]
     output_dir: Option<PathBuf>,
+
+    #[arg(
+        short,
+        long,
+        value_enum,
+        hide_possible_values = true,
+        help = "Language for the generated files \n\
+                Possible values: [c, cpp] \n"
+    )]
+    language: Language,
+
+    #[arg(
+        short,
+        long,
+        num_args = 0..=1,
+        value_enum,
+        hide_possible_values = true,
+        default_missing_value = "file",
+        help = "Format the generated code with clang-format (if available on your system). \n\
+                Default value: file \n\
+                Possible values: [llvm, gnu, google, chromium, microsoft, mozilla, webkit, file] \n"
+    )]
+    format: Option<ClangFormatStyle>,
 
     #[arg(
         short,
@@ -38,21 +94,8 @@ struct Opt {
     namespace: Option<String>,
 
     #[arg(
-        short = 'f',
-        long,
-        num_args = 0..=1,
-        default_missing_value = "file",
-        value_name = "STYLE",
-        help = "Format the generated code with clang-format (if available). \n\n\
-                Accepted styles: LLVM, Google, Chromium, Mozilla, WebKit, Microsoft, GNU.\n\
-                If STYLE is omitted, it defaults to 'file' and looks for a .clang-format \n\
-                file in the parent directories of the generated files.\n"
-    )]
-    format: Option<String>,
-
-    #[arg(
-        short = 'p',
-        help = "Print the generated file paths to stdout",
+        short,
+        help = "Print the generated file paths to stdout\n",
     )]
     print_gen_file_path: bool,
 }
@@ -75,11 +118,14 @@ fn main() {
 
     let output_dir = opt.output_dir.unwrap_or_else(|| ".".into());
     let mut generator = Generator::new(output_dir, opt.format);
-    
-    if let Err(e) = generator.generate_cpp(opt.namespace.as_deref(), &stylesheets) {
+
+    match opt.language {
+        Language::C => generator.generate_c(&stylesheets),
+        Language::Cpp => generator.generate_cpp(opt.namespace.as_deref(), &stylesheets),
+    }.unwrap_or_else(|e| {
         log::error!("{}", e);
         std::process::exit(2);
-    }
+    });
 
     if opt.print_gen_file_path {
         generator.print_generated_files_path();

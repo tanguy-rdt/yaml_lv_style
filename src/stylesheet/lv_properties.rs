@@ -164,7 +164,7 @@ mod tests {
         assert_eq!(props.align, parsed.align);
         assert_eq!(props.bg_color, parsed.bg_color);
         assert_eq!(props.bg_opa, parsed.bg_opa);
-        assert_eq!(props.bg_grad_color, parsed.bg_grad_color);
+        assert_eq!(parsed.bg_grad_color, Some(LVColor::Rgb(255, 255, 255)));
         assert_eq!(props.bg_grad_dir, parsed.bg_grad_dir);
         assert_eq!(props.border_side, parsed.border_side);
         assert_eq!(props.text_align, parsed.text_align);

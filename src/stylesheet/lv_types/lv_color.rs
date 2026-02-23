@@ -43,7 +43,12 @@ impl Serialize for LVColor {
         S: Serializer,
     {
         match self {
-            Self::Hex(val) => serializer.serialize_str(&format!("lv_color_hex(0x{:06X})", val)),
+            Self::Hex(val) => {
+                let r = ((val >> 16) & 0xFFu32) as u8;
+                let g = ((val >> 8) & 0xFFu32) as u8;
+                let b = (val & 0xFFu32) as u8;
+                serializer.serialize_str(&format!("lv_color_make({}, {}, {})", r, g, b))
+            },
             Self::Rgb(r,g,b) => serializer.serialize_str(&format!("lv_color_make({}, {}, {})", r,g,b)),
         }
     }
@@ -79,9 +84,9 @@ mod tests {
         let out_rgb = yaml_serde::to_string(&rgb).unwrap();
         assert_eq!(out_rgb.trim(), "lv_color_make(0, 1, 255)");
 
-        let hex = LVColor::Hex(0x123456);
+        let hex = LVColor::Hex(0x0001ff);
         let out_hex = yaml_serde::to_string(&hex).unwrap();
-        assert_eq!(out_hex.trim(), "lv_color_hex(0x123456)");
+        assert_eq!(out_hex.trim(), "lv_color_make(0, 1, 255)");
     }
 
     #[test]

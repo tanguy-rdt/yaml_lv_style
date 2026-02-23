@@ -10,9 +10,7 @@
  * @brief Static and constant style definitions
  * Memory allocation for styles that are pre-calculated and stored in Flash/ROM.
  */
-namespace {
 {% endif %}
-
 {%- for style in stylesheet.styles | sort(attribute='name') %}
 {%- if not style.const_style %}{% continue %}{% endif %}
 // --- Definition for constant style: {{ style.name }} ---
@@ -23,16 +21,14 @@ const lv_style_const_prop_t {{ style.name }}_{{ state }}_props[] = {
 {%- for prop in props | get_props_sorted %}
 {%- set prop_name = prop[0] %}
 {%- set prop_value = prop[1] %}
-    LV_STYLE_CONST_{{ prop_name | screaming_snake_case }}({{ prop_value }}),
+    LV_STYLE_CONST_{{ prop_name | screaming_snake_case }}({{ prop_value | screaming_snake_case }}),
 {%- endfor %}
+    LV_STYLE_CONST_PROPS_END,
 };
 LV_STYLE_CONST_INIT({{ style.name }}_{{ state }}, {{ style.name }}_{{ state }}_props);
 {% endfor %}
-{%- endfor -%}
+{%- endfor %}
 
-{% if stylesheet | has_const_style %}
-} // namespace
-{% endif %}
 
 {% if stylesheet | has_dyn_style -%}
 /**
@@ -47,16 +43,13 @@ static lv_style_t {{ style.name }}_{{ state }};
 {% endfor -%}
 {% endif -%}
 
-{% if namespace is defined %}
-namespace {{ namespace }} {
-{% endif %}
 
 {%- if stylesheet | has_dyn_style %}
 /**
  * @brief Initializes all dynamic styles in the stylesheet
  * Sets properties at runtime for styles not marked as 'const'.
  */
-void init_stylesheet_{{ stylesheet.name | snake_case }}() {
+void init_{{ stylesheet.name | snake_case }}_stylesheet() {
     {%- for style in stylesheet.styles | sort(attribute='name') %}
     {%- if style.const_style %}{% continue %}{% endif %}
     // --- Definition for dynamic style: {{ style.name }} ---
@@ -77,12 +70,12 @@ void init_stylesheet_{{ stylesheet.name | snake_case }}() {
 /**
  * @brief Applies a style to a given LVGL object
  * @param obj The LVGL object pointer
- * @param style_name The enum value of the style to apply
+ * @param name The enum value of the style to apply
  */
-void stylesheet_{{ stylesheet.name | snake_case }}_set_style(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style style_name) {
-    switch (style_name) {
+void set_{{ stylesheet.name | snake_case }}_style(lv_obj_t* obj, {{ stylesheet.name | snake_case }}_style_t name) {
+    switch (name) {
         {%- for style in stylesheet.styles | sort(attribute='name') %}
-        case {{ stylesheet.name | pascal_case }}Style::{{ style.name | screaming_snake_case }}:
+        case {{ stylesheet.name | screaming_snake_case }}_STYLE_{{ style.name | screaming_snake_case }}:
         {%- for state in style | get_states_of_style | sort %}
             lv_obj_add_style(obj, &{{ style.name }}_{{ state }}, {{ state | get_lv_state }});
         {%- endfor %}
@@ -90,7 +83,3 @@ void stylesheet_{{ stylesheet.name | snake_case }}_set_style(lv_obj_t* obj, {{ s
         {%- endfor %}
     }
 }
-
-{% if namespace is defined -%}
-} // {{ namespace }}
-{%- endif %}

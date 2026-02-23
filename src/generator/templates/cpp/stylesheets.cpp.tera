@@ -16,10 +16,10 @@ namespace {{ namespace }} {
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */
-void init_stylesheets() {
+void initStyleSheets() {
     {%- for stylesheet in stylesheets | sort(attribute='name') %}
     {%- if stylesheet | has_dyn_style %}
-    init_stylesheet_{{ stylesheet.name | snake_case }}();
+    init{{ stylesheet.name | pascal_case }}StyleSheet();
     {%- endif %}
     {%- endfor %}
 }
@@ -28,10 +28,10 @@ void init_stylesheets() {
 /**
  * @brief Applies a style from "{{ stylesheet.name }}" stylesheet to a given LVGL object
  * @param obj The LVGL object pointer
- * @param style_name The enum value of the style to apply
+ * @param name The enum value of the style to apply
  */
-void set_style(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style style_name) {
-    stylesheet_{{ stylesheet.name | snake_case }}_set_style(obj, style_name);
+void setStyle(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style name) {
+    set{{ stylesheet.name | pascal_case }}Style(obj, name);
 }
 {% endfor %}
 
