@@ -6,6 +6,7 @@
 
 ## CMake
 cmake-build-*
+CMakeUserPresets.json
 
 ## Jetbrains
 .idea

@@ -7,14 +7,13 @@
   },
   "configurePresets": [
     {
-      "name": "simple_example",
+      "name": "yaml_lv_style_examples",
       "hidden": false,
       "description": "Release build",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CPM_SOURCE_CACHE": "${sourceDir}/cmake-build-release/_cpm"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     }
   ]

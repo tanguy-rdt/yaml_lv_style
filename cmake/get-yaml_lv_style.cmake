@@ -3,10 +3,11 @@ include(FetchContent)
 function(get_yaml_lv_style version)
     message(STATUS "Searching for yaml_lv_style (version: ${version})...")
 
-    set(github_token $ENV{GITHUB_TOKEN})
     set(auth_headers "")
-    if(github_token)
-        list(APPEND auth_headers "Authorization: Bearer ${github_token}")
+    if(GITHUB_TOKEN)
+        list(APPEND auth_headers "Authorization: Bearer ${GITHUB_TOKEN}")
+    else ()
+        message(FATAL_ERROR "You need to set a GITHUB_TOKEN")
     endif()
 
     if("${version}" STREQUAL "latest")
@@ -81,7 +82,7 @@ function(get_yaml_lv_style version)
 
         message(STATUS "Downloading yaml_lv_style from ${found_url}...")
         file(DOWNLOAD "${found_url}" "${archive_file}"
-            HTTPHEADER "Authorization: Bearer ${github_token}"
+            HTTPHEADER "Authorization: Bearer ${GITHUB_TOKEN}"
             HTTPHEADER "Accept: application/octet-stream"
             TLS_VERIFY ON
             STATUS download_status

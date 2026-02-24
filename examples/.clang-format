@@ -1,0 +1,48 @@
+Language: Cpp
+BasedOnStyle: Google
+
+# --- Dimensions and Indentation ---
+ColumnLimit: 150
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+AccessModifierOffset: 0
+
+# --- Braces and Spacing ---
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: true
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterIfMacros: true
+  AfterOverloadedOperator: false
+  BeforeNonEmptyParentheses: false
+SpaceInEmptyBlock: true
+
+# --- Alignment ---
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+AlignAfterOpenBracket: Align
+AlignOperands: Align
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 0
+
+# --- Code organization ---
+BinPackArguments: false
+BinPackParameters: false
+SortIncludes: CaseSensitive
+IncludeBlocks: Preserve
+InsertBraces: true
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+FixNamespaceComments: true
+
+# --- C++ Specifics ---
+Standard: Latest
