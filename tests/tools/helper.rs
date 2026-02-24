@@ -14,7 +14,9 @@ pub fn yaml_lv_style(yaml_paths: &[&Path], output_dir: &Path) {
     let mut cmd = Command::cargo_bin("yaml_lv_style").unwrap();
 
     cmd.arg("-f")
-        .arg("Google")
+        .arg("google")
+        .arg("-l")
+        .arg("cpp")
         .arg("-i");
 
     for path in yaml_paths {
