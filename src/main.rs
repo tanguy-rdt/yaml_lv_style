@@ -1,45 +1,14 @@
 mod generator;
-mod stylesheet;
+mod serde_stylesheet;
 
 use std::path::PathBuf;
 
 use clap::Parser;
 
-use crate::generator::generator::Generator;
-use crate::stylesheet::stylesheet::StyleSheet;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
-pub enum Language {
-    C,
-    Cpp,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
-pub enum ClangFormatStyle {
-    LLVM,
-    GNU,
-    Google,
-    Chromium,
-    Microsoft,
-    Mozilla,
-    WebKit,
-    File,
-}
-
-impl ClangFormatStyle {
-    pub fn to_clang_preset(&self) -> &str {
-        match self {
-            ClangFormatStyle::LLVM => "LLVM",
-            ClangFormatStyle::Google => "Google",
-            ClangFormatStyle::Chromium => "Chromium",
-            ClangFormatStyle::Mozilla => "Mozilla",
-            ClangFormatStyle::WebKit => "WebKit",
-            ClangFormatStyle::Microsoft => "Microsoft",
-            ClangFormatStyle::GNU => "GNU",
-            ClangFormatStyle::File => "file",
-        }
-    }
-}
+use crate::generator::ClangFormatStyle;
+use crate::generator::Generator;
+use crate::generator::Language;
+use crate::serde_stylesheet::StyleSheet;
 
 #[derive(Parser)]
 #[command(version)]

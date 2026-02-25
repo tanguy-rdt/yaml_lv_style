@@ -27,10 +27,10 @@ pub struct Style {
 mod tests {
     use yaml_serde;
 
-    use super::*;
+    use crate::serde_stylesheet::lv_types::LVAlign;
+    use crate::serde_stylesheet::lv_types::LVColor;
 
-    use crate::stylesheet::lv_types::lv_align::LVAlign;
-    use crate::stylesheet::lv_types::lv_color::LVColor;
+    use super::*;
 
     #[test]
     fn test_style_serde() {
@@ -38,7 +38,7 @@ mod tests {
             width: Some(100),
             bg_color: Some(LVColor::Rgb(212, 212, 212)),
             border_color: Some(LVColor::Rgb(191, 191, 191)),
-            align: Some(LVAlign::LvAlignCenter),
+            align: Some(LVAlign::Center),
             ..Default::default()
         };
 

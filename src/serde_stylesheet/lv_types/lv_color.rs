@@ -3,6 +3,11 @@ use serde::de::Error as DeError;
 use serde::{Deserialize, Deserializer};
 use serde::{Serialize, Serializer};
 
+use std::sync::OnceLock;
+
+static HEX_RE: OnceLock<Regex> = OnceLock::new();
+static RGB_RE: OnceLock<Regex> = OnceLock::new();
+
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
 pub enum LVColor {
@@ -18,17 +23,22 @@ impl<'de> Deserialize<'de> for LVColor {
         let s = String::deserialize(deserializer)?;
         let s = s.trim();
 
-        let hex_re =
-            Regex::new(r"^(?:hex|lv_color_hex)\(\s*(?:0x|#)?([0-9a-fA-F]{6})\s*\)$").unwrap();
+        let hex_re = HEX_RE.get_or_init(|| {
+            Regex::new(r"^(?:hex|lv_color_hex)\(\s*(?:0x|#)?([0-9a-fA-F]{6})\s*\)$")
+                .expect("Failed to compile HEX_RE regex. This is a bug in the source code.")
+        });
+
         if let Some(caps) = hex_re.captures(s) {
             let val = u32::from_str_radix(&caps[1], 16)
-                .map_err(|_| DeError::custom(format!("Hex invalide: {}", s)))?;
+                .map_err(|_| DeError::custom(format!("Hex invalid: {}", s)))?;
             return Ok(Self::Hex(val));
         }
 
-        let rgb_re =
+        let rgb_re = RGB_RE.get_or_init(|| {
             Regex::new(r"^(?:rgb|lv_color_make)\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$")
-                .unwrap();
+                .expect("Failed to compile RGB_RE regex. This is a bug in the source code.")
+        });
+
         if let Some(caps) = rgb_re.captures(s) {
             let r = caps[1]
                 .parse()

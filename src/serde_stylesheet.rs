@@ -1,3 +1,7 @@
+mod lv_properties;
+mod lv_types;
+mod style;
+
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
@@ -5,7 +9,8 @@ use std::path::Path;
 use serde::Serialize;
 use serde::{Deserialize, Deserializer};
 
-use super::style::Style;
+pub use lv_types::LVState;
+use style::Style;
 
 #[derive(Debug, Default, Serialize)]
 pub struct StyleSheet {
@@ -104,8 +109,9 @@ impl<'de> Deserialize<'de> for StyleSheet {
 
 #[cfg(test)]
 mod tests {
+    use crate::serde_stylesheet::lv_types::LVColor::{Hex, Rgb};
+
     use super::*;
-    use crate::stylesheet::lv_types::lv_color::LVColor::{Hex, Rgb};
 
     #[test]
     fn test_stylesheet_deserialization() {

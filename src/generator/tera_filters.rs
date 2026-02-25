@@ -1,6 +1,6 @@
-use super::case_converters;
-use super::style_extractor;
-use super::style_info;
+mod case_converters;
+mod style_extractor;
+mod style_info;
 
 pub fn apply_filters(tera: &mut tera::Tera) {
     tera.register_filter("pascal_case", case_converters::pascal_case_filter);

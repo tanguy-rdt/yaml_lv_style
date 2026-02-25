@@ -1,6 +1,12 @@
+mod c_stylesheets_ctx;
+mod cpp_stylesheets_ctx;
+
 use std::path::{Path, PathBuf};
 
-use crate::stylesheet::stylesheet::StyleSheet;
+use crate::serde_stylesheet::StyleSheet;
+
+pub use c_stylesheets_ctx::CStyleSheetsContext;
+pub use cpp_stylesheets_ctx::CppStyleSheetsContext;
 
 pub struct FileContext {
     pub tera_template: String,
@@ -59,7 +65,7 @@ impl StyleSheetsContext {
             "stylesheets/include/{}/stylesheets.h",
             output_folder_name
         ));
-        let h_stylesheets_include_dir_path = format!("{}", output_folder_name);
+        let h_stylesheets_include_dir_path = output_folder_name.to_string();
         let h_stylesheets_include_path = format!("{}/stylesheets.h", output_folder_name);
         let h_styles_include_path = format!("{}/styles.h", output_folder_name);
 

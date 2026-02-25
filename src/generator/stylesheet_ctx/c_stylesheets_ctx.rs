@@ -1,6 +1,5 @@
-use crate::generator::filters::filters;
-
-use super::stylesheet_ctx::StyleSheetsContext;
+use crate::generator::stylesheet_ctx::StyleSheetsContext;
+use crate::generator::tera_filters;
 
 pub struct CStyleSheetsContext<'a> {
     pub base: &'a StyleSheetsContext,
@@ -11,11 +10,11 @@ impl<'a> CStyleSheetsContext<'a> {
     pub fn from(base: &'a mut StyleSheetsContext) -> Result<Self, String> {
         let mut tera = tera::Tera::default();
 
-        filters::apply_filters(&mut tera);
+        tera_filters::apply_filters(&mut tera);
 
         tera.add_raw_template(
             "styles_header",
-            include_str!("../templates/c/styles.h.tera"),
+            include_str!("../tera_templates/c/styles.h.tera"),
         )
         .map_err(|e| {
             format!(
@@ -25,7 +24,7 @@ impl<'a> CStyleSheetsContext<'a> {
         })?;
         tera.add_raw_template(
             "stylesheets_header",
-            include_str!("../templates/c/stylesheets.h.tera"),
+            include_str!("../tera_templates/c/stylesheets.h.tera"),
         )
         .map_err(|e| {
             format!(
@@ -35,7 +34,7 @@ impl<'a> CStyleSheetsContext<'a> {
         })?;
         tera.add_raw_template(
             "stylesheets_source",
-            include_str!("../templates/c/stylesheets.c.tera"),
+            include_str!("../tera_templates/c/stylesheets.c.tera"),
         )
         .map_err(|e| {
             format!(
@@ -45,7 +44,7 @@ impl<'a> CStyleSheetsContext<'a> {
         })?;
         tera.add_raw_template(
             "stylesheet_header",
-            include_str!("../templates/c/stylesheet.h.tera"),
+            include_str!("../tera_templates/c/stylesheet.h.tera"),
         )
         .map_err(|e| {
             format!(
@@ -55,7 +54,7 @@ impl<'a> CStyleSheetsContext<'a> {
         })?;
         tera.add_raw_template(
             "stylesheet_source",
-            include_str!("../templates/c/stylesheet.c.tera"),
+            include_str!("../tera_templates/c/stylesheet.c.tera"),
         )
         .map_err(|e| {
             format!(

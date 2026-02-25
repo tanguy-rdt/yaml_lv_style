@@ -1,14 +1,20 @@
+mod format;
+mod lang;
+mod stylesheet_ctx;
+mod tera_filters;
+
 use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
-use super::stylesheets_ctx::c_stylesheets_ctx::CStyleSheetsContext;
-use super::stylesheets_ctx::cpp_stylesheets_ctx::CppStyleSheetsContext;
-use super::stylesheets_ctx::stylesheet_ctx::FileContext;
-use super::stylesheets_ctx::stylesheet_ctx::StyleSheetsContext;
+pub use format::ClangFormatStyle;
+pub use lang::Language;
+use stylesheet_ctx::CStyleSheetsContext;
+use stylesheet_ctx::CppStyleSheetsContext;
+use stylesheet_ctx::FileContext;
+use stylesheet_ctx::StyleSheetsContext;
 
-use crate::ClangFormatStyle;
-use crate::stylesheet::stylesheet::StyleSheet;
+use crate::serde_stylesheet::StyleSheet;
 
 pub struct Generator {
     output_dir: PathBuf,
@@ -34,7 +40,7 @@ impl Generator {
         let c_ctx = CStyleSheetsContext::from(&mut ctx)
             .map_err(|e| format!("Failed to create C context: {}", e))?;
 
-        self.render_ctx(&c_ctx.tera, &c_ctx.base)?;
+        self.render_ctx(&c_ctx.tera, c_ctx.base)?;
 
         self.ctx = Some(ctx);
 
@@ -50,18 +56,14 @@ impl Generator {
         let cpp_ctx = CppStyleSheetsContext::from(&mut ctx, namespace)
             .map_err(|e| format!("Failed to create C++ context: {}", e))?;
 
-        self.render_ctx(&cpp_ctx.tera, &cpp_ctx.base)?;
+        self.render_ctx(&cpp_ctx.tera, cpp_ctx.base)?;
 
         self.ctx = Some(ctx);
 
         Ok(())
     }
 
-    pub fn render_ctx(
-        &mut self,
-        tera: &tera::Tera,
-        ctx: &StyleSheetsContext,
-    ) -> Result<(), String> {
+    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &StyleSheetsContext) -> Result<(), String> {
         let path = self.render_file(tera, &ctx.styles_name)?;
         self.headers.push(path);
 
@@ -77,7 +79,7 @@ impl Generator {
             self.headers.push(path);
         }
 
-        self.format(self.format)
+        self.format()
     }
 
     fn render_file(&mut self, tera: &tera::Tera, ctx: &FileContext) -> Result<PathBuf, String> {
@@ -106,8 +108,8 @@ impl Generator {
         Ok(ctx.path.clone())
     }
 
-    pub fn format(&self, format: Option<ClangFormatStyle>) -> Result<(), String> {
-        if let Some(format_style) = &format {
+    fn format(&self) -> Result<(), String> {
+        if let Some(format_style) = &self.format {
             let status = Command::new("clang-format")
                 .arg("-i")
                 .arg(format!("-style={}", format_style.to_clang_preset()))

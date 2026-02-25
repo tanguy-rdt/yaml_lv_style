@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use tera::Result as TeraResult;
 use tera::Value;
 
-use crate::stylesheet::lv_types::lv_state::LVState;
+use crate::serde_stylesheet::LVState;
 
 pub fn get_states_of_style(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let mut map = match value {
@@ -23,6 +23,7 @@ pub fn get_states_of_style(value: &Value, _: &HashMap<String, Value>) -> TeraRes
     Ok(tera::to_value(states)?)
 }
 
+#[allow(dead_code)]
 pub fn get_props_by_states(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let mut map = match value {
         Value::Object(map) => map.clone(),
@@ -59,6 +60,7 @@ pub fn get_props_by_states_sorted(value: &Value, _: &HashMap<String, Value>) -> 
     Ok(tera::to_value(sorted_props)?)
 }
 
+#[allow(dead_code)]
 pub fn get_props(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let mut map = match value {
         Value::Object(map) => map.clone(),

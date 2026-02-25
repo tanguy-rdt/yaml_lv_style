@@ -1,14 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use super::lv_types::lv_align::LVAlign;
-use super::lv_types::lv_border_side::LVBorderSide;
-use super::lv_types::lv_color::LVColor;
-use super::lv_types::lv_flex_align::LVFlexAlign;
-use super::lv_types::lv_flex_flow::LVFlexFlow;
-use super::lv_types::lv_grad_dir::LVGradDir;
-use super::lv_types::lv_grid_align::LVGridAlign;
-use super::lv_types::lv_opa::LVOpa;
-use super::lv_types::lv_text_align::LVTextAlign;
+use super::lv_types::LVAlign;
+use super::lv_types::LVBorderSide;
+use super::lv_types::LVColor;
+use super::lv_types::LVFlexAlign;
+use super::lv_types::LVFlexFlow;
+use super::lv_types::LVGradDir;
+use super::lv_types::LVGridAlign;
+use super::lv_types::LVOpa;
+use super::lv_types::LVTextAlign;
 
 #[cfg_attr(test, derive(PartialEq))]
 #[derive(Debug, Default, Deserialize, Serialize)]
@@ -143,16 +143,16 @@ mod tests {
     fn test_lv_properties_serde() {
         let props = LVProperties {
             width: Some(100),
-            align: Some(LVAlign::LvAlignDefault),
+            align: Some(LVAlign::Default),
             bg_color: Some(LVColor::Rgb(255, 255, 255)),
-            bg_opa: Some(LVOpa::LVOpa0),
+            bg_opa: Some(LVOpa::Opa0),
             bg_grad_color: Some(LVColor::Hex(0xffffff)),
-            bg_grad_dir: Some(LVGradDir::LVGradDirConical),
-            border_side: Some(LVBorderSide::LVBorderSideBottom),
-            text_align: Some(LVTextAlign::LvTextAlignAuto),
-            flex_flow: Some(LVFlexFlow::LVFlexFlowColumn),
-            flex_main_place: Some(LVFlexAlign::LVFlexAlignEnd),
-            grid_column_align: Some(LVGridAlign::LVGridAlignCenter),
+            bg_grad_dir: Some(LVGradDir::Conical),
+            border_side: Some(LVBorderSide::Bottom),
+            text_align: Some(LVTextAlign::Auto),
+            flex_flow: Some(LVFlexFlow::Column),
+            flex_main_place: Some(LVFlexAlign::End),
+            grid_column_align: Some(LVGridAlign::Center),
             ..Default::default()
         };
 
