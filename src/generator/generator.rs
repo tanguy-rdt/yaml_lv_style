@@ -2,13 +2,13 @@ use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
-use super::stylesheets_ctx::stylesheet_ctx::FileContext;
-use super::stylesheets_ctx::stylesheet_ctx::StyleSheetsContext;
 use super::stylesheets_ctx::c_stylesheets_ctx::CStyleSheetsContext;
 use super::stylesheets_ctx::cpp_stylesheets_ctx::CppStyleSheetsContext;
+use super::stylesheets_ctx::stylesheet_ctx::FileContext;
+use super::stylesheets_ctx::stylesheet_ctx::StyleSheetsContext;
 
-use crate::stylesheet::stylesheet::StyleSheet;
 use crate::ClangFormatStyle;
+use crate::stylesheet::stylesheet::StyleSheet;
 
 pub struct Generator {
     output_dir: PathBuf,
@@ -41,7 +41,11 @@ impl Generator {
         Ok(())
     }
 
-    pub fn generate_cpp(&mut self, namespace: Option<&str>, stylesheets: &[StyleSheet]) -> Result<(), String> {
+    pub fn generate_cpp(
+        &mut self,
+        namespace: Option<&str>,
+        stylesheets: &[StyleSheet],
+    ) -> Result<(), String> {
         let mut ctx = StyleSheetsContext::from_stylesheets(stylesheets, &self.output_dir);
         let cpp_ctx = CppStyleSheetsContext::from(&mut ctx, namespace)
             .map_err(|e| format!("Failed to create C++ context: {}", e))?;
@@ -53,7 +57,11 @@ impl Generator {
         Ok(())
     }
 
-    pub fn render_ctx(&mut self, tera: &tera::Tera, ctx: &StyleSheetsContext) -> Result<(), String> {
+    pub fn render_ctx(
+        &mut self,
+        tera: &tera::Tera,
+        ctx: &StyleSheetsContext,
+    ) -> Result<(), String> {
         let path = self.render_file(tera, &ctx.styles_name)?;
         self.headers.push(path);
 
@@ -63,9 +71,9 @@ impl Generator {
         self.headers.push(path);
 
         for stylesheet in &ctx.stylesheets {
-            let path =   self.render_file(tera, &stylesheet.source)?;
+            let path = self.render_file(tera, &stylesheet.source)?;
             self.sources.push(path);
-            let path =   self.render_file(tera, &stylesheet.header)?;
+            let path = self.render_file(tera, &stylesheet.header)?;
             self.headers.push(path);
         }
 
@@ -73,13 +81,23 @@ impl Generator {
     }
 
     fn render_file(&mut self, tera: &tera::Tera, ctx: &FileContext) -> Result<PathBuf, String> {
-        let output_dir = ctx.path.parent()
-            .ok_or_else(|| format!("Unable to determine the parent folder for '{}'", ctx.path.display()))?;
+        let output_dir = ctx.path.parent().ok_or_else(|| {
+            format!(
+                "Unable to determine the parent folder for '{}'",
+                ctx.path.display()
+            )
+        })?;
 
-        fs::create_dir_all(output_dir)
-            .map_err(|e| format!("Failed to created directory '{}': {}", output_dir.display(), e))?;
+        fs::create_dir_all(output_dir).map_err(|e| {
+            format!(
+                "Failed to created directory '{}': {}",
+                output_dir.display(),
+                e
+            )
+        })?;
 
-        let res = tera.render(&ctx.tera_template, &ctx.tera_context)
+        let res = tera
+            .render(&ctx.tera_template, &ctx.tera_context)
             .map_err(|e| format!("{}", e))?;
 
         fs::write(&ctx.path, res)
@@ -99,7 +117,7 @@ impl Generator {
             return match status {
                 Ok(s) if s.success() => Ok(()),
                 Ok(_) => Err("clang-format failed to format".to_string()),
-                Err(_) => Err("clang-format not found in PATH".to_string())
+                Err(_) => Err("clang-format not found in PATH".to_string()),
             };
         }
 

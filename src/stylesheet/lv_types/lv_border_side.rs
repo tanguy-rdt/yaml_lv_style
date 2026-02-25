@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -27,7 +27,10 @@ impl<'de> Deserialize<'de> for LVBorderSide {
             "right" | "LV_BORDER_SIDE_RIGHT" => Ok(Self::LVBorderSideRight),
             "full" | "LV_BORDER_SIDE_FULL" => Ok(Self::LVBorderSideFull),
             "internal" | "LV_BORDER_SIDE_INTERNAL" => Ok(Self::LVBorderSideInternal),
-            other => Err(serde::de::Error::custom(format!("invalid border side: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid border side: {}",
+                other
+            ))),
         }
     }
 }
@@ -60,7 +63,11 @@ mod tests {
         for variant in LVBorderSide::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVBorderSide = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

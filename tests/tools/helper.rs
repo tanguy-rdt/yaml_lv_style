@@ -1,42 +1,34 @@
 use std::collections::HashMap;
 use std::fs;
-use std::process::Command;
 use std::path::Path;
 use std::path::PathBuf;
+use std::process::Command;
 
 use assert_cmd::prelude::*;
 use pretty_assertions::assert_eq as pretty_assert_eq;
 use similar::{ChangeTag, TextDiff};
 use tree_sitter::Parser;
 
-
 pub fn yaml_lv_style(yaml_paths: &[&Path], output_dir: &Path) {
     let mut cmd = Command::cargo_bin("yaml_lv_style").unwrap();
 
-    cmd.arg("-f")
-        .arg("google")
-        .arg("-l")
-        .arg("cpp")
-        .arg("-i");
+    cmd.arg("-f").arg("google").arg("-l").arg("cpp").arg("-i");
 
     for path in yaml_paths {
         cmd.arg(path);
     }
 
-    cmd.arg("-o")
-        .arg(output_dir)
-        .assert()
-        .success();
+    cmd.arg("-o").arg(output_dir).assert().success();
 }
 
 fn parse_c_code(code: &str) -> String {
     let mut parser = Parser::new();
 
-    parser.set_language(&tree_sitter_c::LANGUAGE.into())
+    parser
+        .set_language(&tree_sitter_c::LANGUAGE.into())
         .expect("Error loading C grammar");
 
-    let tree = parser.parse(code, None)
-        .expect("Failed to parse code");
+    let tree = parser.parse(code, None).expect("Failed to parse code");
 
     tree.root_node().to_sexp()
 }
@@ -44,7 +36,10 @@ fn parse_c_code(code: &str) -> String {
 pub fn compare_directory(expected_dir: &Path, generated_dir: &Path) {
     let mut paths_map: HashMap<PathBuf, PathBuf> = HashMap::new();
 
-    for entry in walkdir::WalkDir::new(generated_dir).into_iter().filter_map(|e| e.ok()) {
+    for entry in walkdir::WalkDir::new(generated_dir)
+        .into_iter()
+        .filter_map(|e| e.ok())
+    {
         let gen_path = entry.path();
         if gen_path.is_file() {
             let ext = gen_path.extension().and_then(|s| s.to_str()).unwrap_or("");
@@ -71,17 +66,19 @@ pub fn compare_files(path: &HashMap<PathBuf, PathBuf>) {
             fs::write(expected_path, &generated_content).unwrap();
         }
 
-        let expected_content = fs::read_to_string(expected_path).expect("Unable to read the expected file");
+        let expected_content =
+            fs::read_to_string(expected_path).expect("Unable to read the expected file");
         let generated_ast = parse_c_code(&generated_content);
         let expected_ast = parse_c_code(&expected_content);
 
         if generated_ast != expected_ast || generated_content != expected_content {
             let diff = TextDiff::from_lines(&expected_content, &generated_content);
 
-            let patch = diff.unified_diff()
+            let patch = diff
+                .unified_diff()
                 .header(
                     &expected_path.to_string_lossy(),
-                    &generated_path.to_string_lossy()
+                    &generated_path.to_string_lossy(),
                 )
                 .to_string();
 

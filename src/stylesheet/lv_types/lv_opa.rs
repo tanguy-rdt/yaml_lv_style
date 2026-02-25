@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -39,7 +39,10 @@ impl<'de> Deserialize<'de> for LVOpa {
             "opa_90" | "LV_OPA_90" => Ok(Self::LVOpa90),
             "opa_100" | "LV_OPA_100" => Ok(Self::LVOpa100),
             "cover" | "LV_OPA_COVER" => Ok(Self::LVOpaCover),
-            other => Err(serde::de::Error::custom(format!("invalid opacity: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid opacity: {}",
+                other
+            ))),
         }
     }
 }
@@ -78,7 +81,11 @@ mod tests {
         for variant in LVOpa::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVOpa = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

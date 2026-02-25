@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -27,7 +27,10 @@ impl<'de> Deserialize<'de> for LVGridAlign {
             "space_evenly" | "LV_GRID_ALIGN_SPACE_EVENLY" => Ok(Self::LVGridAlignSpaceEvenly),
             "space_around" | "LV_GRID_ALIGN_SPACE_AROUND" => Ok(Self::LVGridAlignSpaceAround),
             "space_between" | "LV_GRID_ALIGN_SPACE_BETWEEN" => Ok(Self::LVGridAlignSpaceBetween),
-            other => Err(serde::de::Error::custom(format!("invalid grid align: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid grid align: {}",
+                other
+            ))),
         }
     }
 }
@@ -60,7 +63,11 @@ mod tests {
         for variant in LVGridAlign::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVGridAlign = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation {:?}",
+                variant
+            );
         }
     }
 }

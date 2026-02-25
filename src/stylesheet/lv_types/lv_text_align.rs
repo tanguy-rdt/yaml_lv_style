@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -7,7 +7,7 @@ pub enum LVTextAlign {
     LvTextAlignAuto,
     LvTextAlignLeft,
     LvTextAlignCenter,
-    LvTextAlignRight
+    LvTextAlignRight,
 }
 
 impl<'de> Deserialize<'de> for LVTextAlign {
@@ -21,7 +21,10 @@ impl<'de> Deserialize<'de> for LVTextAlign {
             "left" | "LV_TEXT_ALIGN_LEFT" => Ok(Self::LvTextAlignLeft),
             "center" | "LV_TEXT_ALIGN_CENTER" => Ok(Self::LvTextAlignCenter),
             "right" | "LV_TEXT_ALIGN_RIGHT" => Ok(Self::LvTextAlignRight),
-            other => Err(serde::de::Error::custom(format!("invalid text align: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid text align: {}",
+                other
+            ))),
         }
     }
 }
@@ -51,7 +54,11 @@ mod tests {
         for variant in LVTextAlign::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVTextAlign = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

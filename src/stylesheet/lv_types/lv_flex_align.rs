@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -25,7 +25,10 @@ impl<'de> Deserialize<'de> for LVFlexAlign {
             "space_evenly" | "LV_FLEX_ALIGN_SPACE_EVENLY" => Ok(Self::LVFlexAlignSpaceEvenly),
             "space_around" | "LV_FLEX_ALIGN_SPACE_AROUND" => Ok(Self::LVFlexAlignSpaceAround),
             "space_between" | "LV_FLEX_ALIGN_SPACE_BETWEEN" => Ok(Self::LVFlexAlignSpaceBetween),
-            other => Err(serde::de::Error::custom(format!("invalid flex align: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid flex align: {}",
+                other
+            ))),
         }
     }
 }
@@ -57,7 +60,11 @@ mod tests {
         for variant in LVFlexAlign::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVFlexAlign = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

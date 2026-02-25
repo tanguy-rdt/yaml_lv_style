@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -25,7 +25,10 @@ impl<'de> Deserialize<'de> for LVGradDir {
             "linear" | "LV_GRAD_DIR_LINEAR" => Ok(Self::LVGradDirLinear),
             "radial" | "LV_GRAD_DIR_RADIAL" => Ok(Self::LVGradDirRadial),
             "conical" | "LV_GRAD_DIR_CONICAL" => Ok(Self::LVGradDirConical),
-            other => Err(serde::de::Error::custom(format!("invalid grad dir: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid grad dir: {}",
+                other
+            ))),
         }
     }
 }
@@ -57,7 +60,11 @@ mod tests {
         for variant in LVGradDir::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVGradDir = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

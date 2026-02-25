@@ -11,8 +11,7 @@ use super::lv_types::lv_opa::LVOpa;
 use super::lv_types::lv_text_align::LVTextAlign;
 
 #[cfg_attr(test, derive(PartialEq))]
-#[derive(Debug, Default)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Default, Deserialize, Serialize)]
 pub struct LVProperties {
     pub width: Option<i32>,
     pub min_width: Option<i32>,

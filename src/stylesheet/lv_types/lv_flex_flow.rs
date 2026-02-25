@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -25,11 +25,18 @@ impl<'de> Deserialize<'de> for LVFlexFlow {
             "column" | "LV_FLEX_FLOW_COLUMN" => Ok(Self::LVFlexFlowColumn),
             "row_wrap" | "LV_FLEX_FLOW_ROW_WRAP" => Ok(Self::LVFlexFlowRowWrap),
             "row_reverse" | "LV_FLEX_FLOW_ROW_REVERSE" => Ok(Self::LVFlexFlowRowReverse),
-            "row_wrap_reverse" | "LV_FLEX_FLOW_ROW_WRAP_REVERSE" => Ok(Self::LVFlexFlowRowWrapReverse),
+            "row_wrap_reverse" | "LV_FLEX_FLOW_ROW_WRAP_REVERSE" => {
+                Ok(Self::LVFlexFlowRowWrapReverse)
+            }
             "column_wrap" | "LV_FLEX_FLOW_COLUMN_WRAP" => Ok(Self::LVFlexFlowColumnWrap),
             "column_reverse" | "LV_FLEX_FLOW_COLUMN_REVERSE" => Ok(Self::LVFlexFlowColumnReverse),
-            "column_wrap_reverse" | "LV_FLEX_FLOW_COLUMN_WRAP_REVERSE" => Ok(Self::LVFlexFlowColumnWrapReverse),
-            other => Err(serde::de::Error::custom(format!("invalid flex flow: {}", other))),
+            "column_wrap_reverse" | "LV_FLEX_FLOW_COLUMN_WRAP_REVERSE" => {
+                Ok(Self::LVFlexFlowColumnWrapReverse)
+            }
+            other => Err(serde::de::Error::custom(format!(
+                "invalid flex flow: {}",
+                other
+            ))),
         }
     }
 }
@@ -63,7 +70,11 @@ mod tests {
         for variant in LVFlexFlow::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVFlexFlow = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

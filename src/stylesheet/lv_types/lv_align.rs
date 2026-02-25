@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -57,7 +57,10 @@ impl<'de> Deserialize<'de> for LVAlign {
             "out_right_top" | "LV_ALIGN_OUT_RIGHT_TOP" => Ok(Self::LvAlignOutRightTop),
             "out_right_mid" | "LV_ALIGN_OUT_RIGHT_MID" => Ok(Self::LvAlignOutRightMid),
             "out_right_bottom" | "LV_ALIGN_OUT_RIGHT_BOTTOM" => Ok(Self::LvAlignOutRightBottom),
-            other => Err(serde::de::Error::custom(format!("invalid alignment: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid alignment: {}",
+                other
+            ))),
         }
     }
 }
@@ -89,7 +92,7 @@ impl Serialize for LVAlign {
             Self::LvAlignOutLeftBottom => "LV_ALIGN_OUT_LEFT_BOTTOM",
             Self::LvAlignOutRightTop => "LV_ALIGN_OUT_RIGHT_TOP",
             Self::LvAlignOutRightMid => "LV_ALIGN_OUT_RIGHT_MID",
-            Self::LvAlignOutRightBottom => "LV_ALIGN_OUT_RIGHT_BOTTOM"
+            Self::LvAlignOutRightBottom => "LV_ALIGN_OUT_RIGHT_BOTTOM",
         };
         serializer.serialize_str(s)
     }
@@ -105,7 +108,11 @@ mod tests {
         for variant in LVAlign::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVAlign = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

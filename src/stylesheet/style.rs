@@ -3,8 +3,7 @@ use serde::{Deserialize, Serialize};
 use super::lv_properties::LVProperties;
 
 #[cfg_attr(test, derive(PartialEq))]
-#[derive(Debug, Default)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Default, Deserialize, Serialize)]
 pub struct Style {
     pub name: Option<String>,
     #[serde(alias = "const")]

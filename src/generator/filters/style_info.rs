@@ -1,19 +1,16 @@
 use std::collections::HashMap;
 
-use tera::Value;
 use tera::Result as TeraResult;
+use tera::Value;
 
 pub fn has_const_style(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
     let has_const = stylesheet
         .get("styles")
         .and_then(|v| v.as_array())
         .map(|styles| {
-            styles.iter().any(|style| {
-                style
-                    .get("const_style")
-                    .and_then(|v| v.as_bool())
-                    == Some(true)
-            })
+            styles
+                .iter()
+                .any(|style| style.get("const_style").and_then(|v| v.as_bool()) == Some(true))
         })
         .unwrap_or(false);
 
@@ -25,12 +22,9 @@ pub fn has_dyn_style(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraResu
         .get("styles")
         .and_then(|v| v.as_array())
         .map(|styles| {
-            styles.iter().any(|style| {
-                style
-                    .get("const_style")
-                    .and_then(|v| v.as_bool())
-                    == Some(false)
-            })
+            styles
+                .iter()
+                .any(|style| style.get("const_style").and_then(|v| v.as_bool()) == Some(false))
         })
         .unwrap_or(false);
 
@@ -40,8 +34,8 @@ pub fn has_dyn_style(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraResu
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tera::to_value;
     use std::collections::HashMap;
+    use tera::to_value;
 
     #[test]
     fn test_has_const_style() {
@@ -94,7 +88,13 @@ mod tests {
         });
         let val = to_value(empty_sheet).unwrap();
 
-        assert_eq!(has_const_style(&val, &HashMap::new()).unwrap(), Value::Bool(false));
-        assert_eq!(has_dyn_style(&val, &HashMap::new()).unwrap(), Value::Bool(false));
+        assert_eq!(
+            has_const_style(&val, &HashMap::new()).unwrap(),
+            Value::Bool(false)
+        );
+        assert_eq!(
+            has_dyn_style(&val, &HashMap::new()).unwrap(),
+            Value::Bool(false)
+        );
     }
 }

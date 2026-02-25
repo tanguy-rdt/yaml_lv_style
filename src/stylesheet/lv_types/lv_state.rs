@@ -1,5 +1,5 @@
-use serde::{Serialize, Serializer};
 use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
 #[derive(Debug)]
@@ -39,7 +39,10 @@ impl<'de> Deserialize<'de> for LVState {
             "user_3" | "LV_STATE_USER_3" => Ok(Self::LvStateUser3),
             "user_4" | "LV_STATE_USER_4" => Ok(Self::LvStateUser4),
             "any" | "LV_STATE_ANY" => Ok(Self::LvStateAny),
-            other => Err(serde::de::Error::custom(format!("invalid state: {}", other))),
+            other => Err(serde::de::Error::custom(format!(
+                "invalid state: {}",
+                other
+            ))),
         }
     }
 }
@@ -78,7 +81,11 @@ mod tests {
         for variant in LVState::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVState = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(variant, parsed, "Comparison between serialisation and deserialisation failed for {:?}", variant);
+            assert_eq!(
+                variant, parsed,
+                "Comparison between serialisation and deserialisation failed for {:?}",
+                variant
+            );
         }
     }
 }

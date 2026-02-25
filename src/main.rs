@@ -1,5 +1,5 @@
-mod stylesheet;
 mod generator;
+mod stylesheet;
 
 use std::path::PathBuf;
 
@@ -23,7 +23,7 @@ pub enum ClangFormatStyle {
     Microsoft,
     Mozilla,
     WebKit,
-    File
+    File,
 }
 
 impl ClangFormatStyle {
@@ -93,10 +93,7 @@ struct Opt {
     )]
     namespace: Option<String>,
 
-    #[arg(
-        short,
-        help = "Print the generated file paths to stdout\n",
-    )]
+    #[arg(short, help = "Print the generated file paths to stdout\n")]
     print_gen_file_path: bool,
 }
 
@@ -108,7 +105,7 @@ fn main() {
     let mut stylesheets = Vec::new();
     for yaml_stylesheet in opt.input {
         match StyleSheet::from_yaml(&yaml_stylesheet) {
-            Ok(stylesheet) =>  stylesheets.push(stylesheet),
+            Ok(stylesheet) => stylesheets.push(stylesheet),
             Err(e) => {
                 log::error!("{}", e);
                 std::process::exit(1);
@@ -122,7 +119,8 @@ fn main() {
     match opt.language {
         Language::C => generator.generate_c(&stylesheets),
         Language::Cpp => generator.generate_cpp(opt.namespace.as_deref(), &stylesheets),
-    }.unwrap_or_else(|e| {
+    }
+    .unwrap_or_else(|e| {
         log::error!("{}", e);
         std::process::exit(2);
     });

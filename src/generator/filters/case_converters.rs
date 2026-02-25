@@ -1,5 +1,5 @@
-use tera::Value;
 use tera::Result as TeraResult;
+use tera::Value;
 
 use std::collections::HashMap;
 
@@ -62,7 +62,8 @@ mod tests {
         ];
 
         for (input, expected) in tests {
-            let result = screaming_snake_case_filter(&to_value(input).unwrap(), &HashMap::new()).unwrap();
+            let result =
+                screaming_snake_case_filter(&to_value(input).unwrap(), &HashMap::new()).unwrap();
             assert_eq!(result, to_value(expected).unwrap());
         }
     }

@@ -17,7 +17,10 @@ fn test_const_and_dyn_style_generation() {
 
 #[test]
 fn test_multi_stylesheet_generation() {
-    assert_stylesheets!(&["tests/yaml_stylesheets/const.yaml", "tests/yaml_stylesheets/dyn.yaml"]);
+    assert_stylesheets!(&[
+        "tests/yaml_stylesheets/const.yaml",
+        "tests/yaml_stylesheets/dyn.yaml"
+    ]);
 }
 
 #[test]
@@ -28,7 +31,7 @@ fn test_all_states() {
 #[test]
 fn test_all_properties() {
     assert_stylesheets!(&[
-        "tests/yaml_stylesheets/properties_arc.yaml", 
+        "tests/yaml_stylesheets/properties_arc.yaml",
         "tests/yaml_stylesheets/properties_background.yaml",
         "tests/yaml_stylesheets/properties_border.yaml",
         "tests/yaml_stylesheets/properties_flex.yaml",
