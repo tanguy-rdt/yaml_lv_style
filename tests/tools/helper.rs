@@ -9,10 +9,10 @@ use pretty_assertions::assert_eq as pretty_assert_eq;
 use similar::{ChangeTag, TextDiff};
 use tree_sitter::Parser;
 
-pub fn yaml_lv_style(yaml_paths: &[&Path], output_dir: &Path) {
+pub fn yaml_lv_style(lang: &str, yaml_paths: &[&Path], output_dir: &Path) {
     let mut cmd = Command::cargo_bin("yaml_lv_style").unwrap();
 
-    cmd.arg("-f").arg("google").arg("-l").arg("cpp").arg("-i");
+    cmd.arg("-f").arg("google").arg("-l").arg(lang).arg("-i");
 
     for path in yaml_paths {
         cmd.arg(path);
@@ -33,6 +33,18 @@ fn parse_c_code(code: &str) -> String {
     tree.root_node().to_sexp()
 }
 
+fn parse_cpp_code(code: &str) -> String {
+    let mut parser = Parser::new();
+
+    parser
+        .set_language(&tree_sitter_cpp::LANGUAGE.into())
+        .expect("Error loading C++ grammar");
+
+    let tree = parser.parse(code, None).expect("Failed to parse code");
+
+    tree.root_node().to_sexp()
+}
+
 pub fn compare_directory(expected_dir: &Path, generated_dir: &Path) {
     let mut paths_map: HashMap<PathBuf, PathBuf> = HashMap::new();
 
@@ -43,7 +55,7 @@ pub fn compare_directory(expected_dir: &Path, generated_dir: &Path) {
         let gen_path = entry.path();
         if gen_path.is_file() {
             let ext = gen_path.extension().and_then(|s| s.to_str()).unwrap_or("");
-            if ext == "cpp" || ext == "h" {
+            if ext == "cpp" || ext == "c" || ext == "h" {
                 let relative = gen_path.strip_prefix(generated_dir).unwrap();
                 let exp_path = expected_dir.join(relative);
                 paths_map.insert(exp_path, gen_path.to_path_buf());
@@ -68,8 +80,18 @@ pub fn compare_files(path: &HashMap<PathBuf, PathBuf>) {
 
         let expected_content =
             fs::read_to_string(expected_path).expect("Unable to read the expected file");
-        let generated_ast = parse_c_code(&generated_content);
-        let expected_ast = parse_c_code(&expected_content);
+
+        let ext = generated_path
+            .extension()
+            .and_then(|s| s.to_str())
+            .unwrap_or("");
+        let parser_fn = match ext {
+            "cpp" | "hpp" => parse_cpp_code,
+            _ => parse_c_code,
+        };
+
+        let generated_ast = parser_fn(&generated_content);
+        let expected_ast = parser_fn(&expected_content);
 
         if generated_ast != expected_ast || generated_content != expected_content {
             let diff = TextDiff::from_lines(&expected_content, &generated_content);

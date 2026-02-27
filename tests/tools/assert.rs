@@ -17,13 +17,8 @@ macro_rules! assert_stylesheet {
         let short_test_name = full_function_name
             .strip_prefix("test_")
             .unwrap_or(full_function_name);
-        let expected_dir = format!("tests/expected_result/{}", short_test_name);
 
-        $crate::tools::assert::assert_stylesheet_with_expected(
-            $yaml,
-            &expected_dir,
-            &short_test_name,
-        );
+        $crate::tools::assert::validate_yaml_output($yaml, &short_test_name);
     };
 }
 
@@ -38,33 +33,33 @@ macro_rules! assert_stylesheets {
         let short_test_name = full_function_name
             .strip_prefix("test_")
             .unwrap_or(full_function_name);
-        let expected_dir = format!("tests/expected_result/{}", short_test_name);
 
-        $crate::tools::assert::assert_stylesheets_with_expected(
-            $yamls,
-            &expected_dir,
-            &short_test_name,
-        );
+        $crate::tools::assert::validate_yamls_output($yamls, &short_test_name);
     };
 }
 
-pub fn assert_stylesheet_with_expected(yaml: &str, expected_dir_path: &str, short_test_name: &str) {
-    assert_stylesheets_with_expected(&[yaml], expected_dir_path, short_test_name);
+pub fn validate_yaml_output(yaml: &str, short_test_name: &str) {
+    compare_generated_to_expected(&[yaml], "c", short_test_name);
+    compare_generated_to_expected(&[yaml], "cpp", short_test_name);
 }
 
-pub fn assert_stylesheets_with_expected(
-    yamls: &[&str],
-    expected_dir_path: &str,
-    short_test_name: &str,
-) {
+pub fn validate_yamls_output(yamls: &[&str], short_test_name: &str) {
+    compare_generated_to_expected(yamls, "c", short_test_name);
+    compare_generated_to_expected(yamls, "cpp", short_test_name);
+}
+
+pub fn compare_generated_to_expected(yamls: &[&str], lang: &str, short_test_name: &str) {
     let tmp_dir = tempdir().expect("Unable to create temp directory");
-    let tmp_dir_path = tmp_dir.path().join(short_test_name);
+    let tmp_dir_path = tmp_dir.path().join(lang).join(short_test_name);
+    let expected_dir = PathBuf::from(format!(
+        "tests/expected_result/{}/{}",
+        lang, short_test_name
+    ));
 
     let yaml_paths: Vec<PathBuf> = yamls.iter().map(PathBuf::from).collect();
     let yaml_refs: Vec<&Path> = yaml_paths.iter().map(|p| p.as_path()).collect();
 
-    yaml_lv_style(&yaml_refs, &tmp_dir_path);
+    yaml_lv_style(lang, &yaml_refs, &tmp_dir_path);
 
-    let expected_dir = PathBuf::from(expected_dir_path);
     compare_directory(&expected_dir, &tmp_dir_path);
 }
