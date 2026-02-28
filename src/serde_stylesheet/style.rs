@@ -4,6 +4,7 @@ use super::lv_properties::LVProperties;
 
 #[cfg_attr(test, derive(PartialEq))]
 #[derive(Debug, Default, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Style {
     pub name: Option<String>,
     #[serde(alias = "const")]
@@ -21,6 +22,45 @@ pub struct Style {
     pub user_3: Option<LVProperties>,
     pub user_4: Option<LVProperties>,
     pub any: Option<LVProperties>,
+}
+
+impl Style {
+    pub fn add(&mut self, other: Style) {
+        macro_rules! merge {
+            ($field:ident) => {
+                if let Some(val) = other.$field {
+                    self.$field = Some(val);
+                }
+            };
+        }
+
+        merge!(const_style);
+        merge!(default);
+        merge!(checked);
+        merge!(focused);
+        merge!(focus_key);
+        merge!(edited);
+        merge!(hovered);
+        merge!(pressed);
+        merge!(disabled);
+        merge!(user_1);
+        merge!(user_2);
+        merge!(user_3);
+        merge!(user_4);
+        merge!(any);
+    }
+    pub fn is_empty(&self) -> bool {
+        macro_rules! check {
+            ($($field:ident),*) => {
+                $(self.$field.is_none())&&*
+            };
+        }
+
+        check!(
+            default, checked, focused, focus_key, edited, hovered, pressed, disabled, user_1,
+            user_2, user_3, user_4, any
+        )
+    }
 }
 
 #[cfg(test)]

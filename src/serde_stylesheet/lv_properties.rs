@@ -12,6 +12,7 @@ use super::lv_types::LVTextAlign;
 
 #[cfg_attr(test, derive(PartialEq))]
 #[derive(Debug, Default, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct LVProperties {
     pub width: Option<i32>,
     pub min_width: Option<i32>,

@@ -9,11 +9,14 @@ use std::process::Command;
 
 pub use format::ClangFormatStyle;
 pub use lang::Language;
+
 use stylesheet_ctx::CStyleSheetsContext;
 use stylesheet_ctx::CppStyleSheetsContext;
 use stylesheet_ctx::FileContext;
 use stylesheet_ctx::StyleSheetsContext;
 
+use crate::errors::Error;
+use crate::errors::YamlLvStyleResult;
 use crate::serde_stylesheet::StyleSheet;
 
 pub struct Generator {
@@ -35,12 +38,13 @@ impl Generator {
         }
     }
 
-    pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> Result<(), String> {
+    pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> YamlLvStyleResult<()> {
         let mut ctx = StyleSheetsContext::from_stylesheets(stylesheets, &self.output_dir);
         let c_ctx = CStyleSheetsContext::from(&mut ctx)
-            .map_err(|e| format!("Failed to create C context: {}", e))?;
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
-        self.render_ctx(&c_ctx.tera, c_ctx.base)?;
+        self.render_ctx(&c_ctx.tera, c_ctx.base)
+            .map_err(|e| Error::Generation(Box::from(e)))?;
 
         self.ctx = Some(ctx);
 
@@ -51,19 +55,20 @@ impl Generator {
         &mut self,
         namespace: Option<&str>,
         stylesheets: &[StyleSheet],
-    ) -> Result<(), String> {
+    ) -> YamlLvStyleResult<()> {
         let mut ctx = StyleSheetsContext::from_stylesheets(stylesheets, &self.output_dir);
         let cpp_ctx = CppStyleSheetsContext::from(&mut ctx, namespace)
-            .map_err(|e| format!("Failed to create C++ context: {}", e))?;
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
-        self.render_ctx(&cpp_ctx.tera, cpp_ctx.base)?;
+        self.render_ctx(&cpp_ctx.tera, cpp_ctx.base)
+            .map_err(|e| Error::Generation(Box::from(e)))?;
 
         self.ctx = Some(ctx);
 
         Ok(())
     }
 
-    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &StyleSheetsContext) -> Result<(), String> {
+    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &StyleSheetsContext) -> YamlLvStyleResult<()> {
         let path = self.render_file(tera, &ctx.styles_name)?;
         self.headers.push(path);
 
@@ -82,33 +87,24 @@ impl Generator {
         self.format()
     }
 
-    fn render_file(&mut self, tera: &tera::Tera, ctx: &FileContext) -> Result<PathBuf, String> {
-        let output_dir = ctx.path.parent().ok_or_else(|| {
-            format!(
-                "Unable to determine the parent folder for '{}'",
-                ctx.path.display()
-            )
-        })?;
+    fn render_file(&mut self, tera: &tera::Tera, ctx: &FileContext) -> YamlLvStyleResult<PathBuf> {
+        let output_dir = ctx
+            .path
+            .parent()
+            .ok_or_else(|| Error::IoKind(std::io::ErrorKind::InvalidInput, ctx.path.clone()))?;
 
-        fs::create_dir_all(output_dir).map_err(|e| {
-            format!(
-                "Failed to created directory '{}': {}",
-                output_dir.display(),
-                e
-            )
-        })?;
+        fs::create_dir_all(output_dir).map_err(|e| Error::Io(e, output_dir.to_path_buf()))?;
 
         let res = tera
             .render(&ctx.tera_template, &ctx.tera_context)
-            .map_err(|e| format!("{}", e))?;
+            .map_err(|e| Error::Render(e.to_string()))?;
 
-        fs::write(&ctx.path, res)
-            .map_err(|e| format!("Failed to write to '{}': {}", ctx.path.display(), e))?;
+        fs::write(&ctx.path, res).map_err(|e| Error::Io(e, ctx.path.clone()))?;
 
         Ok(ctx.path.clone())
     }
 
-    fn format(&self) -> Result<(), String> {
+    fn format(&self) -> YamlLvStyleResult<()> {
         if let Some(format_style) = &self.format {
             let status = Command::new("clang-format")
                 .arg("-i")
@@ -118,8 +114,8 @@ impl Generator {
 
             return match status {
                 Ok(s) if s.success() => Ok(()),
-                Ok(_) => Err("clang-format failed to format".to_string()),
-                Err(_) => Err("clang-format not found in PATH".to_string()),
+                Ok(_) => Err(Error::Format("clang-format failed to format".to_string())),
+                Err(_) => Err(Error::Format("clang-format not found in PATH".to_string())),
             };
         }
 
