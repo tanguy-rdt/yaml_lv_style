@@ -1,6 +1,6 @@
 mod format;
+mod generation_ctx;
 mod lang;
-mod stylesheet_ctx;
 mod tera_filters;
 
 use std::fs;
@@ -10,10 +10,10 @@ use std::process::Command;
 pub use format::ClangFormatStyle;
 pub use lang::Language;
 
-use stylesheet_ctx::CStyleSheetsContext;
-use stylesheet_ctx::CppStyleSheetsContext;
-use stylesheet_ctx::FileContext;
-use stylesheet_ctx::StyleSheetsContext;
+use generation_ctx::CGenerationCtx;
+use generation_ctx::CppGenerationCtx;
+use generation_ctx::FileCtx;
+use generation_ctx::GenerationCtx;
 
 use crate::errors::Error;
 use crate::errors::YamlLvStyleResult;
@@ -21,7 +21,6 @@ use crate::serde_stylesheet::StyleSheet;
 
 pub struct Generator {
     output_dir: PathBuf,
-    ctx: Option<StyleSheetsContext>,
     format: Option<ClangFormatStyle>,
     sources: Vec<PathBuf>,
     headers: Vec<PathBuf>,
@@ -31,7 +30,6 @@ impl Generator {
     pub fn new(output_dir: PathBuf, format: Option<ClangFormatStyle>) -> Self {
         Generator {
             output_dir,
-            ctx: None,
             format,
             sources: Vec::new(),
             headers: Vec::new(),
@@ -39,14 +37,12 @@ impl Generator {
     }
 
     pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> YamlLvStyleResult<()> {
-        let mut ctx = StyleSheetsContext::from_stylesheets(stylesheets, &self.output_dir);
-        let c_ctx = CStyleSheetsContext::from(&mut ctx)
+        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir);
+        let c_ctx = CGenerationCtx::from(&mut ctx)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
-        self.render_ctx(&c_ctx.tera, c_ctx.base)
+        self.render_ctx(&c_ctx.tera, &ctx)
             .map_err(|e| Error::Generation(Box::from(e)))?;
-
-        self.ctx = Some(ctx);
 
         Ok(())
     }
@@ -56,19 +52,17 @@ impl Generator {
         namespace: Option<&str>,
         stylesheets: &[StyleSheet],
     ) -> YamlLvStyleResult<()> {
-        let mut ctx = StyleSheetsContext::from_stylesheets(stylesheets, &self.output_dir);
-        let cpp_ctx = CppStyleSheetsContext::from(&mut ctx, namespace)
+        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir);
+        let cpp_ctx = CppGenerationCtx::from(&mut ctx, namespace)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
-        self.render_ctx(&cpp_ctx.tera, cpp_ctx.base)
+        self.render_ctx(&cpp_ctx.tera, &ctx)
             .map_err(|e| Error::Generation(Box::from(e)))?;
-
-        self.ctx = Some(ctx);
 
         Ok(())
     }
 
-    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &StyleSheetsContext) -> YamlLvStyleResult<()> {
+    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &GenerationCtx) -> YamlLvStyleResult<()> {
         let path = self.render_file(tera, &ctx.styles_name)?;
         self.headers.push(path);
 
@@ -87,7 +81,7 @@ impl Generator {
         self.format()
     }
 
-    fn render_file(&mut self, tera: &tera::Tera, ctx: &FileContext) -> YamlLvStyleResult<PathBuf> {
+    fn render_file(&self, tera: &tera::Tera, ctx: &FileCtx) -> YamlLvStyleResult<PathBuf> {
         let output_dir = ctx
             .path
             .parent()

@@ -1,13 +1,12 @@
-use crate::generator::stylesheet_ctx::StyleSheetsContext;
+use crate::generator::generation_ctx::GenerationCtx;
 use crate::generator::tera_filters;
 
-pub struct CStyleSheetsContext<'a> {
-    pub base: &'a StyleSheetsContext,
+pub struct CGenerationCtx {
     pub tera: tera::Tera,
 }
 
-impl<'a> CStyleSheetsContext<'a> {
-    pub fn from(base: &'a mut StyleSheetsContext) -> Result<Self, String> {
+impl<'a> CGenerationCtx {
+    pub fn from(base: &'a mut GenerationCtx) -> Result<Self, String> {
         let mut tera = tera::Tera::default();
 
         tera_filters::apply_filters(&mut tera);
@@ -68,6 +67,6 @@ impl<'a> CStyleSheetsContext<'a> {
             stylesheet.source.path.set_extension("c");
         }
 
-        Ok(Self { base, tera })
+        Ok(Self { tera })
     }
 }

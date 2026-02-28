@@ -12,7 +12,7 @@ use crate::generator::Language;
 use crate::serde_stylesheet::StyleSheet;
 
 #[derive(Parser)]
-#[command(version)]
+#[command(version = "1.0.0 (lvgl v9.4.0)")]
 struct Opt {
     #[arg(
         short,

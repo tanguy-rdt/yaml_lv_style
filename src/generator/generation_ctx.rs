@@ -1,31 +1,31 @@
-mod c_stylesheets_ctx;
-mod cpp_stylesheets_ctx;
+mod c_generation_ctx;
+mod cpp_generation_ctx;
 
 use std::path::{Path, PathBuf};
 
 use crate::serde_stylesheet::StyleSheet;
 
-pub use c_stylesheets_ctx::CStyleSheetsContext;
-pub use cpp_stylesheets_ctx::CppStyleSheetsContext;
+pub use c_generation_ctx::CGenerationCtx;
+pub use cpp_generation_ctx::CppGenerationCtx;
 
-pub struct FileContext {
+pub struct FileCtx {
     pub tera_template: String,
     pub tera_context: tera::Context,
     pub path: PathBuf,
 }
 
 pub struct Component {
-    pub source: FileContext,
-    pub header: FileContext,
+    pub source: FileCtx,
+    pub header: FileCtx,
 }
 
-pub struct StyleSheetsContext {
-    pub styles_name: FileContext,
+pub struct GenerationCtx {
+    pub styles_name: FileCtx,
     pub stylesheets_helper: Component,
     pub stylesheets: Vec<Component>,
 }
 
-impl StyleSheetsContext {
+impl GenerationCtx {
     pub fn from_stylesheets(stylesheet: &[StyleSheet], output_dir: &Path) -> Self {
         Self {
             styles_name: Self::make_styles_name_ctx(stylesheet, output_dir),
@@ -34,7 +34,7 @@ impl StyleSheetsContext {
         }
     }
 
-    fn make_styles_name_ctx(stylesheets: &[StyleSheet], output_dir: &Path) -> FileContext {
+    fn make_styles_name_ctx(stylesheets: &[StyleSheet], output_dir: &Path) -> FileCtx {
         let output_folder_name = output_dir
             .file_name()
             .and_then(|n| n.to_str())
@@ -46,7 +46,7 @@ impl StyleSheetsContext {
         let mut tera_ctx = tera::Context::new();
         tera_ctx.insert("stylesheets", &stylesheets);
 
-        FileContext {
+        FileCtx {
             tera_template: String::from("styles_header"),
             tera_context: tera_ctx,
             path: header_path,
@@ -78,13 +78,13 @@ impl StyleSheetsContext {
         tera_ctx.insert("h_stylesheets_include_path", &h_stylesheets_include_path);
         tera_ctx.insert("h_styles_include_path", &h_styles_include_path);
 
-        let source = FileContext {
+        let source = FileCtx {
             tera_template: String::from("stylesheets_source"),
             tera_context: tera_ctx.clone(),
             path: source_path,
         };
 
-        let header = FileContext {
+        let header = FileCtx {
             tera_template: String::from("stylesheets_header"),
             tera_context: tera_ctx,
             path: header_path,
@@ -118,13 +118,13 @@ impl StyleSheetsContext {
             tera_ctx.insert("h_stylesheet_include_path", &h_stylesheet_include_path);
             tera_ctx.insert("h_styles_include_path", &h_styles_include_path);
 
-            let source = FileContext {
+            let source = FileCtx {
                 tera_template: String::from("stylesheet_source"),
                 tera_context: tera_ctx.clone(),
                 path: source_path,
             };
 
-            let header = FileContext {
+            let header = FileCtx {
                 tera_template: String::from("stylesheet_header"),
                 tera_context: tera_ctx,
                 path: header_path,
