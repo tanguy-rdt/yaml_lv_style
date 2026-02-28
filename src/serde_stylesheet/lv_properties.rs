@@ -1,14 +1,18 @@
 use serde::{Deserialize, Serialize};
 
 use super::lv_types::LVAlign;
+use super::lv_types::LVBaseDir;
+use super::lv_types::LVBlendMode;
 use super::lv_types::LVBorderSide;
 use super::lv_types::LVColor;
 use super::lv_types::LVFlexAlign;
 use super::lv_types::LVFlexFlow;
 use super::lv_types::LVGradDir;
 use super::lv_types::LVGridAlign;
+use super::lv_types::LVLayout;
 use super::lv_types::LVOpa;
 use super::lv_types::LVTextAlign;
+use super::lv_types::LVTextDecor;
 
 #[cfg_attr(test, derive(PartialEq))]
 #[derive(Debug, Default, Deserialize, Serialize)]
@@ -96,7 +100,7 @@ pub struct LVProperties {
     // text_font: Option<>,
     pub text_letter_space: Option<i32>,
     pub text_line_space: Option<i32>,
-    // text_decor: Option<>,
+    pub text_decor: Option<LVTextDecor>,
     pub text_align: Option<LVTextAlign>,
     pub text_outline_stroke_color: Option<LVColor>,
     pub text_outline_stroke_width: Option<i32>,
@@ -113,19 +117,19 @@ pub struct LVProperties {
     // anim: Option<>,
     // anim_duration: Option<>,
     // transition: Option<>,
-    // blend_mode: Option<>,
-    // layout: Option<>,
-    // base_dir: Option<>,
+    pub blend_mode: Option<LVBlendMode>,
+    pub layout: Option<LVLayout>,
+    pub base_dir: Option<LVBaseDir>,
     // bitmap_mask_src: Option<>,
-    // rotary_sensitivity: Option<>,
+    pub rotary_sensitivity: Option<i32>,
     pub flex_flow: Option<LVFlexFlow>,
     pub flex_main_place: Option<LVFlexAlign>,
     pub flex_cross_place: Option<LVFlexAlign>,
     pub flex_track_place: Option<LVFlexAlign>,
     pub flex_grow: Option<i32>,
-    // grid_column_dsc_array: Option<>,
+    // pub grid_column_dsc_array: Option<>, TODO
     pub grid_column_align: Option<LVGridAlign>,
-    // grid_row_dsc_array: Option<>,
+    // pub grid_row_dsc_array: Option<>, TODO
     pub grid_row_align: Option<LVGridAlign>,
     pub grid_cell_column_pos: Option<i32>,
     pub grid_cell_x_align: Option<LVGridAlign>,
