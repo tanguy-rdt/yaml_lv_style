@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
-#[derive(Debug, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
+#[derive(Deserialize, Serialize)]
 pub enum LVState {
     #[serde(rename = "LV_STATE_DEFAULT", alias = "default")]
     Default,

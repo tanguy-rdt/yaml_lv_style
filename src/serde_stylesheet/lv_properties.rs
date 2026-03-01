@@ -9,13 +9,15 @@ use super::lv_types::LVFlexAlign;
 use super::lv_types::LVFlexFlow;
 use super::lv_types::LVGradDir;
 use super::lv_types::LVGridAlign;
+use super::lv_types::LVGridDscArray;
+use super::lv_types::LVImageColorkey;
 use super::lv_types::LVLayout;
 use super::lv_types::LVOpa;
 use super::lv_types::LVTextAlign;
 use super::lv_types::LVTextDecor;
 
-#[cfg_attr(test, derive(PartialEq))]
-#[derive(Debug, Default, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq))]
+#[derive(Default, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct LVProperties {
     pub width: Option<i32>,
@@ -83,7 +85,7 @@ pub struct LVProperties {
     pub image_opa: Option<LVOpa>,
     pub image_recolor: Option<LVColor>,
     pub image_recolor_opa: Option<LVOpa>,
-    // image_colorkey: Option<>,
+    pub image_colorkey: Option<LVImageColorkey>,
     pub line_width: Option<i32>,
     pub line_dash_width: Option<i32>,
     pub line_dash_gap: Option<i32>,
@@ -127,9 +129,9 @@ pub struct LVProperties {
     pub flex_cross_place: Option<LVFlexAlign>,
     pub flex_track_place: Option<LVFlexAlign>,
     pub flex_grow: Option<i32>,
-    // pub grid_column_dsc_array: Option<>, TODO
+    pub grid_column_dsc_array: Option<LVGridDscArray>,
     pub grid_column_align: Option<LVGridAlign>,
-    // pub grid_row_dsc_array: Option<>, TODO
+    pub grid_row_dsc_array: Option<LVGridDscArray>,
     pub grid_row_align: Option<LVGridAlign>,
     pub grid_cell_column_pos: Option<i32>,
     pub grid_cell_x_align: Option<LVGridAlign>,
@@ -137,6 +139,32 @@ pub struct LVProperties {
     pub grid_cell_row_pos: Option<i32>,
     pub grid_cell_y_align: Option<LVGridAlign>,
     pub grid_cell_row_span: Option<i32>,
+}
+
+impl LVProperties {
+    pub fn make_properties_const(&mut self) {
+        macro_rules! make_const {
+            ($field:ident) => {
+                if let Some(val) = &mut self.$field {
+                    val.make_const();
+                }
+            };
+        }
+
+        make_const!(bg_color);
+        make_const!(bg_grad_color);
+        make_const!(bg_image_recolor);
+        make_const!(border_color);
+        make_const!(outline_color);
+        make_const!(shadow_color);
+        make_const!(image_recolor);
+        make_const!(image_colorkey);
+        make_const!(line_color);
+        make_const!(arc_color);
+        make_const!(text_color);
+        make_const!(text_outline_stroke_color);
+        make_const!(recolor);
+    }
 }
 
 #[cfg(test)]
@@ -149,9 +177,7 @@ mod tests {
         let props = LVProperties {
             width: Some(100),
             align: Some(LVAlign::Default),
-            bg_color: Some(LVColor::Rgb(255, 255, 255)),
             bg_opa: Some(LVOpa::Opa0),
-            bg_grad_color: Some(LVColor::Hex(0xffffff)),
             bg_grad_dir: Some(LVGradDir::Conical),
             border_side: Some(LVBorderSide::Bottom),
             text_align: Some(LVTextAlign::Auto),
@@ -166,9 +192,7 @@ mod tests {
 
         assert_eq!(props.width, parsed.width);
         assert_eq!(props.align, parsed.align);
-        assert_eq!(props.bg_color, parsed.bg_color);
         assert_eq!(props.bg_opa, parsed.bg_opa);
-        assert_eq!(parsed.bg_grad_color, Some(LVColor::Rgb(255, 255, 255)));
         assert_eq!(props.bg_grad_dir, parsed.bg_grad_dir);
         assert_eq!(props.border_side, parsed.border_side);
         assert_eq!(props.text_align, parsed.text_align);

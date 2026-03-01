@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
-#[derive(Debug, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
+#[derive(Deserialize, Serialize)]
 pub enum LVTextAlign {
     #[serde(rename = "LV_TEXT_ALIGN_AUTO", alias = "auto")]
     Auto,

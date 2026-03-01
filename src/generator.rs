@@ -37,7 +37,8 @@ impl Generator {
     }
 
     pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> YamlLvStyleResult<()> {
-        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir);
+        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
         let c_ctx = CGenerationCtx::from(&mut ctx)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
@@ -52,7 +53,8 @@ impl Generator {
         namespace: Option<&str>,
         stylesheets: &[StyleSheet],
     ) -> YamlLvStyleResult<()> {
-        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir);
+        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
         let cpp_ctx = CppGenerationCtx::from(&mut ctx, namespace)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
-#[derive(Debug, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
+#[derive(Deserialize, Serialize)]
 pub enum LVGridAlign {
     #[serde(rename = "LV_GRID_ALIGN_START", alias = "start")]
     Start,

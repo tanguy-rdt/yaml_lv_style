@@ -18,7 +18,7 @@ use style::Style;
 use crate::errors::Error;
 use crate::errors::YamlLvStyleResult;
 
-#[derive(Debug, Default, Serialize)]
+#[derive(Default, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct StyleSheet {
     pub name: String,
@@ -48,27 +48,25 @@ impl<'de> Deserialize<'de> for StyleSheet {
     where
         D: Deserializer<'de>,
     {
-        let raw_map = HashMap::<String, Vec<Style>>::deserialize(deserializer)?;
+        let raw_map = HashMap::<String, Style>::deserialize(deserializer)?;
 
         let mut styles = Vec::new();
-        for (name, elements) in raw_map {
-            let mut final_style = Style {
-                name: Some(name.clone()),
-                ..Default::default()
-            };
-
-            for element in elements {
-                final_style.add(element);
-            }
-
-            if final_style.is_empty() {
+        for (name, mut style) in raw_map {
+            if style.is_empty() {
                 return Err(DeError::custom(format!(
                     "Style '{}' is empty or invalid",
                     name
                 )));
             }
 
-            styles.push(final_style);
+            if let Some(const_style) = style.const_style
+                && const_style
+            {
+                style.make_properties_const();
+            }
+
+            style.name = Some(name);
+            styles.push(style);
         }
 
         if styles.is_empty() {
@@ -84,28 +82,27 @@ impl<'de> Deserialize<'de> for StyleSheet {
 
 #[cfg(test)]
 mod tests {
-    use crate::serde_stylesheet::lv_types::LVColor::{Hex, Rgb};
-
     use super::*;
+    use crate::serde_stylesheet::lv_types::LVAlign;
 
     #[test]
     fn test_stylesheet_deserialization() {
         let yaml = r#"
 style_0:
-  - const: true
-  - default:
-      width: 100
-      bg_color: "hex(0xFF0000)"
-  - hovered:
-      bg_color: "rgb(0, 255, 0)"
+  const: true
+  default:
+    width: 100
+    align: center
+  hovered:
+    width: 50
 
 style_1:
-  - const: true
-  - default:
-      width: 100
-      bg_color: "hex(0xFF0000)"
-  - hovered:
-      bg_color: "rgb(0, 255, 0)"
+  const: true
+  default:
+    width: 100
+    align: center
+  hovered:
+    width: 50
 "#;
 
         let sheet: StyleSheet = yaml_serde::from_str(yaml).unwrap();
@@ -116,15 +113,9 @@ style_1:
             assert_eq!(style.const_style, Some(true));
             assert!(style.default.is_some());
             assert_eq!(style.default.as_ref().unwrap().width, Some(100));
-            assert_eq!(
-                style.default.as_ref().unwrap().bg_color,
-                Some(Hex(0xFF0000))
-            );
+            assert_eq!(style.default.as_ref().unwrap().align, Some(LVAlign::Center));
             assert!(style.hovered.is_some());
-            assert_eq!(
-                style.hovered.as_ref().unwrap().bg_color,
-                Some(Rgb(0, 255, 0))
-            );
+            assert_eq!(style.hovered.as_ref().unwrap().width, Some(50));
         }
     }
 }

@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 
 use super::lv_properties::LVProperties;
 
-#[cfg_attr(test, derive(PartialEq))]
-#[derive(Debug, Default, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq))]
+#[derive(Default, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Style {
     pub name: Option<String>,
@@ -25,30 +25,30 @@ pub struct Style {
 }
 
 impl Style {
-    pub fn add(&mut self, other: Style) {
-        macro_rules! merge {
+    pub fn make_properties_const(&mut self) {
+        macro_rules! make_const {
             ($field:ident) => {
-                if let Some(val) = other.$field {
-                    self.$field = Some(val);
+                if let Some(val) = &mut self.$field {
+                    val.make_properties_const();
                 }
             };
         }
 
-        merge!(const_style);
-        merge!(default);
-        merge!(checked);
-        merge!(focused);
-        merge!(focus_key);
-        merge!(edited);
-        merge!(hovered);
-        merge!(pressed);
-        merge!(disabled);
-        merge!(user_1);
-        merge!(user_2);
-        merge!(user_3);
-        merge!(user_4);
-        merge!(any);
+        make_const!(default);
+        make_const!(checked);
+        make_const!(focused);
+        make_const!(focus_key);
+        make_const!(edited);
+        make_const!(hovered);
+        make_const!(pressed);
+        make_const!(disabled);
+        make_const!(user_1);
+        make_const!(user_2);
+        make_const!(user_3);
+        make_const!(user_4);
+        make_const!(any);
     }
+
     pub fn is_empty(&self) -> bool {
         macro_rules! check {
             ($($field:ident),*) => {
@@ -76,14 +76,12 @@ mod tests {
     fn test_style_serde() {
         let props_default = LVProperties {
             width: Some(100),
-            bg_color: Some(LVColor::Rgb(212, 212, 212)),
-            border_color: Some(LVColor::Rgb(191, 191, 191)),
             align: Some(LVAlign::Center),
             ..Default::default()
         };
 
         let props_hovered = LVProperties {
-            border_color: Some(LVColor::Rgb(209, 100, 63)),
+            width: Some(10),
             ..Default::default()
         };
 

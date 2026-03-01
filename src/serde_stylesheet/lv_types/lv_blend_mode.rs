@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
-#[derive(Debug, Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
+#[derive(Deserialize, Serialize)]
 pub enum LVBlendMode {
     #[serde(rename = "LV_BLEND_MODE_NORMAL", alias = "none")]
     Normal,

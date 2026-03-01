@@ -15,52 +15,27 @@ impl<'a> CppGenerationCtx {
             "styles_header",
             include_str!("../tera_templates/cpp/styles.h.tera"),
         )
-        .map_err(|e| {
-            format!(
-                "An error occurred while loading the Tera template 'styles.h.tera': {}",
-                e
-            )
-        })?;
+        .map_err(|e| format!("{e}"))?;
         tera.add_raw_template(
             "stylesheets_header",
             include_str!("../tera_templates/cpp/stylesheets.h.tera"),
         )
-        .map_err(|e| {
-            format!(
-                "An error occurred while loading the Tera template 'stylesheets.h.tera': {}",
-                e
-            )
-        })?;
+        .map_err(|e| format!("{e}"))?;
         tera.add_raw_template(
             "stylesheets_source",
             include_str!("../tera_templates/cpp/stylesheets.cpp.tera"),
         )
-        .map_err(|e| {
-            format!(
-                "An error occurred while loading the Tera template 'stylesheets.cpp.tera': {}",
-                e
-            )
-        })?;
+        .map_err(|e| format!("{e}"))?;
         tera.add_raw_template(
             "stylesheet_header",
             include_str!("../tera_templates/cpp/stylesheet.h.tera"),
         )
-        .map_err(|e| {
-            format!(
-                "An error occurred while loading the Tera template 'stylesheet.h.tera': {}",
-                e
-            )
-        })?;
+        .map_err(|e| format!("{e}"))?;
         tera.add_raw_template(
             "stylesheet_source",
             include_str!("../tera_templates/cpp/stylesheet.cpp.tera"),
         )
-        .map_err(|e| {
-            format!(
-                "An error occurred while loading the Tera template 'stylesheet.cpp.tera': {}",
-                e
-            )
-        })?;
+        .map_err(|e| format!("{e}"))?;
 
         base.stylesheets_helper.source.path.set_extension("cpp");
         for stylesheet in &mut base.stylesheets {

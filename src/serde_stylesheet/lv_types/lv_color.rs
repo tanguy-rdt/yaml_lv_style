@@ -1,18 +1,49 @@
+use std::sync::OnceLock;
+
 use regex::Regex;
 use serde::de::Error as DeError;
 use serde::{Deserialize, Deserializer};
 use serde::{Serialize, Serializer};
 
-use std::sync::OnceLock;
-
 static HEX_RE: OnceLock<Regex> = OnceLock::new();
 static RGB_RE: OnceLock<Regex> = OnceLock::new();
 
-#[cfg_attr(test, derive(PartialEq, strum_macros::EnumIter))]
-#[derive(Debug)]
-pub enum LVColor {
+#[cfg_attr(test, derive(Debug, PartialEq))]
+pub struct LVColor {
+    color: LVColorValue,
+    pub is_const: bool,
+}
+
+#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
+pub enum LVColorValue {
     Hex(u32),
     Rgb(u8, u8, u8),
+}
+
+impl LVColor {
+    pub fn make_const(&mut self) {
+        self.is_const = true;
+    }
+
+    pub fn to_lvgl(&self) -> String {
+        let func = if self.is_const {
+            "LV_COLOR_MAKE"
+        } else {
+            "lv_color_make"
+        };
+
+        match self.color {
+            LVColorValue::Hex(val) => {
+                let r = ((val >> 16) & 0xFFu32) as u8;
+                let g = ((val >> 8) & 0xFFu32) as u8;
+                let b = (val & 0xFFu32) as u8;
+                format!("{}({}, {}, {})", func, r, g, b)
+            }
+            LVColorValue::Rgb(r, g, b) => {
+                format!("{}({}, {}, {})", func, r, g, b)
+            }
+        }
+    }
 }
 
 impl<'de> Deserialize<'de> for LVColor {
@@ -25,18 +56,21 @@ impl<'de> Deserialize<'de> for LVColor {
 
         let hex_re = HEX_RE.get_or_init(|| {
             Regex::new(r"^(?:hex|lv_color_hex)\(\s*(?:0x|#)?([0-9a-fA-F]{6})\s*\)$")
-                .expect("Failed to compile HEX_RE regex. This is a bug in the source code.")
+                .expect("Failed to compile HEX_RE regex")
         });
 
         if let Some(caps) = hex_re.captures(s) {
             let val = u32::from_str_radix(&caps[1], 16)
                 .map_err(|_| DeError::custom(format!("Hex invalid: {}", s)))?;
-            return Ok(Self::Hex(val));
+            return Ok(LVColor {
+                color: LVColorValue::Hex(val),
+                is_const: false,
+            });
         }
 
         let rgb_re = RGB_RE.get_or_init(|| {
             Regex::new(r"^(?:rgb|lv_color_make)\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$")
-                .expect("Failed to compile RGB_RE regex. This is a bug in the source code.")
+                .expect("Failed to compile RGB_RE regex")
         });
 
         if let Some(caps) = rgb_re.captures(s) {
@@ -49,7 +83,10 @@ impl<'de> Deserialize<'de> for LVColor {
             let b = caps[3]
                 .parse()
                 .map_err(|_| DeError::custom("invalid b in RGB color"))?;
-            return Ok(Self::Rgb(r, g, b));
+            return Ok(LVColor {
+                color: LVColorValue::Rgb(r, g, b),
+                is_const: false,
+            });
         }
 
         Err(DeError::custom(format!(
@@ -64,17 +101,7 @@ impl Serialize for LVColor {
     where
         S: Serializer,
     {
-        match self {
-            Self::Hex(val) => {
-                let r = ((val >> 16) & 0xFFu32) as u8;
-                let g = ((val >> 8) & 0xFFu32) as u8;
-                let b = (val & 0xFFu32) as u8;
-                serializer.serialize_str(&format!("lv_color_make({}, {}, {})", r, g, b))
-            }
-            Self::Rgb(r, g, b) => {
-                serializer.serialize_str(&format!("lv_color_make({}, {}, {})", r, g, b))
-            }
-        }
+        serializer.serialize_str(self.to_lvgl().as_str())
     }
 }
 
@@ -85,8 +112,8 @@ mod tests {
     #[test]
     fn test_lv_color_deserialize() {
         let rgb: LVColor = yaml_serde::from_str("rgb(10, 20, 30)").unwrap();
-        match rgb {
-            LVColor::Rgb(r, g, b) => {
+        match rgb.color {
+            LVColorValue::Rgb(r, g, b) => {
                 assert_eq!(r, 10);
                 assert_eq!(g, 20);
                 assert_eq!(b, 30);
@@ -95,21 +122,35 @@ mod tests {
         }
 
         let hex: LVColor = yaml_serde::from_str("hex(0xFF00FF)").unwrap();
-        match hex {
-            LVColor::Hex(v) => assert_eq!(v, 0xFF00FF),
+        match hex.color {
+            LVColorValue::Hex(v) => assert_eq!(v, 0xFF00FF),
             _ => panic!("expected Hex"),
         }
     }
 
     #[test]
     fn test_lv_color_serialize() {
-        let rgb = LVColor::Rgb(0, 1, 255);
+        let mut rgb = LVColor {
+            color: LVColorValue::Rgb(0, 1, 255),
+            is_const: false,
+        };
         let out_rgb = yaml_serde::to_string(&rgb).unwrap();
         assert_eq!(out_rgb.trim(), "lv_color_make(0, 1, 255)");
 
-        let hex = LVColor::Hex(0x0001ff);
+        rgb.is_const = true;
+        let out_rgb = yaml_serde::to_string(&rgb).unwrap();
+        assert_eq!(out_rgb.trim(), "LV_COLOR_MAKE(0, 1, 255)");
+
+        let mut hex = LVColor {
+            color: LVColorValue::Hex(0x0001ff),
+            is_const: false,
+        };
         let out_hex = yaml_serde::to_string(&hex).unwrap();
         assert_eq!(out_hex.trim(), "lv_color_make(0, 1, 255)");
+
+        hex.is_const = true;
+        let out_hex = yaml_serde::to_string(&hex).unwrap();
+        assert_eq!(out_hex.trim(), "LV_COLOR_MAKE(0, 1, 255)");
     }
 
     #[test]

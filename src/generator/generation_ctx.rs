@@ -26,15 +26,18 @@ pub struct GenerationCtx {
 }
 
 impl GenerationCtx {
-    pub fn from_stylesheets(stylesheet: &[StyleSheet], output_dir: &Path) -> Self {
-        Self {
-            styles_name: Self::make_styles_name_ctx(stylesheet, output_dir),
-            stylesheets_helper: Self::make_stylesheets_helper_ctx(stylesheet, output_dir),
-            stylesheets: Self::make_stylesheet_ctx(stylesheet, output_dir),
-        }
+    pub fn from_stylesheets(stylesheet: &[StyleSheet], output_dir: &Path) -> Result<Self, String> {
+        Ok(Self {
+            styles_name: Self::make_styles_name_ctx(stylesheet, output_dir)?,
+            stylesheets_helper: Self::make_stylesheets_helper_ctx(stylesheet, output_dir)?,
+            stylesheets: Self::make_stylesheet_ctx(stylesheet, output_dir)?,
+        })
     }
 
-    fn make_styles_name_ctx(stylesheets: &[StyleSheet], output_dir: &Path) -> FileCtx {
+    fn make_styles_name_ctx(
+        stylesheets: &[StyleSheet],
+        output_dir: &Path,
+    ) -> Result<FileCtx, String> {
         let output_folder_name = output_dir
             .file_name()
             .and_then(|n| n.to_str())
@@ -44,16 +47,21 @@ impl GenerationCtx {
             output_dir.join(format!("styles/include/{}/styles.h", output_folder_name));
 
         let mut tera_ctx = tera::Context::new();
-        tera_ctx.insert("stylesheets", &stylesheets);
+        tera_ctx
+            .try_insert("stylesheets", &stylesheets)
+            .map_err(|e| format!("{e}"))?;
 
-        FileCtx {
+        Ok(FileCtx {
             tera_template: String::from("styles_header"),
             tera_context: tera_ctx,
             path: header_path,
-        }
+        })
     }
 
-    fn make_stylesheets_helper_ctx(stylesheets: &[StyleSheet], output_dir: &Path) -> Component {
+    fn make_stylesheets_helper_ctx(
+        stylesheets: &[StyleSheet],
+        output_dir: &Path,
+    ) -> Result<Component, String> {
         let output_folder_name = output_dir
             .file_name()
             .and_then(|n| n.to_str())
@@ -70,13 +78,21 @@ impl GenerationCtx {
         let h_styles_include_path = format!("{}/styles.h", output_folder_name);
 
         let mut tera_ctx = tera::Context::new();
-        tera_ctx.insert("stylesheets", &stylesheets);
-        tera_ctx.insert(
-            "h_stylesheets_include_dir_path",
-            &h_stylesheets_include_dir_path,
-        );
-        tera_ctx.insert("h_stylesheets_include_path", &h_stylesheets_include_path);
-        tera_ctx.insert("h_styles_include_path", &h_styles_include_path);
+        tera_ctx
+            .try_insert("stylesheets", &stylesheets)
+            .map_err(|e| format!("{e}"))?;
+        tera_ctx
+            .try_insert(
+                "h_stylesheets_include_dir_path",
+                &h_stylesheets_include_dir_path,
+            )
+            .map_err(|e| format!("{e}"))?;
+        tera_ctx
+            .try_insert("h_stylesheets_include_path", &h_stylesheets_include_path)
+            .map_err(|e| format!("{e}"))?;
+        tera_ctx
+            .try_insert("h_styles_include_path", &h_styles_include_path)
+            .map_err(|e| format!("{e}"))?;
 
         let source = FileCtx {
             tera_template: String::from("stylesheets_source"),
@@ -90,10 +106,13 @@ impl GenerationCtx {
             path: header_path,
         };
 
-        Component { source, header }
+        Ok(Component { source, header })
     }
 
-    fn make_stylesheet_ctx(stylesheets: &[StyleSheet], output_dir: &Path) -> Vec<Component> {
+    fn make_stylesheet_ctx(
+        stylesheets: &[StyleSheet],
+        output_dir: &Path,
+    ) -> Result<Vec<Component>, String> {
         let mut stylesheet_ctx = Vec::new();
 
         let output_folder_name = output_dir
@@ -114,9 +133,15 @@ impl GenerationCtx {
             let h_styles_include_path = format!("{}/styles.h", output_folder_name);
 
             let mut tera_ctx = tera::Context::new();
-            tera_ctx.insert("stylesheet", &stylesheet);
-            tera_ctx.insert("h_stylesheet_include_path", &h_stylesheet_include_path);
-            tera_ctx.insert("h_styles_include_path", &h_styles_include_path);
+            tera_ctx
+                .try_insert("stylesheet", &stylesheet)
+                .map_err(|e| format!("{e}"))?;
+            tera_ctx
+                .try_insert("h_stylesheet_include_path", &h_stylesheet_include_path)
+                .map_err(|e| format!("{e}"))?;
+            tera_ctx
+                .try_insert("h_styles_include_path", &h_styles_include_path)
+                .map_err(|e| format!("{e}"))?;
 
             let source = FileCtx {
                 tera_template: String::from("stylesheet_source"),
@@ -135,6 +160,6 @@ impl GenerationCtx {
             stylesheet_ctx.push(component);
         }
 
-        stylesheet_ctx
+        Ok(stylesheet_ctx)
     }
 }

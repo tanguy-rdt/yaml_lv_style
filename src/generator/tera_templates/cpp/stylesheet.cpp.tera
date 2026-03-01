@@ -23,7 +23,7 @@ const lv_style_const_prop_t {{ style.name }}{{ state | pascal_case }}Props[] = {
 {%- for prop in props | get_props_sorted %}
 {%- set prop_name = prop[0] %}
 {%- set prop_value = prop[1] %}
-    LV_STYLE_CONST_{{ prop_name | screaming_snake_case }}({{ prop_value | screaming_snake_case }}),
+    LV_STYLE_CONST_{{ prop_name | screaming_snake_case }}({{ prop_value }}),
 {%- endfor %}
     LV_STYLE_CONST_PROPS_END,
 };
