@@ -48,5 +48,6 @@ target_link_libraries(lvgl PRIVATE SDL2)
 include(cmake/get-yaml_lv_style.cmake)
 get_yaml_lv_style(latest)
 
+add_subdirectory(examples/grid)
 add_subdirectory(examples/simple_c)
 add_subdirectory(examples/simple_cpp)

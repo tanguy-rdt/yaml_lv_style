@@ -1,0 +1,41 @@
+layout:
+  const: true
+  default:
+    align: center
+    width: 275
+    height: 200
+    layout: grid
+    grid_column_dsc_array: [px(100), fr(1)]
+    grid_row_dsc_array: [fr(1), fr(1)]
+
+cell_0_0:
+  const: true
+  default:
+    grid_cell_row_pos: 0
+    grid_cell_column_pos: 0
+    grid_cell_x_align: stretch
+    grid_cell_y_align: stretch
+
+cell_1_0:
+  const: true
+  default:
+    grid_cell_column_pos: 1
+    grid_cell_row_pos: 0
+    grid_cell_x_align: stretch
+    grid_cell_y_align: stretch
+
+cell_0_1:
+  const: true
+  default:
+    grid_cell_column_pos: 0
+    grid_cell_row_pos: 1
+    grid_cell_x_align: stretch
+    grid_cell_y_align: stretch
+
+cell_1_1:
+  const: true
+  default:
+    grid_cell_column_pos: 1
+    grid_cell_row_pos: 1
+    grid_cell_x_align: stretch
+    grid_cell_y_align: stretch
