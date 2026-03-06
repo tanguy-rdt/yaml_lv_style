@@ -5,22 +5,30 @@ use tera::Value;
 
 use crate::serde_stylesheet::LVState;
 
-pub fn get_states_of_style(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
-    let mut map = match value {
-        Value::Object(map) => map.clone(),
+pub fn get_states_sorted(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
+    let array = match value {
+        Value::Array(arr) => arr,
         _ => {
-            log::warn!("Unable to extract style states");
-            return Ok(Value::Null);
+            return Err(tera::Error::msg(
+                "Unable to extract the properties of the state",
+            ));
         }
     };
 
-    map.remove("name");
-    map.remove("const_style");
-    map.retain(|_, v| !v.is_null());
+    let mut sorted: Vec<&String> = array
+        .iter()
+        .filter_map(|item| match item {
+            Value::Array(pair) if pair.len() == 2 => match (&pair[0], &pair[1]) {
+                (Value::String(k), _) => Some(k),
+                _ => None,
+            },
+            _ => None,
+        })
+        .collect();
 
-    let states: Vec<String> = map.keys().cloned().collect();
+    sorted.sort();
 
-    Ok(tera::to_value(states)?)
+    Ok(tera::to_value(sorted)?)
 }
 
 #[allow(dead_code)]
@@ -35,6 +43,7 @@ pub fn get_props_by_states(value: &Value, _: &HashMap<String, Value>) -> TeraRes
 
     map.remove("name");
     map.remove("const_style");
+    map.remove("declarations");
     map.retain(|_, v| !v.is_null());
 
     Ok(tera::to_value(map)?)
@@ -51,6 +60,7 @@ pub fn get_props_by_states_sorted(value: &Value, _: &HashMap<String, Value>) -> 
 
     map.remove("name");
     map.remove("const_style");
+    map.remove("declarations");
 
     let mut sorted_props: Vec<(&String, &Value)> =
         map.iter().filter(|(_, v)| !v.is_null()).collect();
@@ -76,20 +86,29 @@ pub fn get_props(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value>
 }
 
 pub fn get_props_sorted(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
-    let map = match value {
-        Value::Object(map) => map,
+    let array = match value {
+        Value::Array(arr) => arr,
         _ => {
-            log::warn!("Unable to extract the properties of the state");
-            return Ok(Value::Null);
+            return Err(tera::Error::msg(
+                "Unable to extract the properties of the state",
+            ));
         }
     };
 
-    let mut sorted_props: Vec<(&String, &Value)> =
-        map.iter().filter(|(_, v)| !v.is_null()).collect();
+    let mut sorted: Vec<(&String, &Value)> = array
+        .iter()
+        .filter_map(|item| match item {
+            Value::Array(pair) if pair.len() == 2 => match (&pair[0], &pair[1]) {
+                (Value::String(k), v) => Some((k, v)),
+                _ => None,
+            },
+            _ => None,
+        })
+        .collect();
 
-    sorted_props.sort_by(|a, b| a.0.cmp(b.0));
+    sorted.sort_by(|a, b| a.0.cmp(b.0));
 
-    Ok(tera::to_value(sorted_props)?)
+    Ok(tera::to_value(sorted)?)
 }
 
 pub fn get_lv_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
@@ -129,7 +148,7 @@ mod tests {
             "pressed": null
         });
 
-        let result = get_states_of_style(&style, &HashMap::new()).unwrap();
+        let result = get_states_sorted(&style, &HashMap::new()).unwrap();
         let mut states: Vec<String> = serde_json::from_value(result).unwrap();
         states.sort();
 

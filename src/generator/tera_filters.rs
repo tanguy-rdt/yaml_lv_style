@@ -9,7 +9,7 @@ pub fn apply_filters(tera: &mut tera::Tera) {
         case_converters::screaming_snake_case_filter,
     );
     tera.register_filter("snake_case", case_converters::snake_case_filter);
-    tera.register_filter("get_states_of_style", style_extractor::get_states_of_style);
+    tera.register_filter("get_states_sorted", style_extractor::get_states_sorted);
     tera.register_filter(
         "get_props_by_states_sorted",
         style_extractor::get_props_by_states_sorted,

@@ -13,12 +13,39 @@ static FR_RE: OnceLock<Regex> = OnceLock::new();
 #[serde(transparent)]
 pub struct LVGridDscArray {
     array: Vec<LVGridDscArrayValue>,
+
+    #[serde(skip)]
+    declaration: String,
+    #[serde(skip)]
+    declaration_ref: String,
 }
 
 #[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
 enum LVGridDscArrayValue {
     Px(u32),
     Fr(u32),
+}
+
+impl LVGridDscArray {
+    pub fn make_declaration(&mut self, decl_name: &str) -> String {
+        let value = self
+            .array
+            .iter()
+            .map(|v| match v {
+                LVGridDscArrayValue::Px(px) => format!("{}", px),
+                LVGridDscArrayValue::Fr(fr) => format!("LV_GRID_FR({})", fr),
+            })
+            .collect::<Vec<_>>()
+            .join(", ");
+
+        self.declaration_ref = decl_name.to_string();
+        self.declaration = format!(
+            "static const int32_t[] {} = {{{}, LV_GRID_TEMPLATE_LAST}};",
+            decl_name, value
+        );
+
+        self.declaration.clone()
+    }
 }
 
 impl<'de> Deserialize<'de> for LVGridDscArrayValue {
@@ -64,39 +91,12 @@ impl<'de> Deserialize<'de> for LVGridDscArrayValue {
     }
 }
 
-impl Serialize for LVGridDscArrayValue {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        match self {
-            LVGridDscArrayValue::Px(px) => serializer.serialize_str(&format!("{}", px)),
-            LVGridDscArrayValue::Fr(fr) => {
-                serializer.serialize_str(&format!("LV_GRID_FR({}))", fr))
-            }
-        }
-    }
-}
-
 impl Serialize for LVGridDscArray {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        let value = self
-            .array
-            .iter()
-            .map(|v| match v {
-                LVGridDscArrayValue::Px(px) => format!("{}", px),
-                LVGridDscArrayValue::Fr(fr) => format!("LV_GRID_FR({})", fr),
-            })
-            .collect::<Vec<_>>()
-            .join(", ");
-
-        serializer.serialize_str(&format!(
-            "((const int32_t[]){{{}, LV_GRID_TEMPLATE_LAST }})",
-            value
-        ))
+        serializer.serialize_str(&self.declaration_ref)
     }
 }
 
@@ -108,12 +108,31 @@ mod tests {
     fn test_lv_grid_dsc_array_serde() {
         let yaml = r#"[px(100), px(50), fr(1)]"#;
 
-        let parsed: LVGridDscArray = yaml_serde::from_str(yaml).unwrap();
+        let mut parsed: LVGridDscArray = yaml_serde::from_str(yaml).unwrap();
+        parsed.make_declaration("lv_grid_dsc_test");
+
         let out = yaml_serde::to_string(&parsed).unwrap();
         let out = out.trim_end();
-        assert_eq!(
-            out,
-            "((const int32_t[]){100, 50, LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST })"
-        );
+
+        let expected_declaration = "static const int32_t[] lv_grid_dsc_test = {100, 50, LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};";
+
+        assert_eq!(out, "lv_grid_dsc_test");
+        assert_eq!(out, parsed.declaration_ref);
+        assert_eq!(expected_declaration, parsed.declaration);
+    }
+
+    #[test]
+    fn test_lv_grid_dsc_array_deserialization_invalid_value() {
+        let yaml = r#"[100, 50, 1]"#;
+        let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
+        assert!(result.is_err());
+
+        let yaml = r#"px(100), px(50), fr(1)"#;
+        let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
+        assert!(result.is_err());
+
+        let yaml = r#"{px(100), px(50), fr(1)}"#;
+        let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
+        assert!(result.is_err());
     }
 }

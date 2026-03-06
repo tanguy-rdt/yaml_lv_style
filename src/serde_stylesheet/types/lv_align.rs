@@ -59,11 +59,7 @@ mod tests {
         for variant in LVAlign::iter() {
             let serialized = yaml_serde::to_string(&variant).unwrap();
             let parsed: LVAlign = yaml_serde::from_str(serialized.trim()).unwrap();
-            assert_eq!(
-                variant, parsed,
-                "Comparison between serialisation and deserialisation failed for {:?}",
-                variant
-            );
+            assert_eq!(variant, parsed);
         }
     }
 
@@ -98,11 +94,13 @@ mod tests {
 
         for (alias, expected_variant) in aliases {
             let parsed: LVAlign = yaml_serde::from_str(alias).unwrap();
-            assert_eq!(
-                parsed, expected_variant,
-                "The alias ‘{}’ was not correctly deserialized to {:?}",
-                alias, expected_variant
-            );
+            assert_eq!(parsed, expected_variant);
         }
+    }
+
+    #[test]
+    fn test_lv_align_invalid() {
+        let result: Result<LVAlign, _> = yaml_serde::from_str("not_a_value");
+        assert!(result.is_err());
     }
 }

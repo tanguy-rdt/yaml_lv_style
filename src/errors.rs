@@ -36,6 +36,13 @@ pub enum Error {
         _path: PathBuf,
     },
 
+    #[error("Style {0} is empty in {1:?}")]
+    #[diagnostic(
+        code(yaml_lv_style::empty_style),
+        help("A style must contain at least one property")
+    )]
+    EmptyStyle(String, PathBuf),
+
     #[error("Generation failed")]
     #[diagnostic(code(yaml_lv_style::generation_error))]
     Generation(#[source] Box<Error>),

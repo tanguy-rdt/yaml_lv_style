@@ -11,7 +11,7 @@ static RGB_RE: OnceLock<Regex> = OnceLock::new();
 #[cfg_attr(test, derive(Debug, PartialEq))]
 pub struct LVColor {
     color: LVColorValue,
-    pub is_const: bool,
+    serialize_as_const: bool,
 }
 
 #[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
@@ -21,12 +21,12 @@ pub enum LVColorValue {
 }
 
 impl LVColor {
-    pub fn make_const(&mut self) {
-        self.is_const = true;
+    pub fn serialize_as_const(&mut self, state: bool) {
+        self.serialize_as_const = state;
     }
 
     pub fn to_lvgl(&self) -> String {
-        let func = if self.is_const {
+        let func = if self.serialize_as_const {
             "LV_COLOR_MAKE"
         } else {
             "lv_color_make"
@@ -64,7 +64,7 @@ impl<'de> Deserialize<'de> for LVColor {
                 .map_err(|_| DeError::custom(format!("Hex invalid: {}", s)))?;
             return Ok(LVColor {
                 color: LVColorValue::Hex(val),
-                is_const: false,
+                serialize_as_const: false,
             });
         }
 
@@ -85,7 +85,7 @@ impl<'de> Deserialize<'de> for LVColor {
                 .map_err(|_| DeError::custom("invalid b in RGB color"))?;
             return Ok(LVColor {
                 color: LVColorValue::Rgb(r, g, b),
-                is_const: false,
+                serialize_as_const: false,
             });
         }
 
@@ -132,29 +132,29 @@ mod tests {
     fn test_lv_color_serialize() {
         let mut rgb = LVColor {
             color: LVColorValue::Rgb(0, 1, 255),
-            is_const: false,
+            serialize_as_const: false,
         };
         let out_rgb = yaml_serde::to_string(&rgb).unwrap();
         assert_eq!(out_rgb.trim(), "lv_color_make(0, 1, 255)");
 
-        rgb.is_const = true;
+        rgb.serialize_as_const = true;
         let out_rgb = yaml_serde::to_string(&rgb).unwrap();
         assert_eq!(out_rgb.trim(), "LV_COLOR_MAKE(0, 1, 255)");
 
         let mut hex = LVColor {
             color: LVColorValue::Hex(0x0001ff),
-            is_const: false,
+            serialize_as_const: false,
         };
         let out_hex = yaml_serde::to_string(&hex).unwrap();
         assert_eq!(out_hex.trim(), "lv_color_make(0, 1, 255)");
 
-        hex.is_const = true;
+        hex.serialize_as_const = true;
         let out_hex = yaml_serde::to_string(&hex).unwrap();
         assert_eq!(out_hex.trim(), "LV_COLOR_MAKE(0, 1, 255)");
     }
 
     #[test]
-    fn test_lv_color_invalid_input() {
+    fn test_lv_color_deserialization_invalid_value() {
         let bad: Result<LVColor, _> = yaml_serde::from_str("blue");
         assert!(bad.is_err());
 
