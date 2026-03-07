@@ -15,7 +15,7 @@ use style::CanonicalStyle;
 use style::ParsedStyle;
 
 use crate::errors::Error;
-use crate::errors::YamlLvStyleResult;
+use crate::errors::Result;
 
 #[derive(Default, Serialize)]
 pub struct StyleSheet {
@@ -24,7 +24,7 @@ pub struct StyleSheet {
 }
 
 impl StyleSheet {
-    pub fn from_yaml(path: &Path) -> YamlLvStyleResult<Self> {
+    pub fn from_yaml(path: &Path) -> Result<Self> {
         let yaml_str = fs::read_to_string(path).map_err(|e| Error::Io(e, path.to_path_buf()))?;
 
         let name = path
@@ -49,10 +49,10 @@ impl StyleSheet {
         })
     }
 
-    fn deserialize_stylesheet(path: &Path, yaml_str: &str) -> YamlLvStyleResult<Vec<ParsedStyle>> {
+    fn deserialize_stylesheet(path: &Path, yaml_str: &str) -> Result<Vec<ParsedStyle>> {
         let parsed_styles: Vec<ParsedStyle> =
             yaml_serde::from_str::<HashMap<String, ParsedStyle>>(yaml_str)
-                .map_err(|e| Error::from_yaml_serde(e, path.to_path_buf(), yaml_str.to_string()))?
+                .map_err(|e| Error::yaml_serde(e, path.to_path_buf(), yaml_str.to_string()))?
                 .into_iter()
                 .map(|(name, mut style)| {
                     style.name = name;
@@ -63,7 +63,7 @@ impl StyleSheet {
                         Ok(style)
                     }
                 })
-                .collect::<Result<Vec<_>, _>>()?;
+                .collect::<std::result::Result<Vec<_>, _>>()?;
         Ok(parsed_styles)
     }
 }

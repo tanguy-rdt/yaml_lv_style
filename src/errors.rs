@@ -1,6 +1,10 @@
-use miette::{Diagnostic, SourceSpan};
 use std::path::PathBuf;
+
+use miette::{Diagnostic, SourceSpan};
+use serde::de::StdError;
 use thiserror::Error;
+
+pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Error, Diagnostic, Debug)]
 pub enum Error {
@@ -63,10 +67,8 @@ pub enum Error {
     Other(String),
 }
 
-pub type YamlLvStyleResult<T> = Result<T, Error>;
-
 impl Error {
-    pub fn from_yaml_serde(e: yaml_serde::Error, path: PathBuf, src: String) -> Self {
+    pub fn yaml_serde(e: yaml_serde::Error, path: PathBuf, src: String) -> Self {
         let msg = e.to_string();
 
         let message = if let Some(idx) = msg.find(", expected one of") {

@@ -40,7 +40,7 @@ impl LVGridDscArray {
 
         self.declaration_ref = decl_name.to_string();
         self.declaration = format!(
-            "static const int32_t[] {} = {{{}, LV_GRID_TEMPLATE_LAST}};",
+            "static const int32_t {}[] = {{{}, LV_GRID_TEMPLATE_LAST}};",
             decl_name, value
         );
 
@@ -114,7 +114,7 @@ mod tests {
         let out = yaml_serde::to_string(&parsed).unwrap();
         let out = out.trim_end();
 
-        let expected_declaration = "static const int32_t[] lv_grid_dsc_test = {100, 50, LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};";
+        let expected_declaration = "static const int32_t lv_grid_dsc_test[] = {100, 50, LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};";
 
         assert_eq!(out, "lv_grid_dsc_test");
         assert_eq!(out, parsed.declaration_ref);

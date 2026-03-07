@@ -16,7 +16,7 @@ use generation_ctx::FileCtx;
 use generation_ctx::GenerationCtx;
 
 use crate::errors::Error;
-use crate::errors::YamlLvStyleResult;
+use crate::errors::Result;
 use crate::serde_stylesheet::StyleSheet;
 
 pub struct Generator {
@@ -36,7 +36,7 @@ impl Generator {
         }
     }
 
-    pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> YamlLvStyleResult<()> {
+    pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> Result<()> {
         let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
         let c_ctx = CGenerationCtx::from(&mut ctx)
@@ -52,7 +52,7 @@ impl Generator {
         &mut self,
         namespace: Option<&str>,
         stylesheets: &[StyleSheet],
-    ) -> YamlLvStyleResult<()> {
+    ) -> Result<()> {
         let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
         let cpp_ctx = CppGenerationCtx::from(&mut ctx, namespace)
@@ -64,7 +64,7 @@ impl Generator {
         Ok(())
     }
 
-    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &GenerationCtx) -> YamlLvStyleResult<()> {
+    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &GenerationCtx) -> Result<()> {
         let path = self.render_file(tera, &ctx.styles_name)?;
         self.headers.push(path);
 
@@ -83,7 +83,7 @@ impl Generator {
         self.format()
     }
 
-    fn render_file(&self, tera: &tera::Tera, ctx: &FileCtx) -> YamlLvStyleResult<PathBuf> {
+    fn render_file(&self, tera: &tera::Tera, ctx: &FileCtx) -> Result<PathBuf> {
         let output_dir = ctx
             .path
             .parent()
@@ -100,7 +100,7 @@ impl Generator {
         Ok(ctx.path.clone())
     }
 
-    fn format(&self) -> YamlLvStyleResult<()> {
+    fn format(&self) -> Result<()> {
         if let Some(format_style) = &self.format {
             let status = Command::new("clang-format")
                 .arg("-i")

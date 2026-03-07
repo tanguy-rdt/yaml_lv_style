@@ -31,6 +31,17 @@ pub fn has_dyn_style(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraResu
     Ok(Value::Bool(has_dyn))
 }
 
+pub fn has_declarations(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraResult<Value> {
+    let has_declarations = stylesheet
+        .get("declarations")
+        .and_then(|v| v.as_array())
+        .map(|arr| !arr.is_empty())
+        .unwrap_or(false);
+
+    Ok(Value::Bool(has_declarations))
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
