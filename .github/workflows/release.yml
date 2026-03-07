@@ -29,13 +29,6 @@ jobs:
             artifact_name: yaml_lv_style
             asset_name: yaml_lv_style-linux-arm64.tar.gz
 
-          - os: macos-13
-            target: x86_64-apple-darwin
-            dpkg_arch: amd64
-            use_cross: false
-            artifact_name: yaml_lv_style
-            asset_name: yaml_lv_style-macos-x86_64.tar.gz
-
           - os: macos-latest
             target: aarch64-apple-darwin
             dpkg_arch: arm64
