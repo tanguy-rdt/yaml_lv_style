@@ -41,7 +41,6 @@ pub fn has_declarations(stylesheet: &Value, _: &HashMap<String, Value>) -> TeraR
     Ok(Value::Bool(has_declarations))
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

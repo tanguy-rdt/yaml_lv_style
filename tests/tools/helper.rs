@@ -4,21 +4,24 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 
+use assert_cmd::cargo;
 use assert_cmd::prelude::*;
 use pretty_assertions::assert_eq as pretty_assert_eq;
-use similar::{ChangeTag, TextDiff};
+use similar::TextDiff;
 use tree_sitter::Parser;
 
 pub fn yaml_lv_style(lang: &str, yaml_paths: &[&Path], output_dir: &Path) {
-    let mut cmd = Command::cargo_bin("yaml_lv_style").unwrap();
-
-    cmd.arg("-f").arg("google").arg("-l").arg(lang).arg("-i");
-
-    for path in yaml_paths {
-        cmd.arg(path);
-    }
-
-    cmd.arg("-o").arg(output_dir).assert().success();
+    Command::new(cargo::cargo_bin!("yaml_lv_style"))
+        .arg("-f")
+        .arg("google")
+        .arg("-l")
+        .arg(lang)
+        .arg("-i")
+        .args(yaml_paths)
+        .arg("-o")
+        .arg(output_dir)
+        .assert()
+        .success();
 }
 
 fn parse_c_code(code: &str) -> String {

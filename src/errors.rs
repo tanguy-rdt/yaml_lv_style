@@ -1,7 +1,6 @@
 use std::path::PathBuf;
 
 use miette::{Diagnostic, SourceSpan};
-use serde::de::StdError;
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;

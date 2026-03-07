@@ -87,8 +87,8 @@ mod tests {
         let styles = StyleSheet::deserialize_stylesheet(Path::new("test.yaml"), yaml).unwrap();
 
         assert_eq!(styles.len(), 2);
-        assert!(styles.iter().any(|(s)| s.name == "style_0"));
-        assert!(styles.iter().any(|(s)| s.name == "style_1"));
+        assert!(styles.iter().any(|s| s.name == "style_0"));
+        assert!(styles.iter().any(|s| s.name == "style_1"));
     }
 
     #[test]
