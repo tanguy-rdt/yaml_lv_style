@@ -17,7 +17,7 @@ use generation_ctx::GenerationCtx;
 
 use crate::errors::Error;
 use crate::errors::Result;
-use crate::serde_stylesheet::StyleSheet;
+use crate::serde_stylesheet::CanonicalStyleSheet;
 
 pub struct Generator {
     output_dir: PathBuf,
@@ -36,7 +36,7 @@ impl Generator {
         }
     }
 
-    pub fn generate_c(&mut self, stylesheets: &[StyleSheet]) -> Result<()> {
+    pub fn generate_c(&mut self, stylesheets: &[CanonicalStyleSheet]) -> Result<()> {
         let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
         let c_ctx = CGenerationCtx::from(&mut ctx)
@@ -51,7 +51,7 @@ impl Generator {
     pub fn generate_cpp(
         &mut self,
         namespace: Option<&str>,
-        stylesheets: &[StyleSheet],
+        stylesheets: &[CanonicalStyleSheet],
     ) -> Result<()> {
         let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
             .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;

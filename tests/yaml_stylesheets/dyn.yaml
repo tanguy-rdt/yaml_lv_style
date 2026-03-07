@@ -1,15 +1,15 @@
-style1:
-  const: false
-  default:
-    bg_color: hex(0x432343)
-    align: top_left
-  hovered:
-    bg_color: rgb(255, 255, 253)
+styles:
+  - name: style1
+    const: false
+    default:
+      bg_color: hex(0x432343)
+      align: top_left
+    hovered:
+      bg_color: rgb(255, 255, 253)
 
-style2:
-  const: false
-  default:
-    bg_color: hex(0x123456)
-    align: top_right
-  hovered:
-    bg_color: rgb(0, 1, 2)
+  - name: style2
+    default:
+      bg_color: hex(0x123456)
+      align: top_right
+    hovered:
+      bg_color: rgb(0, 1, 2)

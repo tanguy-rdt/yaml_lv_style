@@ -9,7 +9,6 @@ use clap::Parser;
 use crate::generator::ClangFormatStyle;
 use crate::generator::Generator;
 use crate::generator::Language;
-use crate::serde_stylesheet::StyleSheet;
 
 #[derive(Parser)]
 #[command(version = "1.0.0 (lvgl v9.4.0)")]
@@ -75,7 +74,7 @@ fn main() {
 
     let mut stylesheets = Vec::new();
     for yaml_stylesheet in opt.input {
-        match StyleSheet::from_yaml(&yaml_stylesheet) {
+        match serde_stylesheet::from_yaml(&yaml_stylesheet) {
             Ok(stylesheet) => stylesheets.push(stylesheet),
             Err(e) => {
                 eprintln!("{:?}", miette::Report::new(e));

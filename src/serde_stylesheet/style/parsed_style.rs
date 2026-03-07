@@ -8,7 +8,6 @@ use crate::serde_stylesheet::properties::Properties;
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ParsedStyle {
-    #[serde(skip_deserializing)]
     pub name: String,
     #[serde(alias = "const", default = "Default::default")]
     const_style: bool,
@@ -84,6 +83,7 @@ mod tests {
     #[test]
     fn test_parsed_style_deserialization() {
         let yaml = r#"
+            name: test_style
             const: true
             default:
                 width: 100
@@ -104,6 +104,7 @@ mod tests {
     #[test]
     fn test_parsed_style_deserialization_with_invalid_field() {
         let yaml = r#"
+            name: test_style
             const: true
             default:
                 width: 100
@@ -118,6 +119,7 @@ mod tests {
     #[test]
     fn test_parsed_style_deserialization_with_duplicate_style_state() {
         let yaml = r#"
+            name: test_style
             const: true
             default:
                 width: 100
@@ -132,6 +134,7 @@ mod tests {
     #[test]
     fn test_parsed_style_into_map() {
         let yaml = r#"
+            name: test_style
             const: true
             default:
                 width: 100

@@ -1,13 +1,14 @@
-screen:
-  const: false
-  default:
-    bg_color: hex(#0F172A)
+styles:
+  - name: screen
+    const: false
+    default:
+      bg_color: hex(#0F172A)
 
-button:
-  const: false
-  default:
-    bg_color: hex(#1E293B)
-    text_color: hex(#F1F5F9)
-    align: center
-  hovered:
-    bg_color: hex(#334155)
+  - name: button
+    const: false
+    default:
+      bg_color: hex(#1E293B)
+      text_color: hex(#F1F5F9)
+      align: center
+    hovered:
+      bg_color: hex(#334155)

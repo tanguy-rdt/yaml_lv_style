@@ -46,6 +46,10 @@ pub enum Error {
     )]
     EmptyStyle(String, PathBuf),
 
+    #[error("Style {0} is defined twice in {1:?}")]
+    #[diagnostic(code(yaml_lv_style::duplicated_style), help("A style must be unique"))]
+    DuplicatedStyle(String, PathBuf),
+
     #[error("Generation failed")]
     #[diagnostic(code(yaml_lv_style::generation_error))]
     Generation(#[source] Box<Error>),

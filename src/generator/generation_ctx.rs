@@ -3,7 +3,7 @@ mod cpp_generation_ctx;
 
 use std::path::{Path, PathBuf};
 
-use crate::serde_stylesheet::StyleSheet;
+use crate::serde_stylesheet::CanonicalStyleSheet;
 
 pub use c_generation_ctx::CGenerationCtx;
 pub use cpp_generation_ctx::CppGenerationCtx;
@@ -26,7 +26,10 @@ pub struct GenerationCtx {
 }
 
 impl GenerationCtx {
-    pub fn from_stylesheets(stylesheet: &[StyleSheet], output_dir: &Path) -> Result<Self, String> {
+    pub fn from_stylesheets(
+        stylesheet: &[CanonicalStyleSheet],
+        output_dir: &Path,
+    ) -> Result<Self, String> {
         Ok(Self {
             styles_name: Self::make_styles_name_ctx(stylesheet, output_dir)?,
             stylesheets_helper: Self::make_stylesheets_helper_ctx(stylesheet, output_dir)?,
@@ -35,7 +38,7 @@ impl GenerationCtx {
     }
 
     fn make_styles_name_ctx(
-        stylesheets: &[StyleSheet],
+        stylesheets: &[CanonicalStyleSheet],
         output_dir: &Path,
     ) -> Result<FileCtx, String> {
         let output_folder_name = output_dir
@@ -59,7 +62,7 @@ impl GenerationCtx {
     }
 
     fn make_stylesheets_helper_ctx(
-        stylesheets: &[StyleSheet],
+        stylesheets: &[CanonicalStyleSheet],
         output_dir: &Path,
     ) -> Result<Component, String> {
         let output_folder_name = output_dir
@@ -110,7 +113,7 @@ impl GenerationCtx {
     }
 
     fn make_stylesheet_ctx(
-        stylesheets: &[StyleSheet],
+        stylesheets: &[CanonicalStyleSheet],
         output_dir: &Path,
     ) -> Result<Vec<Component>, String> {
         let mut stylesheet_ctx = Vec::new();
@@ -121,15 +124,21 @@ impl GenerationCtx {
             .unwrap_or(".");
 
         for stylesheet in stylesheets {
-            let source_path =
-                output_dir.join(format!("stylesheets/src/stylesheet_{}", stylesheet.name));
+            let source_path = output_dir.join(format!(
+                "stylesheets/src/stylesheet_{}",
+                stylesheet.get_name()
+            ));
 
             let header_path = output_dir.join(format!(
                 "stylesheets/include/{}/stylesheet_{}.h",
-                output_folder_name, stylesheet.name
+                output_folder_name,
+                stylesheet.get_name()
             ));
-            let h_stylesheet_include_path =
-                format!("{}/stylesheet_{}.h", output_folder_name, stylesheet.name);
+            let h_stylesheet_include_path = format!(
+                "{}/stylesheet_{}.h",
+                output_folder_name,
+                stylesheet.get_name()
+            );
             let h_styles_include_path = format!("{}/styles.h", output_folder_name);
 
             let mut tera_ctx = tera::Context::new();

@@ -16,29 +16,6 @@ pub struct CanonicalStyle {
     declarations: Vec<String>,
 }
 
-impl From<ParsedStyle> for CanonicalStyle {
-    fn from(parsed_style: ParsedStyle) -> Self {
-        let name = parsed_style.name.clone();
-        let const_style = parsed_style.is_const();
-
-        let properties_by_state = parsed_style
-            .into_properties_by_state_map()
-            .into_iter()
-            .map(|(state, properties)| {
-                let properties_map = PropertiesMap::from(properties);
-                (state, properties_map)
-            })
-            .collect();
-
-        Self {
-            name,
-            const_style,
-            properties_by_state,
-            declarations: Vec::new(),
-        }
-    }
-}
-
 impl CanonicalStyle {
     pub fn prepare_for_serialization(&mut self) {
         for properties_by_state in &mut self.properties_by_state {
@@ -63,6 +40,34 @@ impl CanonicalStyle {
             }
         }
     }
+
+    #[allow(dead_code)]
+    pub fn get_name(&self) -> &str {
+        &self.name
+    }
+}
+
+impl From<ParsedStyle> for CanonicalStyle {
+    fn from(parsed_style: ParsedStyle) -> Self {
+        let name = parsed_style.name.clone();
+        let const_style = parsed_style.is_const();
+
+        let properties_by_state = parsed_style
+            .into_properties_by_state_map()
+            .into_iter()
+            .map(|(state, properties)| {
+                let properties_map = PropertiesMap::from(properties);
+                (state, properties_map)
+            })
+            .collect();
+
+        Self {
+            name,
+            const_style,
+            properties_by_state,
+            declarations: Vec::new(),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -71,6 +76,7 @@ mod tests {
 
     fn yaml<'a>() -> &'a str {
         r#"
+        name: test_style
         const: true
         default:
             width: 100
