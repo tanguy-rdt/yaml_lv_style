@@ -118,9 +118,11 @@ impl Generator {
         Ok(())
     }
 
-    pub fn print_generated_files_path(&self) {
-        for file in self.headers.iter().chain(self.sources.iter()) {
-            println!("{}", file.display());
-        }
+    pub fn get_generated_headers_path(&self) -> Vec<PathBuf> {
+        self.headers.clone()
+    }
+
+    pub fn get_generated_sources_path(&self) -> Vec<PathBuf> {
+        self.sources.clone()
     }
 }

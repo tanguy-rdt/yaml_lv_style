@@ -21,7 +21,7 @@ function(_yaml_lv_style_generate target_name lang)
         set(yaml_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/generated_styles")
     endif()
 
-    set(args -p -i ${yaml_FILES} -o ${yaml_OUTPUT_DIR} -l ${lang})
+    set(args -i ${yaml_FILES} -o ${yaml_OUTPUT_DIR} -l ${lang})
 
     if(yaml_NAMESPACE AND "${lang}" STREQUAL "cpp")
         list(APPEND args -n ${yaml_NAMESPACE})
@@ -35,38 +35,66 @@ function(_yaml_lv_style_generate target_name lang)
         endif()
     endif()
 
-    _yaml_lv_style_run("${yaml_OUTPUT_DIR}" "${args}" generated_sources)
+    _yaml_lv_style_expected_generated_files("${yaml_OUTPUT_DIR}" "${lang}" "${yaml_FILES}" generated_files generated_sources)
+    _yaml_lv_style_run("${yaml_FILES}" "${yaml_OUTPUT_DIR}" "${args}" "${generated_files}")
     _yaml_lv_style_make_lib("${target_name}" "${yaml_ALIAS}" "${yaml_OUTPUT_DIR}" "${generated_sources}")
 endfunction()
 
-function(_yaml_lv_style_run output_dir args generated_sources)
-    file(MAKE_DIRECTORY ${output_dir})
+function(_yaml_lv_style_expected_generated_files output_dir lang yaml_files generated_files generated_sources)
+    set(gen_files "")
 
-    execute_process(
-        COMMAND ${YAML_LV_STYLE_EXECUTABLE} ${args}
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        RESULT_VARIABLE yaml_lv_style_result
-        OUTPUT_VARIABLE generated_files_list
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+    foreach(yaml_file IN LISTS yaml_files)
+        get_filename_component(yaml_name "${yaml_file}" NAME_WE)
+        get_filename_component(parent_output_dir_name "${output_dir}" NAME)
 
-    if(NOT yaml_lv_style_result EQUAL 0)
-        message(FATAL_ERROR "yaml_lv_style_generate: Error generating styles: ${yaml_lv_style_result}")
-    endif()
+        list(APPEND gen_files
+            "${output_dir}/styles/include/${parent_output_dir_name}/styles.h"
+        )
 
-    string(REPLACE "\n" ";" generated_files_list "${generated_files_list}")
+        list(APPEND gen_files
+            "${output_dir}/stylesheets/include/${parent_output_dir_name}/stylesheet_${yaml_name}.h"
+            "${output_dir}/stylesheets/include/${parent_output_dir_name}/stylesheets.h"
+        )
 
-    set(sources "")
-    foreach(file ${generated_files_list})
-        if(file MATCHES ".*\\.cpp$" OR file MATCHES ".*\\.c$")
-            list(APPEND sources "${file}")
+        if("${lang}" STREQUAL "c")
+            list(APPEND gen_files
+                "${output_dir}/stylesheets/src/stylesheet_${yaml_name}.c"
+                "${output_dir}/stylesheets/src/stylesheets.c"
+            )
+        else()
+            list(APPEND gen_files
+                "${output_dir}/stylesheets/src/stylesheet_${yaml_name}.cpp"
+                "${output_dir}/stylesheets/src/stylesheets.cpp"
+            )
         endif()
     endforeach()
 
-    set(${generated_sources} "${sources}" PARENT_SCOPE)
+    list(REMOVE_DUPLICATES gen_files)
+
+    set(gen_sources "")
+    foreach(file ${gen_files})
+        if(file MATCHES ".*\\.cpp$" OR file MATCHES ".*\\.c$")
+            list(APPEND gen_sources "${file}")
+        endif()
+    endforeach()
+
+    set(${generated_files} "${gen_files}" PARENT_SCOPE)
+    set(${generated_sources} "${gen_sources}" PARENT_SCOPE)
 endfunction()
 
-function(_yaml_lv_style_make_lib target_name alias output_dir sources)
+function(_yaml_lv_style_run yaml_files output_dir args generated_files)
+    file(MAKE_DIRECTORY ${output_dir})
+
+    add_custom_command(
+        OUTPUT ${generated_files}
+        COMMAND ${YAML_LV_STYLE_EXECUTABLE} ${args}
+        DEPENDS ${yaml_files}
+        COMMENT "Generating LVGL styles from YAML"
+        VERBATIM
+    )
+endfunction()
+
+function(_yaml_lv_style_make_lib target_name alias output_dir generated_sources)
     if(NOT TARGET lvgl)
         message(FATAL_ERROR "yaml_lv_style_generate: The target 'lvgl' is required for the style generator
         cannot be found.")
@@ -78,10 +106,7 @@ function(_yaml_lv_style_make_lib target_name alias output_dir sources)
         add_library(${alias} ALIAS ${target_name})
     endif ()
 
-    target_sources(${target_name}
-        PRIVATE
-        ${sources}
-    )
+    target_sources(${target_name} PRIVATE ${generated_sources})
 
     target_include_directories(${target_name}
         PUBLIC
@@ -89,8 +114,5 @@ function(_yaml_lv_style_make_lib target_name alias output_dir sources)
         ${output_dir}/stylesheets/include/
     )
 
-    target_link_libraries(${target_name}
-        PUBLIC
-        lvgl
-    )
+    target_link_libraries(${target_name} PUBLIC lvgl)
 endfunction()

@@ -6,6 +6,7 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
+use crate::errors::Error;
 use crate::generator::ClangFormatStyle;
 use crate::generator::Generator;
 use crate::generator::Language;
@@ -63,8 +64,12 @@ struct Opt {
     )]
     namespace: Option<String>,
 
-    #[arg(short, help = "Print the generated file paths to stdout\n")]
-    print_gen_file_path: bool,
+    #[arg(
+        long,
+        value_name = "FILE",
+        help = "Create al ist of all generated files to the specified file.\n"
+    )]
+    output_list: Option<PathBuf>,
 }
 
 fn main() {
@@ -94,7 +99,19 @@ fn main() {
         std::process::exit(2);
     });
 
-    if opt.print_gen_file_path {
-        generator.print_generated_files_path();
+    if let Some(output_list) = opt.output_list {
+        let content = generator
+            .get_generated_headers_path()
+            .iter()
+            .chain(generator.get_generated_sources_path().iter())
+            .map(|p| p.to_string_lossy())
+            .collect::<Vec<_>>()
+            .join("\n");
+
+        if let Err(e) = std::fs::write(&output_list, content).map_err(|e| Error::Io(e, output_list))
+        {
+            eprintln!("{:?}", miette::Report::new(e));
+            std::process::exit(3);
+        }
     }
 }
