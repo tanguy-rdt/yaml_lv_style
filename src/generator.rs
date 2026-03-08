@@ -10,10 +10,13 @@ use std::process::Command;
 pub use format::ClangFormatStyle;
 pub use lang::Language;
 
-use generation_ctx::CGenerationCtx;
-use generation_ctx::CppGenerationCtx;
+use generation_ctx::BaseCtx;
+use generation_ctx::C;
+use generation_ctx::Component;
+use generation_ctx::Cpp;
 use generation_ctx::FileCtx;
-use generation_ctx::GenerationCtx;
+use generation_ctx::LanguageCtx;
+use generation_ctx::TeraExt;
 
 use crate::errors::Error;
 use crate::errors::Result;
@@ -36,51 +39,67 @@ impl Generator {
         }
     }
 
-    pub fn generate_c(&mut self, stylesheets: &[CanonicalStyleSheet]) -> Result<()> {
-        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
-            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
-        let c_ctx = CGenerationCtx::from(&mut ctx)
-            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
-
-        self.render_ctx(&c_ctx.tera, &ctx)
-            .map_err(|e| Error::Generation(Box::from(e)))?;
-
-        Ok(())
-    }
-
     pub fn generate_cpp(
         &mut self,
         namespace: Option<&str>,
         stylesheets: &[CanonicalStyleSheet],
     ) -> Result<()> {
-        let mut ctx = GenerationCtx::from_stylesheets(stylesheets, &self.output_dir)
-            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
-        let cpp_ctx = CppGenerationCtx::from(&mut ctx, namespace)
-            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
-
-        self.render_ctx(&cpp_ctx.tera, &ctx)
-            .map_err(|e| Error::Generation(Box::from(e)))?;
-
-        Ok(())
+        self.generate::<Cpp>(stylesheets, namespace)
     }
 
-    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &GenerationCtx) -> Result<()> {
-        let path = self.render_file(tera, &ctx.styles_name)?;
-        self.headers.push(path);
+    pub fn generate_c(&mut self, stylesheets: &[CanonicalStyleSheet]) -> Result<()> {
+        self.generate::<C>(stylesheets, None)
+    }
 
-        let path = self.render_file(tera, &ctx.stylesheets_helper.source)?;
-        self.sources.push(path);
-        let path = self.render_file(tera, &ctx.stylesheets_helper.header)?;
-        self.headers.push(path);
+    fn generate<L: LanguageCtx>(
+        &mut self,
+        stylesheets: &[CanonicalStyleSheet],
+        namespace: Option<&str>,
+    ) -> Result<()> {
+        let mut ctx = BaseCtx::from_stylesheets(stylesheets, &self.output_dir)
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e))))?;
 
+        let tera = Self::build_tera::<L>(&mut ctx, namespace)
+            .map_err(|e| Error::Generation(Box::new(Error::Other(e.to_string()))))?;
+
+        self.render_ctx(&tera, &ctx)
+            .map_err(|e| Error::Generation(Box::from(e)))
+    }
+
+    fn build_tera<L: LanguageCtx>(
+        base: &mut BaseCtx,
+        namespace: Option<&str>,
+    ) -> std::result::Result<tera::Tera, String> {
+        let mut tera = tera::Tera::default();
+        tera_filters::apply_filters(&mut tera);
+
+        for (name, content) in L::templates() {
+            tera.add_raw_template_or_err(name, content)?;
+        }
+
+        L::setup(base, namespace);
+
+        Ok(tera)
+    }
+
+    fn render_ctx(&mut self, tera: &tera::Tera, ctx: &BaseCtx) -> Result<()> {
+        #[cfg(feature = "macros")]
+        self.headers.push(self.render_file(tera, &ctx.macros)?);
+        self.headers.push(self.render_file(tera, &ctx.styles_name)?);
+        self.render_component(tera, &ctx.stylesheets_helper)?;
         for stylesheet in &ctx.stylesheets {
-            let path = self.render_file(tera, &stylesheet.source)?;
-            self.sources.push(path);
-            let path = self.render_file(tera, &stylesheet.header)?;
-            self.headers.push(path);
+            self.render_component(tera, stylesheet)?;
         }
 
         self.format()
+    }
+
+    fn render_component(&mut self, tera: &tera::Tera, component: &Component) -> Result<()> {
+        self.sources
+            .push(self.render_file(tera, &component.source)?);
+        self.headers
+            .push(self.render_file(tera, &component.header)?);
+        Ok(())
     }
 
     fn render_file(&self, tera: &tera::Tera, ctx: &FileCtx) -> Result<PathBuf> {
