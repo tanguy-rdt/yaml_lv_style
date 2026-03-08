@@ -15,13 +15,11 @@ pub struct LVImageColorkey {
 }
 
 impl LVImageColorkey {
-    pub fn serialize_as_const(&mut self, state: bool) {
-        self.low.serialize_as_const(state);
-        self.high.serialize_as_const(state);
-    }
-
     pub fn make_declaration(&mut self, decl_name: &str) -> String {
-        self.declaration_ref = decl_name.to_string();
+        self.low.serialize_as_const(true);
+        self.high.serialize_as_const(true);
+
+        self.declaration_ref = format!("&{}", decl_name);
         self.declaration = format!(
             "static const lv_image_colorkey_t {} = {{{}, {}}};",
             decl_name,
@@ -71,7 +69,6 @@ mod tests {
             "#;
 
         let mut parsed: LVImageColorkey = yaml_serde::from_str(yaml).unwrap();
-        parsed.serialize_as_const(true);
         parsed.make_declaration("lv_image_colorkey_test");
 
         let out = yaml_serde::to_string(&parsed).unwrap();

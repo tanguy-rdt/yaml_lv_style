@@ -1,7 +1,9 @@
+use std::str::FromStr;
+
 use serde::{Deserialize, Serialize};
 
-#[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
-#[derive(Deserialize, Serialize)]
+#[cfg_attr(test, derive(Debug, strum_macros::EnumIter))]
+#[derive(PartialEq, Deserialize, Serialize)]
 pub enum LVState {
     #[serde(rename = "LV_STATE_DEFAULT", alias = "default")]
     Default,
@@ -31,23 +33,45 @@ pub enum LVState {
     Any,
 }
 
-impl From<String> for LVState {
-    fn from(value: String) -> Self {
-        match value.as_str() {
-            "default" | "LV_STATE_DEFAULT" => LVState::Default,
-            "checked" | "LV_STATE_CHECKED" => LVState::Checked,
-            "focused" | "LV_STATE_FOCUSED" => LVState::Focused,
-            "focus_key" | "LV_STATE_FOCUS_KEY" => LVState::FocusKey,
-            "edited" | "LV_STATE_EDITED" => LVState::Edited,
-            "hovered" | "LV_STATE_HOVERED" => LVState::Hovered,
-            "pressed" | "LV_STATE_PRESSED" => LVState::Pressed,
-            "disabled" | "LV_STATE_DISABLED" => LVState::Disabled,
-            "user_1" | "LV_STATE_USER_1" => LVState::User1,
-            "user_2" | "LV_STATE_USER_2" => LVState::User2,
-            "user_3" | "LV_STATE_USER_3" => LVState::User3,
-            "user_4" | "LV_STATE_USER_4" => LVState::User4,
-            "any" | "LV_STATE_ANY" => LVState::Any,
-            _ => LVState::Default,
+impl LVState {
+    pub fn to_snake_case(&self) -> &str {
+        match self {
+            LVState::Default => "default",
+            LVState::Checked => "checked",
+            LVState::Focused => "focused",
+            LVState::FocusKey => "focus_key",
+            LVState::Edited => "edited",
+            LVState::Hovered => "hovered",
+            LVState::Pressed => "pressed",
+            LVState::Disabled => "disabled",
+            LVState::User1 => "user_1",
+            LVState::User2 => "user_2",
+            LVState::User3 => "user_3",
+            LVState::User4 => "user_4",
+            LVState::Any => "any",
+        }
+    }
+}
+
+impl FromStr for LVState {
+    type Err = String;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        match value {
+            "default" | "LV_STATE_DEFAULT" => Ok(LVState::Default),
+            "checked" | "LV_STATE_CHECKED" => Ok(LVState::Checked),
+            "focused" | "LV_STATE_FOCUSED" => Ok(LVState::Focused),
+            "focus_key" | "LV_STATE_FOCUS_KEY" => Ok(LVState::FocusKey),
+            "edited" | "LV_STATE_EDITED" => Ok(LVState::Edited),
+            "hovered" | "LV_STATE_HOVERED" => Ok(LVState::Hovered),
+            "pressed" | "LV_STATE_PRESSED" => Ok(LVState::Pressed),
+            "disabled" | "LV_STATE_DISABLED" => Ok(LVState::Disabled),
+            "user_1" | "LV_STATE_USER_1" => Ok(LVState::User1),
+            "user_2" | "LV_STATE_USER_2" => Ok(LVState::User2),
+            "user_3" | "LV_STATE_USER_3" => Ok(LVState::User3),
+            "user_4" | "LV_STATE_USER_4" => Ok(LVState::User4),
+            "any" | "LV_STATE_ANY" => Ok(LVState::Any),
+            _ => Err(format!("Unknown LVState: '{value}'")),
         }
     }
 }

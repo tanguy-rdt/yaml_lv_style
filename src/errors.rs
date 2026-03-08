@@ -42,13 +42,27 @@ pub enum Error {
     #[error("Style {0} is empty in {1:?}")]
     #[diagnostic(
         code(yaml_lv_style::empty_style),
-        help("A style must contain at least one property")
+        help("A style must contain at least one selector and at least one property")
     )]
     EmptyStyle(String, PathBuf),
 
     #[error("Style {0} is defined twice in {1:?}")]
     #[diagnostic(code(yaml_lv_style::duplicated_style), help("A style must be unique"))]
     DuplicatedStyle(String, PathBuf),
+
+    #[error("Selector {0} as no properties")]
+    #[diagnostic(
+        code(yaml_lv_style::empty_selector),
+        help("A selector must contain at least one property")
+    )]
+    EmptySelector(String),
+
+    #[error("Selector {0} is defined twice")]
+    #[diagnostic(
+        code(yaml_lv_style::duplicated_selector),
+        help("A selector must be unique")
+    )]
+    DuplicatedSelector(String),
 
     #[error("Generation failed")]
     #[diagnostic(code(yaml_lv_style::generation_error))]

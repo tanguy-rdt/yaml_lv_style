@@ -1,10 +1,12 @@
-use crate::errors::Error;
-use crate::errors::Result;
-use crate::serde_stylesheet::style::ParsedStyle;
-use serde::Deserialize;
 use std::collections::HashSet;
 use std::io;
 use std::path::Path;
+
+use serde::Deserialize;
+
+use crate::errors::Error;
+use crate::errors::Result;
+use crate::serde_stylesheet::style::ParsedStyle;
 
 #[derive(Deserialize)]
 pub struct ParsedStyleSheet {
@@ -20,7 +22,10 @@ impl ParsedStyleSheet {
 
         let mut seen_names = HashSet::new();
         for style in &mut parsed_stylesheet.styles {
-            if style.is_empty() {
+            if style.properties_by_selector.is_empty()
+                && style.name != "null"
+                && style.name != "None"
+            {
                 return Err(Error::EmptyStyle(style.name.clone(), path.to_path_buf()));
             }
 

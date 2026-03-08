@@ -11,11 +11,15 @@
 
 #include "{{ h_styles_include_path }}"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Initializes all dynamic styles in the stylesheet
  * Sets properties at runtime for styles not marked as 'const'.
  */
-void init_{{ stylesheet.name | snake_case }}_stylesheet();
+void init_{{ stylesheet.name | snake_case }}_style_sheet();
 
 /**
  * @brief Applies a style to a given LVGL object
@@ -24,5 +28,8 @@ void init_{{ stylesheet.name | snake_case }}_stylesheet();
  */
 void set_{{ stylesheet.name | snake_case }}_style(lv_obj_t* obj, {{ stylesheet.name | snake_case }}_style_t name);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif   // YAML_LV_STYLE_STYLESHEET_{{ stylesheet.name | screaming_snake_case }}_H

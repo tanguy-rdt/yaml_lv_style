@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[cfg_attr(test, derive(Debug, PartialEq, strum_macros::EnumIter))]
 #[derive(Deserialize, Serialize)]
 pub enum LVBlendMode {
-    #[serde(rename = "LV_BLEND_MODE_NORMAL", alias = "none")]
+    #[serde(rename = "LV_BLEND_MODE_NORMAL", alias = "normal")]
     Normal,
     #[serde(rename = "LV_BLEND_MODE_ADDITIVE", alias = "additive")]
     Additive,

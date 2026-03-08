@@ -11,33 +11,33 @@ function(_yaml_lv_style_generate target_name lang)
     set(oneValueArgs ALIAS OUTPUT_DIR NAMESPACE FORMAT)
     set(multiValueArgs FILES)
 
-    cmake_parse_arguments(yaml "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(args "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    if(NOT yaml_FILES)
+    if(NOT args_FILES)
         message(FATAL_ERROR "yaml_lv_style_generate: You must specify at least one file in FILES")
     endif()
 
-    if(NOT yaml_OUTPUT_DIR)
-        set(yaml_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/generated_styles")
+    if(NOT args_OUTPUT_DIR)
+        set(args_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/generated_styles")
     endif()
 
-    set(args -i ${yaml_FILES} -o ${yaml_OUTPUT_DIR} -l ${lang})
+    set(args -i ${args_FILES} -o ${args_OUTPUT_DIR} -l ${lang})
 
-    if(yaml_NAMESPACE AND "${lang}" STREQUAL "cpp")
-        list(APPEND args -n ${yaml_NAMESPACE})
+    if(args_NAMESPACE AND "${lang}" STREQUAL "cpp")
+        list(APPEND args -n ${args_NAMESPACE})
     endif()
 
-    if("FORMAT" IN_LIST yaml_KEYWORDS_MISSING_VALUES OR yaml_FORMAT)
+    if("FORMAT" IN_LIST yaml_KEYWORDS_MISSING_VALUES OR args_FORMAT)
         list(APPEND args -f)
 
-        if(yaml_FORMAT)
-            list(APPEND args ${yaml_FORMAT})
+        if(args_FORMAT)
+            list(APPEND args ${args_FORMAT})
         endif()
     endif()
 
-    _yaml_lv_style_expected_generated_files("${yaml_OUTPUT_DIR}" "${lang}" "${yaml_FILES}" generated_files generated_sources)
-    _yaml_lv_style_run("${yaml_FILES}" "${yaml_OUTPUT_DIR}" "${args}" "${generated_files}")
-    _yaml_lv_style_make_lib("${target_name}" "${yaml_ALIAS}" "${yaml_OUTPUT_DIR}" "${generated_sources}")
+    _yaml_lv_style_expected_generated_files("${args_OUTPUT_DIR}" "${lang}" "${args_FILES}" generated_files generated_sources)
+    _yaml_lv_style_run("${args_FILES}" "${args_OUTPUT_DIR}" "${args}" "${generated_files}")
+    _yaml_lv_style_make_lib("${target_name}" "${args_ALIAS}" "${args_OUTPUT_DIR}" "${generated_sources}")
 endfunction()
 
 function(_yaml_lv_style_expected_generated_files output_dir lang yaml_files generated_files generated_sources)

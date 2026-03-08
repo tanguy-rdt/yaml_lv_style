@@ -13,10 +13,10 @@
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */
-void init_stylesheets() {
+void init_style_sheets() {
     {%- for stylesheet in stylesheets | sort(attribute='name') %}
     {%- if stylesheet | has_dyn_style %}
-    init_{{ stylesheet.name | snake_case }}_stylesheet();
+    init_{{ stylesheet.name | snake_case }}_style_sheet();
     {%- endif %}
     {%- endfor %}
 }
