@@ -1,0 +1,103 @@
+styles:
+  - name: test_radius
+    const: @CONST_STYLE@
+    default:
+      radius: 0
+    user_1:
+      radius: 10
+    user_2:
+      radius: 50
+
+  - name: test_clip_corner
+    const: @CONST_STYLE@
+    default:
+      radius: 20
+      clip_corner: false
+    user_1:
+      clip_corner: true
+
+  - name: test_opa
+    const: @CONST_STYLE@
+    default:
+      opa: cover
+    user_1:
+      opa: opa_50
+    user_2:
+      opa: transparent
+
+  - name: test_opa_layered
+    const: @CONST_STYLE@
+    default:
+      opa_layered: cover
+    user_1:
+      opa_layered: opa_50
+    user_2:
+      opa_layered: transparent
+
+  - name: test_color_filter
+    const: @CONST_STYLE@
+    default:
+      color_filter_opa: transparent
+    user_1:
+      color_filter_opa: opa_50
+    user_2:
+      color_filter_opa: cover
+
+  - name: test_recolor
+    const: @CONST_STYLE@
+    default:
+      recolor: hex(#FF0000)
+      recolor_opa: transparent
+    user_1:
+      recolor: hex(#00FF00)
+      recolor_opa: opa_50
+    user_2:
+      recolor: hex(#0000FF)
+      recolor_opa: cover
+
+  - name: test_blend_mode
+    const: @CONST_STYLE@
+    default:
+      blend_mode: normal
+    user_1:
+      blend_mode: additive
+    user_2:
+      blend_mode: subtractive
+    user_3:
+      blend_mode: multiply
+
+  - name: test_layout
+    const: @CONST_STYLE@
+    default:
+      layout: none
+    user_1:
+      layout: flex
+    user_2:
+      layout: grid
+
+  - name: test_base_dir
+    const: @CONST_STYLE@
+    default:
+      base_dir: ltr
+    user_1:
+      base_dir: rtl
+    user_2:
+      base_dir: auto
+
+  - name: test_radial_offset
+    const: @CONST_STYLE@
+    default:
+      radial_offset: 0
+    user_1:
+      radial_offset: 20
+    user_2:
+      radial_offset: 50
+
+  - name: test_rotary_sensitivity
+    const: @CONST_STYLE@
+    default:
+      rotary_sensitivity: 128
+    user_1:
+      rotary_sensitivity: 64
+    user_2:
+      rotary_sensitivity: 255

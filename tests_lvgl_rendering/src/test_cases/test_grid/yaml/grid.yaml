@@ -1,0 +1,39 @@
+styles:
+  - name: test_grid_layout
+    const: @CONST_STYLE@
+    default:
+      grid_column_align: start
+      grid_row_align: start
+    user_1:
+      grid_column_align: center
+      grid_row_align: center
+    user_2:
+      grid_column_align: end
+      grid_row_align: end
+    user_3:
+      grid_column_align: space_evenly
+      grid_row_align: space_between
+
+  - name: test_grid_cell
+    const: @CONST_STYLE@
+    default:
+      grid_cell_column_pos: 0
+      grid_cell_row_pos: 0
+      grid_cell_column_span: 1
+      grid_cell_row_span: 1
+      grid_cell_x_align: start
+      grid_cell_y_align: start
+    user_1:
+      grid_cell_column_pos: 1
+      grid_cell_row_pos: 1
+      grid_cell_column_span: 2
+      grid_cell_row_span: 2
+      grid_cell_x_align: center
+      grid_cell_y_align: center
+    user_2:
+      grid_cell_column_pos: 0
+      grid_cell_row_pos: 0
+      grid_cell_column_span: 1
+      grid_cell_row_span: 1
+      grid_cell_x_align: end
+      grid_cell_y_align: end

@@ -1,0 +1,56 @@
+styles:
+  - name: test_text_color
+    const: @CONST_STYLE@
+    default:
+      text_color: hex(#FF0000)
+      text_opa: cover
+    user_1:
+      text_color: hex(#00FF00)
+      text_opa: opa_50
+    user_2:
+      text_color: hex(#0000FF)
+      text_opa: transparent
+
+  - name: test_text_spacing
+    const: @CONST_STYLE@
+    default:
+      text_letter_space: 0
+      text_line_space: 0
+    user_1:
+      text_letter_space: 5
+      text_line_space: 10
+    user_2:
+      text_letter_space: 15
+      text_line_space: 25
+
+  - name: test_text_decor
+    const: @CONST_STYLE@
+    default:
+      text_decor: none
+    user_1:
+      text_decor: underline
+    user_2:
+      text_decor: strikethrough
+
+  - name: test_text_align
+    const: @CONST_STYLE@
+    default:
+      text_align: left
+    user_1:
+      text_align: center
+    user_2:
+      text_align: right
+
+  - name: test_text_outline
+    const: @CONST_STYLE@
+    default:
+      text_outline_stroke_color: hex(#000000)
+      text_outline_stroke_width: 2
+      text_outline_stroke_opa: cover
+    user_1:
+      text_outline_stroke_color: hex(#FF0000)
+      text_outline_stroke_width: 5
+      text_outline_stroke_opa: opa_50
+    user_2:
+      text_outline_stroke_width: 0
+      text_outline_stroke_opa: transparent

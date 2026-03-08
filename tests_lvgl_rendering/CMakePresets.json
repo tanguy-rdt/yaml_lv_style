@@ -1,0 +1,26 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 31,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "yaml_lv_style_tests",
+      "hidden": false,
+      "description": "Debug build",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build-tests",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "yaml_lv_style_tests",
+      "configurePreset": "yaml_lv_style_tests"
+    }
+  ]
+}

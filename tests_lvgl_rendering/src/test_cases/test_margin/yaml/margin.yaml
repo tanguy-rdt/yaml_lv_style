@@ -1,0 +1,18 @@
+styles:
+  - name: test_margin
+    const: @CONST_STYLE@
+    default:
+      margin_top: 10
+      margin_bottom: 10
+      margin_left: 10
+      margin_right: 10
+    user_1:
+      margin_top: 30
+      margin_bottom: 30
+      margin_left: 30
+      margin_right: 30
+    user_2:
+      margin_top: 0
+      margin_bottom: 0
+      margin_left: 0
+      margin_right: 0

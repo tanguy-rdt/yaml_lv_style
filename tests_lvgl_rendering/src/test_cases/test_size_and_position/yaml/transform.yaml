@@ -1,0 +1,54 @@
+styles:
+  - name: test_transform_size
+    const: @CONST_STYLE@
+    default:
+      transform_width: 10
+      transform_height: 10
+    user_1:
+      transform_width: 50
+      transform_height: 50
+    user_2:
+      transform_width: -10
+      transform_height: -10
+
+  - name: test_transform_scale
+    const: @CONST_STYLE@
+    default:
+      transform_scale_x: 256
+      transform_scale_y: 256
+    user_1:
+      transform_scale_x: 512
+      transform_scale_y: 512
+    user_2:
+      transform_scale_x: 128
+      transform_scale_y: 128
+
+  - name: test_transform_rotation
+    const: @CONST_STYLE@
+    default:
+      transform_rotation: 0
+    user_1:
+      transform_rotation: 900
+    user_2:
+      transform_rotation: 1800
+
+  - name: test_transform_pivot
+    const: @CONST_STYLE@
+    default:
+      transform_pivot_x: 0
+      transform_pivot_y: 0
+    user_1:
+      transform_pivot_x: 50
+      transform_pivot_y: 50
+
+  - name: test_transform_skew
+    const: @CONST_STYLE@
+    default:
+      transform_skew_x: 0
+      transform_skew_y: 0
+    user_1:
+      transform_skew_x: 50
+      transform_skew_y: 0
+    user_2:
+      transform_skew_x: 0
+      transform_skew_y: 50

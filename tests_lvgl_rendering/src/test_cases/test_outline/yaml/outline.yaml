@@ -1,0 +1,17 @@
+styles:
+  - name: test_outline_basic
+    const: @CONST_STYLE@
+    default:
+      outline_width: 2
+      outline_color: hex(#FF0000)
+      outline_opa: cover
+      outline_pad: 5
+    user_1:
+      outline_width: 5
+      outline_color: hex(#00FF00)
+      outline_opa: opa_50
+      outline_pad: 15
+    user_2:
+      outline_width: 0
+      outline_opa: transparent
+      outline_pad: 0

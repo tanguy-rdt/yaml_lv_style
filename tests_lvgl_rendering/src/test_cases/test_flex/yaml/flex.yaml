@@ -1,0 +1,39 @@
+styles:
+  - name: test_flex_flow
+    const: @CONST_STYLE@
+    default:
+      flex_flow: row
+    user_1:
+      flex_flow: column
+    user_2:
+      flex_flow: row_wrap
+    user_3:
+      flex_flow: column_wrap
+
+  - name: test_flex_place
+    const: @CONST_STYLE@
+    default:
+      flex_main_place: start
+      flex_cross_place: start
+      flex_track_place: start
+    user_1:
+      flex_main_place: center
+      flex_cross_place: center
+      flex_track_place: center
+    user_2:
+      flex_main_place: end
+      flex_cross_place: end
+      flex_track_place: end
+    user_3:
+      flex_main_place: space_evenly
+      flex_cross_place: start
+      flex_track_place: space_between
+
+  - name: test_flex_grow
+    const: @CONST_STYLE@
+    default:
+      flex_grow: 0
+    user_1:
+      flex_grow: 1
+    user_2:
+      flex_grow: 3

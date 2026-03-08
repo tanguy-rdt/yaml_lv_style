@@ -1,0 +1,50 @@
+styles:
+  - name: test_shadow_basic
+    const: @CONST_STYLE@
+    default:
+      shadow_width: 10
+      shadow_offset_x: 5
+      shadow_offset_y: 5
+      shadow_spread: 0
+      shadow_color: hex(#000000)
+      shadow_opa: cover
+    user_1:
+      shadow_width: 20
+      shadow_offset_x: 10
+      shadow_offset_y: 10
+      shadow_spread: 5
+      shadow_color: hex(#FF0000)
+      shadow_opa: opa_50
+    user_2:
+      shadow_width: 0
+      shadow_opa: transparent
+
+  - name: test_shadow_spread
+    const: @CONST_STYLE@
+    default:
+      shadow_width: 10
+      shadow_color: hex(#000000)
+      shadow_opa: cover
+      shadow_spread: 0
+    user_1:
+      shadow_spread: 10
+    user_2:
+      shadow_spread: 20
+
+  - name: test_shadow_offset
+    const: @CONST_STYLE@
+    default:
+      shadow_width: 10
+      shadow_color: hex(#000000)
+      shadow_opa: cover
+      shadow_offset_x: 0
+      shadow_offset_y: 0
+    user_1:
+      shadow_offset_x: 20
+      shadow_offset_y: 0
+    user_2:
+      shadow_offset_x: 0
+      shadow_offset_y: 20
+    user_3:
+      shadow_offset_x: -20
+      shadow_offset_y: -20

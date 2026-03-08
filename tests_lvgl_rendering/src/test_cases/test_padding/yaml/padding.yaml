@@ -1,0 +1,27 @@
+styles:
+  - name: test_pad
+    const: @CONST_STYLE@
+    default:
+      pad_top: 10
+      pad_bottom: 10
+      pad_left: 10
+      pad_right: 10
+    user_1:
+      pad_top: 30
+      pad_bottom: 30
+      pad_left: 30
+      pad_right: 30
+    user_2:
+      pad_top: 0
+      pad_bottom: 0
+      pad_left: 0
+      pad_right: 0
+
+  - name: test_pad_radial
+    const: @CONST_STYLE@
+    default.indicator:
+      pad_radial: 0
+    user_1.indicator:
+      pad_radial: 20
+    user_2.indicator:
+      pad_radial: 50

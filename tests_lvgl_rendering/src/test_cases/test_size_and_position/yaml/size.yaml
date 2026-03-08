@@ -1,0 +1,16 @@
+styles:
+  - name: test_size
+    const: @CONST_STYLE@
+    default:
+      width: 75
+      height: 75
+      min_width: 50
+      min_height: 50
+      max_width: 100
+      max_height: 100
+    user_1:
+      width: 200
+      height: 200
+    user_2:
+      width: 10
+      height: 10

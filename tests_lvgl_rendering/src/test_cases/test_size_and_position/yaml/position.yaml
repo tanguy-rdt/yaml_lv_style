@@ -1,0 +1,18 @@
+styles:
+  - name: test_abs_pos
+    const: @CONST_STYLE@
+    default:
+      x: 400
+      y: 200
+    user_1:
+      x: 0
+      y: 0
+
+  - name: test_alignment
+    const: @CONST_STYLE@
+    default:
+      align: center
+    user_1:
+      align: top_left
+    user_2:
+      align: bottom_right

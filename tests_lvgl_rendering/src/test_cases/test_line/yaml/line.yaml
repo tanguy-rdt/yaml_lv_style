@@ -1,0 +1,31 @@
+styles:
+  - name: test_line_basic
+    const: @CONST_STYLE@
+    default:
+      line_width: 2
+      line_color: hex(#FF0000)
+      line_opa: cover
+      line_rounded: false
+    user_1:
+      line_width: 5
+      line_color: hex(#00FF00)
+      line_opa: opa_50
+      line_rounded: true
+    user_2:
+      line_width: 1
+      line_opa: transparent
+
+  - name: test_line_dash
+    const: @CONST_STYLE@
+    default:
+      line_width: 2
+      line_color: hex(#FF0000)
+      line_opa: cover
+      line_dash_width: 0
+      line_dash_gap: 0
+    user_1:
+      line_dash_width: 10
+      line_dash_gap: 5
+    user_2:
+      line_dash_width: 5
+      line_dash_gap: 15
