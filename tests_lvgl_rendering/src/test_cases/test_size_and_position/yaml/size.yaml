@@ -14,3 +14,12 @@ styles:
     user_2:
       width: 10
       height: 10
+
+  - name: test_size_shorthand
+    const: @CONST_STYLE@
+    default:
+      size: { width: 75, height: 75 }
+    user_1:
+      size: { width: 200, height: 200 }
+    user_2:
+      size: { width: 10, height: 10 }

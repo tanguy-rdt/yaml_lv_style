@@ -25,3 +25,39 @@ styles:
       pad_radial: 20
     user_2.indicator:
       pad_radial: 50
+
+  - name: test_pad_all
+    const: @CONST_STYLE@
+    default:
+      pad_all: 10
+    user_1:
+      pad_all: 30
+    user_2:
+      pad_all: 0
+
+  - name: test_pad_gap
+    const: @CONST_STYLE@
+    default:
+      pad_gap: 10
+    user_1:
+      pad_gap: 30
+    user_2:
+      pad_gap: 0
+
+  - name: test_pad_hor
+    const: @CONST_STYLE@
+    default:
+      pad_hor: 10
+    user_1:
+      pad_hor: 30
+    user_2:
+      pad_hor: 0
+
+  - name: test_pad_ver
+    const: @CONST_STYLE@
+    default:
+      pad_ver: 10
+    user_1:
+      pad_ver: 30
+    user_2:
+      pad_ver: 0

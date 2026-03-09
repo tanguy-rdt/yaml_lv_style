@@ -13,6 +13,7 @@ mod lv_layout;
 mod lv_opa;
 mod lv_part;
 mod lv_selector;
+mod lv_size;
 mod lv_state;
 mod lv_text_align;
 mod lv_text_decor;
@@ -34,6 +35,7 @@ pub use lv_layout::LVLayout;
 pub use lv_opa::LVOpa;
 pub use lv_part::LVPart;
 pub use lv_selector::LVSelector;
+pub use lv_size::LVSize;
 pub use lv_state::LVState;
 pub use lv_text_align::LVTextAlign;
 pub use lv_text_decor::LVTextDecor;
@@ -79,6 +81,7 @@ make_abstract_type! {
     LVImageColorkey => LVImageColorkey,
     LVLayout => LVLayout,
     LVOpa => LVOpa,
+    LVSize => LVSize,
     LVTextAlign => LVTextAlign,
     LVTextDecor => LVTextDecor
 }

@@ -27,6 +27,26 @@ TEST("test_size") {
     TEST_REQUIRE(lv_obj_get_height(obj) == 50);
 }
 
+TEST("test_size_shorthand") {
+    lv_obj_t* container = lv_obj_create(lv_screen_active());
+    lv_obj_set_size(container, 600, 300);
+    lv_obj_center(container);
+    lv_obj_t* obj = lv_obj_create(container);
+    SET_SIZE_STYLE(obj, ENUM_SIZE_STYLE_TEST_SIZE_SHORTHAND);
+
+    lv_obj_add_state(obj, LV_STATE_DEFAULT);
+    TEST_REQUIRE(lv_obj_get_width(obj)  == 75);
+    TEST_REQUIRE(lv_obj_get_height(obj) == 75);
+
+    lv_obj_add_state(obj, LV_STATE_USER_1);
+    TEST_REQUIRE(lv_obj_get_width(obj)  == 200);
+    TEST_REQUIRE(lv_obj_get_height(obj) == 200);
+
+    lv_obj_add_state(obj, LV_STATE_USER_2);
+    TEST_REQUIRE(lv_obj_get_width(obj)  == 10);
+    TEST_REQUIRE(lv_obj_get_height(obj) == 10);
+}
+
 TEST("test_abs_pos") {
     lv_obj_t* container = lv_obj_create(lv_screen_active());
     lv_obj_set_size(container, 600, 300);

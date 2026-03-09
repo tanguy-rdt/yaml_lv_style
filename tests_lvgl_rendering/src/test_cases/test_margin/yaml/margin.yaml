@@ -16,3 +16,30 @@ styles:
       margin_bottom: 0
       margin_left: 0
       margin_right: 0
+
+  - name: test_margin_all
+    const: @CONST_STYLE@
+    default:
+      margin_all: 10
+    user_1:
+      margin_all: 30
+    user_2:
+      margin_all: 0
+
+  - name: test_margin_hor
+    const: @CONST_STYLE@
+    default:
+      margin_hor: 10
+    user_1:
+      margin_hor: 30
+    user_2:
+      margin_hor: 0
+
+  - name: test_margin_ver
+    const: @CONST_STYLE@
+    default:
+      margin_ver: 10
+    user_1:
+      margin_ver: 30
+    user_2:
+      margin_ver: 0

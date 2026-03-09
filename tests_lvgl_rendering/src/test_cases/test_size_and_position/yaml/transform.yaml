@@ -20,8 +20,7 @@ styles:
       transform_scale_x: 512
       transform_scale_y: 512
     user_2:
-      transform_scale_x: 128
-      transform_scale_y: 128
+      transform_scale: 128
 
   - name: test_transform_rotation
     const: @CONST_STYLE@

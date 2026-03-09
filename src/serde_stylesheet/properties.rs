@@ -18,6 +18,7 @@ use super::types::LVLayout;
 use super::types::LVOpa;
 use super::types::LVTextAlign;
 use super::types::LVTextDecor;
+use super::types::LVSize;
 
 macro_rules! make_properties {
     (
@@ -150,10 +151,13 @@ make_properties! (
     { line_opa, LVOpa }
     { line_rounded, bool }
     { line_width, i32 }
+    { margin_all, i32 }
     { margin_bottom, i32 }
+    { margin_hor, i32 }
     { margin_left, i32 }
     { margin_right, i32 }
     { margin_top, i32 }
+    { margin_ver, i32 }
     { max_height, i32 }
     { max_width, i32 }
     { min_height, i32 }
@@ -164,13 +168,17 @@ make_properties! (
     { outline_opa, LVOpa }
     { outline_pad, i32 }
     { outline_width, i32 }
+    { pad_all, i32 }
     { pad_bottom, i32 }
     { pad_column, i32 }
+    { pad_gap, i32 }
+    { pad_hor, i32 }
     { pad_left, i32 }
     { pad_radial, i32 }
     { pad_right, i32 }
     { pad_row, i32 }
     { pad_top, i32 }
+    { pad_ver, i32 }
     { radial_offset, i32 }
     { radius, i32 }
     { recolor, LVColor }
@@ -182,6 +190,7 @@ make_properties! (
     { shadow_opa, LVOpa }
     { shadow_spread, i32 }
     { shadow_width, i32 }
+    { size, LVSize }
     { text_align, LVTextAlign }
     { text_color, LVColor }
     { text_decor, LVTextDecor }
@@ -196,6 +205,7 @@ make_properties! (
     { transform_pivot_x, i32 }
     { transform_pivot_y, i32 }
     { transform_rotation, i32 }
+    { transform_scale, i32 }
     { transform_scale_x, i32 }
     { transform_scale_y, i32 }
     { transform_skew_x, i32 }

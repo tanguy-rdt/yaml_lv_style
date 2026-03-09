@@ -1,12 +1,13 @@
 use crate::serde_stylesheet::types::LVColor;
+
 use serde::Deserialize;
 use serde::{Serialize, Serializer};
 
 #[cfg_attr(test, derive(Debug, PartialEq))]
 #[derive(Deserialize)]
 pub struct LVImageColorkey {
-    pub low: LVColor,
-    pub high: LVColor,
+    low: LVColor,
+    high: LVColor,
 
     #[serde(skip)]
     declaration: String,
