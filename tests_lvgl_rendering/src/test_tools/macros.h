@@ -11,16 +11,16 @@ struct InitStyleSheetFixture {
     InitStyleSheetFixture() { INIT_STYLE_SHEETS(); }
 };
 
-#define TEST(name)                              \
+#define TEST(name)                                       \
     TEST_CASE_METHOD(InitStyleSheetFixture, name)
 
-#define TEST_CHECK(...)       \
+#define TEST_CHECK(...)             \
     do {                            \
         lv_refr_now(nullptr);       \
-        CHECK(__VA_ARGS__);       \
+        CHECK(__VA_ARGS__);         \
     } while(false)
 
-#define TEST_CHECK_SCREENSHOT_COMPARE(...)                                 \
+#define TEST_CHECK_SCREENSHOT_COMPARE(...)                                       \
     do {                                                                         \
         std::string _name = []() -> std::string {                                \
             if constexpr (std::string_view(#__VA_ARGS__).empty())                \
@@ -34,7 +34,13 @@ struct InitStyleSheetFixture {
             + "_" + GEN_LANG                                                     \
             + "_" + GEN_STYLE + ".png";                                          \
         lv_refr_now(nullptr);                                                    \
-        CHECK(lv_test_screenshot_compare(path.c_str()));                       \
+        CHECK(lv_test_screenshot_compare(path.c_str()));                         \
+    } while(false)
+
+#define lv_obj_clear_and_set_state(obj, state)        \
+    do {                                              \
+        lv_obj_remove_state(obj, LV_STATE_ANY);       \
+        lv_obj_add_state(obj, state);                 \
     } while(false)
 
 #endif // TEST_MACROS_H

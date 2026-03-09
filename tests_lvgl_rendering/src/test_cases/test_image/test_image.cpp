@@ -19,13 +19,12 @@ TEST("test_image_opa") {
     TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
     TEST_CHECK_SCREENSHOT_COMPARE("default");
 
-    lv_obj_set_state(img, LV_STATE_DEFAULT, false);
-    lv_obj_set_state(img, LV_STATE_USER_1, true);
+    lv_obj_clear_and_set_state(img, LV_STATE_USER_1);
     TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_50);
     TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
-    lv_obj_set_state(img, LV_STATE_USER_1, false);
-    lv_obj_set_state(img, LV_STATE_USER_2, true);
+
+    lv_obj_clear_and_set_state(img, LV_STATE_USER_2);
     TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
     TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
@@ -38,13 +37,11 @@ TEST("test_image_recolor") {
     TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
     TEST_CHECK_SCREENSHOT_COMPARE("default");
 
-    lv_obj_set_state(img, LV_STATE_DEFAULT, false);
-    lv_obj_set_state(img, LV_STATE_USER_1, true);
+    lv_obj_clear_and_set_state(img, LV_STATE_USER_1);
     TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_50);
     TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
-    lv_obj_set_state(img, LV_STATE_USER_1, false);
-    lv_obj_set_state(img, LV_STATE_USER_2, true);
+    lv_obj_clear_and_set_state(img, LV_STATE_USER_2);
     TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
     TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
@@ -56,7 +53,6 @@ TEST("test_image_colorkey") {
 
     TEST_CHECK_SCREENSHOT_COMPARE("default");
 
-    lv_obj_set_state(img, LV_STATE_DEFAULT, false);
-    lv_obj_set_state(img, LV_STATE_USER_1, true);
+    lv_obj_clear_and_set_state(img, LV_STATE_USER_1);
     TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 }
