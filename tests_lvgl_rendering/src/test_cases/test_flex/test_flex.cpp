@@ -20,20 +20,20 @@ TEST("test_flex_flow") {
     SET_FLEX_STYLE(container, ENUM_FLEX_STYLE_TEST_FLEX_FLOW);
 
     lv_obj_add_state(container, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_ROW);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_ROW);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(container, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_COLUMN);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_COLUMN);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(container, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_ROW_WRAP);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_ROW_WRAP);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 
     lv_obj_add_state(container, LV_STATE_USER_3);
-    TEST_REQUIRE(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_COLUMN_WRAP);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_3");
+    TEST_CHECK(lv_obj_get_style_flex_flow(container, LV_PART_MAIN) == LV_FLEX_FLOW_COLUMN_WRAP);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_3");
 }
 
 TEST("test_flex_place") {
@@ -41,28 +41,28 @@ TEST("test_flex_place") {
     SET_FLEX_STYLE(container, ENUM_FLEX_STYLE_TEST_FLEX_PLACE);
 
     lv_obj_add_state(container, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_START);
-    TEST_REQUIRE(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
-    TEST_REQUIRE(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_START);
+    TEST_CHECK(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
+    TEST_CHECK(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(container, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_CENTER);
-    TEST_REQUIRE(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_CENTER);
-    TEST_REQUIRE(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_CENTER);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_CENTER);
+    TEST_CHECK(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_CENTER);
+    TEST_CHECK(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_CENTER);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(container, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_END);
-    TEST_REQUIRE(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_END);
-    TEST_REQUIRE(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_END);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_END);
+    TEST_CHECK(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_END);
+    TEST_CHECK(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_END);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 
     lv_obj_add_state(container, LV_STATE_USER_3);
-    TEST_REQUIRE(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_SPACE_EVENLY);
-    TEST_REQUIRE(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
-    TEST_REQUIRE(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_SPACE_BETWEEN);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_3");
+    TEST_CHECK(lv_obj_get_style_flex_main_place(container, LV_PART_MAIN)  == LV_FLEX_ALIGN_SPACE_EVENLY);
+    TEST_CHECK(lv_obj_get_style_flex_cross_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_START);
+    TEST_CHECK(lv_obj_get_style_flex_track_place(container, LV_PART_MAIN) == LV_FLEX_ALIGN_SPACE_BETWEEN);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_3");
 }
 
 TEST("test_flex_grow") {
@@ -82,14 +82,14 @@ TEST("test_flex_grow") {
     lv_obj_set_size(child2, 60, 60);
 
     lv_obj_add_state(obj, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 0);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 0);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(obj, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 1);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 1);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(obj, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 3);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_flex_grow(obj, LV_PART_MAIN) == 3);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }

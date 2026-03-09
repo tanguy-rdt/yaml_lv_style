@@ -30,24 +30,24 @@ TEST("test_grid_layout") {
     }
 
     lv_obj_add_state(container, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_START);
-    TEST_REQUIRE(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_START);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_START);
+    TEST_CHECK(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_START);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(container, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_CENTER);
-    TEST_REQUIRE(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_CENTER);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_CENTER);
+    TEST_CHECK(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_CENTER);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(container, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_END);
-    TEST_REQUIRE(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_END);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_END);
+    TEST_CHECK(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_END);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 
     lv_obj_add_state(container, LV_STATE_USER_3);
-    TEST_REQUIRE(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_SPACE_EVENLY);
-    TEST_REQUIRE(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_SPACE_BETWEEN);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_3");
+    TEST_CHECK(lv_obj_get_style_grid_column_align(container, LV_PART_MAIN) == LV_GRID_ALIGN_SPACE_EVENLY);
+    TEST_CHECK(lv_obj_get_style_grid_row_align(container, LV_PART_MAIN)    == LV_GRID_ALIGN_SPACE_BETWEEN);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_3");
 }
 
 TEST("test_grid_cell") {
@@ -67,29 +67,29 @@ TEST("test_grid_cell") {
     }
 
     lv_obj_add_state(obj, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 0);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 0);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_START);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_START);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 0);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 0);
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_START);
+    TEST_CHECK(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_START);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(obj, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 2);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 2);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_CENTER);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_CENTER);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 2);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 2);
+    TEST_CHECK(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_CENTER);
+    TEST_CHECK(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_CENTER);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(obj, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 0);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 0);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 1);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_END);
-    TEST_REQUIRE(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_END);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_pos(obj, LV_PART_MAIN)  == 0);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_pos(obj, LV_PART_MAIN)     == 0);
+    TEST_CHECK(lv_obj_get_style_grid_cell_column_span(obj, LV_PART_MAIN) == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_row_span(obj, LV_PART_MAIN)    == 1);
+    TEST_CHECK(lv_obj_get_style_grid_cell_x_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_END);
+    TEST_CHECK(lv_obj_get_style_grid_cell_y_align(obj, LV_PART_MAIN)     == LV_GRID_ALIGN_END);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }

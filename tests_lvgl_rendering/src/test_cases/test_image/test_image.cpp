@@ -10,16 +10,16 @@ TEST("test_image_opa") {
     SET_IMAGE_STYLE(img, ENUM_IMAGE_STYLE_TEST_IMAGE_OPA);
 
     lv_obj_add_state(img, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(img, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_50);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_50);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(img, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_image_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
 
 TEST("test_image_recolor") {
@@ -29,16 +29,16 @@ TEST("test_image_recolor") {
     SET_IMAGE_STYLE(img, ENUM_IMAGE_STYLE_TEST_IMAGE_RECOLOR);
 
     lv_obj_add_state(img, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_TRANSP);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(img, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_50);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_50);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(img, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_image_recolor_opa(img, LV_PART_MAIN) == LV_OPA_COVER);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
 
 TEST("test_image_colorkey") {
@@ -48,8 +48,8 @@ TEST("test_image_colorkey") {
     SET_IMAGE_STYLE(img, ENUM_IMAGE_STYLE_TEST_IMAGE_COLORKEY);
 
     lv_obj_add_state(img, LV_STATE_DEFAULT);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(img, LV_STATE_USER_1);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 }

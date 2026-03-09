@@ -14,21 +14,21 @@ TEST("test_line_basic") {
     SET_LINE_STYLE(line, ENUM_LINE_STYLE_TEST_LINE_BASIC);
 
     lv_obj_add_state(line, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_line_width(line, LV_PART_MAIN)   == 2);
-    TEST_REQUIRE(lv_obj_get_style_line_opa(line, LV_PART_MAIN)     == LV_OPA_COVER);
-    TEST_REQUIRE(lv_obj_get_style_line_rounded(line, LV_PART_MAIN) == false);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_line_width(line, LV_PART_MAIN)   == 2);
+    TEST_CHECK(lv_obj_get_style_line_opa(line, LV_PART_MAIN)     == LV_OPA_COVER);
+    TEST_CHECK(lv_obj_get_style_line_rounded(line, LV_PART_MAIN) == false);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(line, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_line_width(line, LV_PART_MAIN)   == 5);
-    TEST_REQUIRE(lv_obj_get_style_line_opa(line, LV_PART_MAIN)     == LV_OPA_50);
-    TEST_REQUIRE(lv_obj_get_style_line_rounded(line, LV_PART_MAIN) == true);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_line_width(line, LV_PART_MAIN)   == 5);
+    TEST_CHECK(lv_obj_get_style_line_opa(line, LV_PART_MAIN)     == LV_OPA_50);
+    TEST_CHECK(lv_obj_get_style_line_rounded(line, LV_PART_MAIN) == true);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(line, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_line_width(line, LV_PART_MAIN) == 1);
-    TEST_REQUIRE(lv_obj_get_style_line_opa(line, LV_PART_MAIN)   == LV_OPA_TRANSP);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_line_width(line, LV_PART_MAIN) == 1);
+    TEST_CHECK(lv_obj_get_style_line_opa(line, LV_PART_MAIN)   == LV_OPA_TRANSP);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
 
 TEST("test_line_dash") {
@@ -42,17 +42,17 @@ TEST("test_line_dash") {
     SET_LINE_STYLE(line, ENUM_LINE_STYLE_TEST_LINE_DASH);
 
     lv_obj_add_state(line, LV_STATE_DEFAULT);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 0);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 0);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("default");
+    TEST_CHECK(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 0);
+    TEST_CHECK(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 0);
+    TEST_CHECK_SCREENSHOT_COMPARE("default");
 
     lv_obj_add_state(line, LV_STATE_USER_1);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 10);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 5);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_1");
+    TEST_CHECK(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 10);
+    TEST_CHECK(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 5);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_1");
 
     lv_obj_add_state(line, LV_STATE_USER_2);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 5);
-    TEST_REQUIRE(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 15);
-    TEST_REQUIRE_SCREENSHOT_COMPARE("user_2");
+    TEST_CHECK(lv_obj_get_style_line_dash_width(line, LV_PART_MAIN) == 5);
+    TEST_CHECK(lv_obj_get_style_line_dash_gap(line, LV_PART_MAIN)   == 15);
+    TEST_CHECK_SCREENSHOT_COMPARE("user_2");
 }
