@@ -63,6 +63,7 @@ function(_yaml_lv_style_register_target test_case variant lang use_const_style)
 
     add_executable("${variant}"
         src/main.cpp
+        src/test_assets/test_img_lvgl_logo_png.c
         "src/test_cases/${test_case}/${test_case}.cpp"
     )
 

@@ -29,4 +29,4 @@ styles:
     user_1:
       image_colorkey:
         low: hex(#000000)
-        high: hex(#FFFFFF)
+        high: hex(#55ff66)
