@@ -3,6 +3,7 @@
 
 ## Test
 *.diff
+tests_lvgl_rendering/ref_imgs/*/*_err.png
 
 ## CMake
 cmake-build-*

@@ -25,10 +25,16 @@
 {%- if stylesheet | has_dyn_style %}
 #define INIT_{{ stylesheet.name | screaming_snake_case }}_STYLE_SHEETS() init_{{ stylesheet.name | snake_case }}_stylesheet();
 {%- endif %}
-{%- endfor %}
+{% endfor %}
 
 {%- for stylesheet in stylesheets | sort(attribute='name') %}
 #define SET_{{ stylesheet.name | screaming_snake_case }}_STYLE(obj, name) set_{{ stylesheet.name | snake_case }}_style(obj, name);
-{%- endfor %}
+{% endfor %}
+
+{% for stylesheet in stylesheets | sort(attribute='name') %}
+{%- if stylesheet | has_dyn_style %}
+#define GET_{{ stylesheet.name | screaming_snake_case }}_STYLE(name, selector) get_{{ stylesheet.name | snake_case }}_style(name, selector)
+{%- endif %}
+{% endfor %}
 
 #endif   // YAML_LV_STYLE_MACROS_H

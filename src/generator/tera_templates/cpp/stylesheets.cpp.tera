@@ -36,6 +36,20 @@ void setStyle(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style name) {
 }
 {% endfor %}
 
+{% for stylesheet in stylesheets | sort(attribute='name') %}
+{%- if stylesheet | has_dyn_style %}
+/**
+ * @brief Gets a style from "{{ stylesheet.name }}" stylesheet
+ * @param name The enum value of the style to apply
+ * @param selector The LVGL part and state selector
+ * @return The style pointer
+ */
+lv_style_t* getStyle({{ stylesheet.name | pascal_case }}Style name, lv_style_selector_t selector) {
+    return get{{ stylesheet.name | pascal_case }}Style(name, selector);
+}
+{%- endif %}
+{% endfor %}
+
 {% if namespace is defined -%}
 } // {{ namespace }}
 {% endif -%}

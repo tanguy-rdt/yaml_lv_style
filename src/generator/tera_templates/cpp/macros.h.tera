@@ -29,11 +29,18 @@ namespace {{ namespace }} {
 {%- if stylesheet | has_dyn_style %}
 #define INIT_{{ stylesheet.name | screaming_snake_case }}_STYLE_SHEETS() init{{ stylesheet.name | pascal_case }}StyleSheet();
 {%- endif %}
-{%- endfor %}
+{% endfor %}
 
 {%- for stylesheet in stylesheets | sort(attribute='name') %}
 #define SET_{{ stylesheet.name | screaming_snake_case }}_STYLE(obj, name) set{{ stylesheet.name | pascal_case }}Style(obj, name);
-{%- endfor %}
+{% endfor %}
+
+{% for stylesheet in stylesheets | sort(attribute='name') %}
+{%- if stylesheet | has_dyn_style %}
+#define GET_{{ stylesheet.name | screaming_snake_case }}_STYLE(name, selector) get{{ stylesheet.name | pascal_case }}Style(name, selector)
+#define GET_{{ stylesheet.name | screaming_snake_case }}_STYLE_DEFAULT(name) get{{ stylesheet.name | pascal_case }}Style(name)
+{%- endif %}
+{% endfor %}
 
 {%- if namespace is defined %}
 } // {{ namespace }}

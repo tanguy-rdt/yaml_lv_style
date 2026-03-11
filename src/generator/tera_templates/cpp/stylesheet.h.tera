@@ -28,6 +28,16 @@ void init{{ stylesheet.name | pascal_case }}StyleSheet();
  */
 void set{{ stylesheet.name | pascal_case }}Style(lv_obj_t* obj, {{ stylesheet.name | pascal_case }}Style name);
 
+{%- if stylesheet | has_dyn_style %}
+/**
+ * @brief Gets a style from "{{ stylesheet.name }}" stylesheet
+ * @param name The enum value of the style to apply
+ * @param selector The LVGL part and state selector
+ * @return The style pointer
+ */
+lv_style_t* get{{ stylesheet.name | pascal_case }}Style({{ stylesheet.name | pascal_case }}Style name, lv_style_selector_t selector = LV_PART_MAIN | LV_STATE_DEFAULT);
+{%- endif %}
+
 {% if namespace is defined -%}
 } // {{ namespace }}
 {%- endif %}
