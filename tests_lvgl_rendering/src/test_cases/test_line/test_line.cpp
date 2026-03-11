@@ -1,6 +1,8 @@
 #include <lvgl.h>
 
-#include "macros.h"
+#include "test_macros.h"
+#include "lv_macros.h"
+
 #include "styles_gen/stylesheets_macros.h"
 
 TEST("test_line_basic") {

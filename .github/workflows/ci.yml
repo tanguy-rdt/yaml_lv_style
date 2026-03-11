@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -42,3 +42,26 @@ jobs:
 
       - name: Run tests
         run: cargo test --verbose
+
+  tests_lvgl_rendering:
+    name: LVGL Rendering Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: Configure
+        working-directory: tests_lvgl_rendering
+        run: cmake --preset ci
+
+      - name: Build
+        working-directory: tests_lvgl_rendering
+        run: cmake --build --preset ci
+
+      - name: Run tests
+        working-directory: tests_lvgl_rendering
+        run: ctest --preset ci

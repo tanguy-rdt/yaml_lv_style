@@ -1,15 +1,30 @@
 function(yaml_lv_style_add_test_case test_case)
     foreach(lang IN ITEMS c cpp)
+        if(lang STREQUAL "c" AND NOT TEST_C_LANG)
+            continue()
+        endif()
+        if(lang STREQUAL "cpp" AND NOT TEST_CPP_LANG)
+            continue()
+        endif()
+
         foreach(use_const_style IN ITEMS true false)
-            if(use_const_style)
-                set(variant "${test_case}_${lang}_const_style")
-            else()
-                set(variant "${test_case}_${lang}_dyn_style")
+            if(use_const_style AND NOT TEST_CONST_STYLE)
+                continue()
             endif()
+            if(NOT use_const_style AND NOT TEST_DYN_STYLE)
+                continue()
+            endif()
+
+            set(style_def "dyn")
+            if(use_const_style)
+                set(style_def "const")
+            endif()
+
+            set(variant "${test_case}_${lang}_${style_def}_style")
 
             _yaml_lv_style_configure_yamls("${test_case}" "${variant}" "${use_const_style}" configured_yamls)
             _yaml_lv_style_run_codegen("${test_case}" "${variant}" "${lang}" ${configured_yamls})
-            _yaml_lv_style_register_target("${test_case}" "${variant}" "${lang}" "${use_const_style}" ${configured_yamls})
+            _yaml_lv_style_register_target("${test_case}" "${variant}" "${lang}" "${style_def}" ${configured_yamls})
         endforeach()
     endforeach()
 endfunction()
@@ -58,7 +73,7 @@ function(_yaml_lv_style_run_codegen test_case variant lang)
     add_dependencies("${codegen_lib}" yaml_lv_style_rust_build)
 endfunction()
 
-function(_yaml_lv_style_register_target test_case variant lang use_const_style)
+function(_yaml_lv_style_register_target test_case variant lang style_def)
     set(codegen_lib "${variant}_codegen_lib")
 
     add_executable("${variant}"
@@ -70,7 +85,7 @@ function(_yaml_lv_style_register_target test_case variant lang use_const_style)
     target_compile_definitions("${variant}"
         PRIVATE
             GEN_LANG="${lang}"
-            GEN_STYLE="$<IF:$<STREQUAL:${use_const_style},true>,const_style,dyn_style>"
+            GEN_STYLE="${style_def}"
     )
 
     target_include_directories("${variant}" PRIVATE src/test_tools/)

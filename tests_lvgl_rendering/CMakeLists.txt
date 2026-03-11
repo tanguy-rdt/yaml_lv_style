@@ -6,12 +6,12 @@ project(yaml_lv_style_tests
 )
 
 set(CMAKE_C_STANDARD 17)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
-
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+
+option(TEST_C_LANG "Generation of C style sheets and execution of associated tests" OFF)
+option(TEST_CPP_LANG "Generation of C++ style sheets and execution of associated tests" OFF)
+option(TEST_CONST_STYLE "Generation of constant style sheets and execution of associated tests" OFF)
+option(TEST_DYN_STYLE "Generation of dynamic style sheets and execution of associated tests" OFF)
 
 set(REPOSITORY ${CMAKE_SOURCE_DIR}/..)
 set(RUST_BUILD_DIR ${CMAKE_BINARY_DIR}/rust)

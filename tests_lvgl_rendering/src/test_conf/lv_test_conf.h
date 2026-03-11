@@ -1,8 +1,3 @@
-/**
- * @file lv_test_conf.h
- *
- */
-
 #ifndef LV_TEST_CONF_H
 #define LV_TEST_CONF_H
 

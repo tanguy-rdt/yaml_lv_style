@@ -1,6 +1,8 @@
 #include <lvgl.h>
 
-#include "macros.h"
+#include "test_macros.h"
+#include "lv_macros.h"
+
 #include "styles_gen/stylesheets_macros.h"
 
 static const lv_coord_t col_dsc[] = {100, 100, 100, LV_GRID_TEMPLATE_LAST};

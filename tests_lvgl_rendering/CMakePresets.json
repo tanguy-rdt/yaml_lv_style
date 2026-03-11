@@ -7,20 +7,95 @@
   },
   "configurePresets": [
     {
-      "name": "yaml_lv_style_tests",
-      "hidden": false,
-      "description": "Debug build",
+      "name": "base",
+      "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/cmake-build-tests",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "TEST_C_LANG": "OFF",
+        "TEST_CPP_LANG": "OFF",
+        "TEST_CONST_STYLE": "OFF",
+        "TEST_DYN_STYLE": "OFF"
+      }
+    },
+    {
+      "name": "ci",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-ci",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TEST_C_LANG": "ON",
+        "TEST_CPP_LANG": "ON",
+        "TEST_CONST_STYLE": "ON",
+        "TEST_DYN_STYLE": "ON"
+      }
+    },
+    {
+      "name": "test_all",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-test-all",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TEST_C_LANG": "ON",
+        "TEST_CPP_LANG": "ON",
+        "TEST_CONST_STYLE": "ON",
+        "TEST_DYN_STYLE": "ON"
+      }
+    },
+    {
+      "name": "test_c_const",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-test-c-const",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TEST_C_LANG": "ON",
+        "TEST_CONST_STYLE": "ON"
+      }
+    },
+    {
+      "name": "test_c_dyn",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-test-c-dyn",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TEST_C_LANG": "ON",
+        "TEST_DYN_STYLE": "ON"
+      }
+    },
+    {
+      "name": "test_cpp_const",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-test-cpp-const",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TEST_CPP_LANG": "ON",
+        "TEST_CONST_STYLE": "ON"
+      }
+    },
+    {
+      "name": "test_cpp_dyn",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/cmake-build-test-cpp-dyn",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TEST_CPP_LANG": "ON",
+        "TEST_DYN_STYLE": "ON"
       }
     }
   ],
   "buildPresets": [
-    {
-      "name": "yaml_lv_style_tests",
-      "configurePreset": "yaml_lv_style_tests"
-    }
+    { "name": "ci",           "configurePreset": "ci"},
+    { "name": "test_all",      "configurePreset": "test_all" },
+    { "name": "test_c_const",  "configurePreset": "test_c_const" },
+    { "name": "test_c_dyn",    "configurePreset": "test_c_dyn" },
+    { "name": "test_cpp_const","configurePreset": "test_cpp_const" },
+    { "name": "test_cpp_dyn",  "configurePreset": "test_cpp_dyn" }
+  ],
+  "testPresets": [
+    { "name": "ci",           "configurePreset": "ci",          "output": { "outputOnFailure": true } },
+    { "name": "test_all",      "configurePreset": "test_all",     "output": { "outputOnFailure": true } },
+    { "name": "test_c_const",  "configurePreset": "test_c_const", "output": { "outputOnFailure": true } },
+    { "name": "test_c_dyn",    "configurePreset": "test_c_dyn",   "output": { "outputOnFailure": true } },
+    { "name": "test_cpp_const","configurePreset": "test_cpp_const","output": { "outputOnFailure": true } },
+    { "name": "test_cpp_dyn",  "configurePreset": "test_cpp_dyn", "output": { "outputOnFailure": true } }
   ]
 }

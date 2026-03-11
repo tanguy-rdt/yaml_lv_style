@@ -1,6 +1,8 @@
 #include <lvgl.h>
 
-#include "macros.h"
+#include "test_macros.h"
+#include "lv_macros.h"
+
 #include "styles_gen/stylesheets_macros.h"
 
 LV_IMAGE_DECLARE(test_img_lvgl_logo_png);
