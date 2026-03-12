@@ -1,0 +1,162 @@
+[LVAlign]
+allowed_values = [
+    { name = "LV_ALIGN_DEFAULT",           alias = "default"           },
+    { name = "LV_ALIGN_TOP_LEFT",          alias = "top_left"          },
+    { name = "LV_ALIGN_TOP_MID",           alias = "top_mid"           },
+    { name = "LV_ALIGN_TOP_RIGHT",         alias = "top_right"         },
+    { name = "LV_ALIGN_BOTTOM_LEFT",       alias = "bottom_left"       },
+    { name = "LV_ALIGN_BOTTOM_MID",        alias = "bottom_mid"        },
+    { name = "LV_ALIGN_BOTTOM_RIGHT",      alias = "bottom_right"      },
+    { name = "LV_ALIGN_LEFT_MID",          alias = "left_mid"          },
+    { name = "LV_ALIGN_RIGHT_MID",         alias = "right_mid"         },
+    { name = "LV_ALIGN_CENTER",            alias = "center"            },
+    { name = "LV_ALIGN_OUT_TOP_LEFT",      alias = "out_top_left"      },
+    { name = "LV_ALIGN_OUT_TOP_MID",       alias = "out_top_mid"       },
+    { name = "LV_ALIGN_OUT_TOP_RIGHT",     alias = "out_top_right"     },
+    { name = "LV_ALIGN_OUT_BOTTOM_LEFT",   alias = "out_bottom_left"   },
+    { name = "LV_ALIGN_OUT_BOTTOM_MID",    alias = "out_bottom_mid"    },
+    { name = "LV_ALIGN_OUT_BOTTOM_RIGHT",  alias = "out_bottom_right"  },
+    { name = "LV_ALIGN_OUT_LEFT_TOP",      alias = "out_left_top"      },
+    { name = "LV_ALIGN_OUT_LEFT_MID",      alias = "out_left_mid"      },
+    { name = "LV_ALIGN_OUT_LEFT_BOTTOM",   alias = "out_left_bottom"   },
+    { name = "LV_ALIGN_OUT_RIGHT_TOP",     alias = "out_right_top"     },
+    { name = "LV_ALIGN_OUT_RIGHT_MID",     alias = "out_right_mid"     },
+    { name = "LV_ALIGN_OUT_RIGHT_BOTTOM",  alias = "out_right_bottom"  },
+]
+
+[LVBaseDir]
+allowed_values = [
+    { name = "LV_BASE_DIR_LTR",      alias = "ltr"     },
+    { name = "LV_BASE_DIR_RTL",      alias = "rtl"     },
+    { name = "LV_BASE_DIR_AUTO",     alias = "auto"    },
+    { name = "LV_BASE_DIR_NEUTRAL",  alias = "neutral" },
+    { name = "LV_BASE_DIR_WEAK",     alias = "weak"    },
+]
+
+[LVBlendMode]
+allowed_values = [
+    { name = "LV_BLEND_MODE_NORMAL",      alias = "normal"      },
+    { name = "LV_BLEND_MODE_ADDITIVE",    alias = "additive"    },
+    { name = "LV_BLEND_MODE_SUBTRACTIVE", alias = "subtractive" },
+    { name = "LV_BLEND_MODE_MULTIPLY",    alias = "multiply"    },
+    { name = "LV_BLEND_MODE_DIFFERENCE",  alias = "difference"  },
+]
+
+[LVBorderSide]
+allowed_values = [
+    { name = "LV_BORDER_SIDE_NONE",     alias = "none"     },
+    { name = "LV_BORDER_SIDE_BOTTOM",   alias = "bottom"   },
+    { name = "LV_BORDER_SIDE_TOP",      alias = "top"      },
+    { name = "LV_BORDER_SIDE_LEFT",     alias = "left"     },
+    { name = "LV_BORDER_SIDE_RIGHT",    alias = "right"    },
+    { name = "LV_BORDER_SIDE_FULL",     alias = "full"     },
+    { name = "LV_BORDER_SIDE_INTERNAL", alias = "internal" },
+]
+
+[LVColor]
+allowed_values = "Hexadecimal or RGB values (e.g. '#FF0000', '0xFF0000', 'rgb(255, 0, 0)')."
+
+[LVCoord]
+allowed_values = "Pixel or percentage values (e.g. '10', '10%')."
+
+[LVFlexAlign]
+allowed_values = [
+    { name = "LV_FLEX_ALIGN_START",         alias = "start"         },
+    { name = "LV_FLEX_ALIGN_END",           alias = "end"           },
+    { name = "LV_FLEX_ALIGN_CENTER",        alias = "center"        },
+    { name = "LV_FLEX_ALIGN_SPACE_EVENLY",  alias = "space_evenly"  },
+    { name = "LV_FLEX_ALIGN_SPACE_AROUND",  alias = "space_around"  },
+    { name = "LV_FLEX_ALIGN_SPACE_BETWEEN", alias = "space_between" },
+]
+
+[LVFlexFlow]
+allowed_values = [
+    { name = "LV_FLEX_FLOW_ROW",                 alias = "row"                 },
+    { name = "LV_FLEX_FLOW_COLUMN",              alias = "column"              },
+    { name = "LV_FLEX_FLOW_ROW_WRAP",            alias = "row_wrap"            },
+    { name = "LV_FLEX_FLOW_ROW_REVERSE",         alias = "row_reverse"         },
+    { name = "LV_FLEX_FLOW_ROW_WRAP_REVERSE",    alias = "row_wrap_reverse"    },
+    { name = "LV_FLEX_FLOW_COLUMN_WRAP",         alias = "column_wrap"         },
+    { name = "LV_FLEX_FLOW_COLUMN_REVERSE",      alias = "column_reverse"      },
+    { name = "LV_FLEX_FLOW_COLUMN_WRAP_REVERSE", alias = "column_wrap_reverse" },
+]
+
+[LVGradDir]
+allowed_values = [
+    { name = "LV_GRAD_DIR_NONE",    alias = "none"       },
+    { name = "LV_GRAD_DIR_VER",     alias = "vertical"   },
+    { name = "LV_GRAD_DIR_HOR",     alias = "horizontal" },
+    { name = "LV_GRAD_DIR_LINEAR",  alias = "linear"     },
+    { name = "LV_GRAD_DIR_RADIAL",  alias = "radial"     },
+    { name = "LV_GRAD_DIR_CONICAL", alias = "conical"    },
+]
+
+[LVGridAlign]
+allowed_values = [
+    { name = "LV_GRID_ALIGN_START",         alias = "start"         },
+    { name = "LV_GRID_ALIGN_CENTER",        alias = "center"        },
+    { name = "LV_GRID_ALIGN_END",           alias = "end"           },
+    { name = "LV_GRID_ALIGN_STRETCH",       alias = "stretch"       },
+    { name = "LV_GRID_ALIGN_SPACE_EVENLY",  alias = "space_evenly"  },
+    { name = "LV_GRID_ALIGN_SPACE_AROUND",  alias = "space_around"  },
+    { name = "LV_GRID_ALIGN_SPACE_BETWEEN", alias = "space_between" },
+]
+
+[LVGridDscArray]
+allowed_values = "An array of pixel and/or fractional values."
+example = """
+grid_column_dsc_array: [10px, 1fr, 2fr]
+"""
+
+[LVImageColorkey]
+allowed_values = "A color range defined by a low and high LVColor bound."
+example = """
+image_colorkey:
+  low: "#000000"
+  high: "#0F0F0F"
+# or inline
+image_colorkey: { low: "#000000", high: "#0F0F0F" }
+"""
+
+[LVLayout]
+allowed_values = [
+    { name = "LV_LAYOUT_NONE", alias = "none" },
+    { name = "LV_LAYOUT_FLEX", alias = "flex" },
+    { name = "LV_LAYOUT_GRID", alias = "grid" },
+    { name = "LV_LAYOUT_LAST", alias = "last" },
+]
+
+[LVOpa]
+allowed_values = [
+    { name = "LV_OPA_TRANSP", alias = "transparent" },
+    { name = "LV_OPA_0",      alias = "opa_0"       },
+    { name = "LV_OPA_10",     alias = "opa_10"      },
+    { name = "LV_OPA_20",     alias = "opa_20"      },
+    { name = "LV_OPA_30",     alias = "opa_30"      },
+    { name = "LV_OPA_40",     alias = "opa_40"      },
+    { name = "LV_OPA_50",     alias = "opa_50"      },
+    { name = "LV_OPA_60",     alias = "opa_60"      },
+    { name = "LV_OPA_70",     alias = "opa_70"      },
+    { name = "LV_OPA_80",     alias = "opa_80"      },
+    { name = "LV_OPA_90",     alias = "opa_90"      },
+    { name = "LV_OPA_100",    alias = "opa_100"     },
+    { name = "LV_OPA_COVER",  alias = "cover"       },
+]
+
+[LVSize]
+allowed_values = "Pixel, percentage or LV_SIZE_CONTENT (alias: content) values (e.g. '10', '10%', 'content')."
+
+[LVTextAlign]
+allowed_values = [
+    { name = "LV_TEXT_ALIGN_AUTO",   alias = "auto"   },
+    { name = "LV_TEXT_ALIGN_LEFT",   alias = "left"   },
+    { name = "LV_TEXT_ALIGN_CENTER", alias = "center" },
+    { name = "LV_TEXT_ALIGN_RIGHT",  alias = "right"  },
+]
+
+[LVTextDecor]
+allowed_values = [
+    { name = "LV_TEXT_DECOR_NONE",          alias = "none"          },
+    { name = "LV_TEXT_DECOR_UNDERLINE",     alias = "underline"     },
+    { name = "LV_TEXT_DECOR_STRIKETHROUGH", alias = "strikethrough" },
+]
