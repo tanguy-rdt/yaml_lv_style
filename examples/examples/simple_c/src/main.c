@@ -3,10 +3,10 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "generated_styles/styles.h"
-#include "generated_styles/stylesheet_dark.h"
-#include "generated_styles/stylesheet_light.h"
-#include "generated_styles/stylesheets.h"
+#include "styles/styles.h"
+#include "styles/stylesheet_dark.h"
+#include "styles/stylesheet_light.h"
+#include "styles/stylesheets.h"
 
 static bool is_dark = false;
 
@@ -38,7 +38,7 @@ int main() {
     lv_obj_t* label = lv_label_create(button);
     lv_label_set_text(label, "Switch Theme");
 
-    init_stylesheets();
+    init_style_sheets();
     set_light_style(lv_screen_active(), LIGHT_STYLE_SCREEN);
     set_light_style(button, LIGHT_STYLE_BUTTON);
 

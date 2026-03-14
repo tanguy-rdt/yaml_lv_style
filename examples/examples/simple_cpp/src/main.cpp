@@ -2,8 +2,8 @@
 
 #include <unistd.h>
 
-#include "generated_styles/styles.h"
-#include "generated_styles/stylesheets.h"
+#include "styles/styles.h"
+#include "styles/stylesheets.h"
 
 static bool is_dark = false;
 

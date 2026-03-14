@@ -2,13 +2,13 @@ styles:
   - name: screen
     const: false
     default:
-      bg_color: hex(#0F172A)
+      bg_color: "#0F172A"
 
   - name: button
     const: false
     default:
-      bg_color: hex(#1E293B)
-      text_color: hex(#F1F5F9)
+      bg_color: "#1E293B"
+      text_color: "#F1F5F9"
       align: center
     hovered:
-      bg_color: hex(#334155)
+      bg_color: "#334155"

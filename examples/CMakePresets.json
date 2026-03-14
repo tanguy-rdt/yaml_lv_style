@@ -11,10 +11,13 @@
       "hidden": false,
       "description": "Release build",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/cmake-build-release",
+      "binaryDir": "${sourceDir}/cmake-build-examples",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     }
+  ],
+  "buildPresets": [
+    { "name": "yaml_lv_style_examples", "configurePreset": "yaml_lv_style_examples"}
   ]
 }
