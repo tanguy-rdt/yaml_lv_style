@@ -15,14 +15,11 @@ styles:
       grid_row_align: end
     user_3:
       grid_column_align: space_evenly
-      grid_row_align: space_between
+      grid_row_align: space_evenly
 
   - name: test_grid_cell
     const: @CONST_STYLE@
     default:
-      layout: grid
-      grid_column_dsc_array: [ 100px, 100px, 100px ]
-      grid_row_dsc_array: [ 100px, 100px, 100px ]
       grid_cell_column_pos: 0
       grid_cell_row_pos: 0
       grid_cell_column_span: 1
