@@ -2,20 +2,20 @@ styles:
   - name: test_bg_color
     const: @CONST_STYLE@
     default:
-      bg_color: hex(#FF0000)
+      bg_color: "#FF0000"
       bg_opa: cover
     user_1:
-      bg_color: hex(#00FF00)
+      bg_color: "#00FF00"
       bg_opa: opa_50
     user_2:
-      bg_color: hex(#0000FF)
+      bg_color: "#0000FF"
       bg_opa: transparent
 
   - name: test_bg_grad
     const: @CONST_STYLE@
     default:
-      bg_color: hex(#FF0000)
-      bg_grad_color: hex(#0000FF)
+      bg_color: "#FF0000"
+      bg_grad_color: "#0000FF"
       bg_grad_dir: horizontal
       bg_main_stop: 0
       bg_grad_stop: 255
@@ -32,7 +32,7 @@ styles:
     const: @CONST_STYLE@
     default:
       bg_image_opa: cover
-      bg_image_recolor: hex(#FF0000)
+      bg_image_recolor: "#FF0000"
       bg_image_recolor_opa: transparent
       bg_image_tiled: false
     user_1:

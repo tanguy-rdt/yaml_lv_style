@@ -15,6 +15,8 @@ pub enum LVPart {
     Knob,
     #[serde(rename = "LV_PART_SELECTED", alias = "selected")]
     Selected,
+    #[serde(rename = "LV_PART_ITEMS", alias = "items")]
+    Items,
     #[serde(rename = "LV_PART_CURSOR", alias = "cursor")]
     Cursor,
     #[serde(rename = "LV_PART_CUSTOM_FIRST", alias = "custom_first")]
@@ -31,6 +33,7 @@ impl LVPart {
             LVPart::Indicator => "indicator",
             LVPart::Knob => "knob",
             LVPart::Selected => "selected",
+            LVPart::Items => "items",
             LVPart::Cursor => "cursor",
             LVPart::CustomFirst => "custom_first",
             LVPart::Any => "any",
@@ -48,6 +51,7 @@ impl FromStr for LVPart {
             "indicator" | "LV_PART_INDICATOR" => Ok(LVPart::Indicator),
             "knob" | "LV_PART_KNOB" => Ok(LVPart::Knob),
             "selected" | "LV_PART_SELECTED" => Ok(LVPart::Selected),
+            "items" | "LV_PART_ITEMS" => Ok(LVPart::Items),
             "cursor" | "LV_PART_CURSOR" => Ok(LVPart::Cursor),
             "custom_first" | "LV_PART_CUSTOM_FIRST" => Ok(LVPart::CustomFirst),
             "any" | "LV_PART_ANY" => Ok(LVPart::Any),
@@ -64,6 +68,7 @@ impl From<&LVPart> for String {
             LVPart::Indicator => "LV_PART_INDICATOR".to_string(),
             LVPart::Knob => "LV_PART_KNOB".to_string(),
             LVPart::Selected => "LV_PART_SELECTED".to_string(),
+            LVPart::Items => "LV_PART_ITEMS".to_string(),
             LVPart::Cursor => "LV_PART_CURSOR".to_string(),
             LVPart::CustomFirst => "LV_PART_CUSTOM_FIRST".to_string(),
             LVPart::Any => "LV_PART_ANY".to_string(),
@@ -93,6 +98,7 @@ mod tests {
             ("indicator", LVPart::Indicator),
             ("knob", LVPart::Knob),
             ("selected", LVPart::Selected),
+            ("items", LVPart::Items),
             ("cursor", LVPart::Cursor),
             ("custom_first", LVPart::CustomFirst),
             ("any", LVPart::Any),

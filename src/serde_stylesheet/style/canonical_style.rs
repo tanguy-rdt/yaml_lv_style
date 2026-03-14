@@ -89,7 +89,7 @@ mod tests {
         name: test_style
         const: true
         default:
-            grid_column_dsc_array: [px(100), fr(1)]
+            grid_column_dsc_array: [100px, 1fr]
             width: 100
             align: center
         hovered:

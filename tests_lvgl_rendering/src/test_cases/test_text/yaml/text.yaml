@@ -2,13 +2,13 @@ styles:
   - name: test_text_color
     const: @CONST_STYLE@
     default:
-      text_color: hex(#FF0000)
+      text_color: "#FF0000"
       text_opa: cover
     user_1:
-      text_color: hex(#00FF00)
+      text_color: "#00FF00"
       text_opa: opa_50
     user_2:
-      text_color: hex(#0000FF)
+      text_color: "#0000FF"
       text_opa: transparent
 
   - name: test_text_spacing
@@ -44,11 +44,11 @@ styles:
   - name: test_text_outline
     const: @CONST_STYLE@
     default:
-      text_outline_stroke_color: hex(#000000)
+      text_outline_stroke_color: "#000000"
       text_outline_stroke_width: 2
       text_outline_stroke_opa: cover
     user_1:
-      text_outline_stroke_color: hex(#FF0000)
+      text_outline_stroke_color: "#FF0000"
       text_outline_stroke_width: 5
       text_outline_stroke_opa: opa_50
     user_2:

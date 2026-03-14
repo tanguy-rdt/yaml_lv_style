@@ -47,7 +47,7 @@ mod tests {
     #[test]
     fn test_lv_image_colorkey_serde() {
         let yaml = r#"
-            low: hex(#ffffff)
+            low: '#ffffff'
             high: rgb(255, 255, 255)
             "#;
 
@@ -55,28 +55,11 @@ mod tests {
         parsed.make_declaration("lv_image_colorkey_test");
 
         let out = yaml_serde::to_string(&parsed).unwrap();
-        let out = out.trim_end();
-
-        let expected_declaration = "static const lv_image_colorkey_t lv_image_colorkey_test = {lv_color_make(255, 255, 255), lv_color_make(255, 255, 255)};";
-
-        assert_eq!(out, "lv_image_colorkey_test");
-        assert_eq!(out, parsed.declaration_ref);
-        assert_eq!(expected_declaration, parsed.declaration);
-
-        let yaml = r#"
-            low: hex(#ffffff)
-            high: rgb(255, 255, 255)
-            "#;
-
-        let mut parsed: LVImageColorkey = yaml_serde::from_str(yaml).unwrap();
-        parsed.make_declaration("lv_image_colorkey_test");
-
-        let out = yaml_serde::to_string(&parsed).unwrap();
-        let out = out.trim_end();
+        let out = out.trim_end().trim_matches('\'');;
 
         let expected_declaration = "static const lv_image_colorkey_t lv_image_colorkey_test = {LV_COLOR_MAKE(255, 255, 255), LV_COLOR_MAKE(255, 255, 255)};";
 
-        assert_eq!(out, "lv_image_colorkey_test");
+        assert_eq!(out, "&lv_image_colorkey_test");
         assert_eq!(out, parsed.declaration_ref);
         assert_eq!(expected_declaration, parsed.declaration);
     }
@@ -91,7 +74,7 @@ mod tests {
         assert!(result.is_err());
 
         let yaml = r#"
-            low: hex(#ffffff)
+            low: #ffffff
             low: rgb(255, 255, 255)
             "#;
         let result: Result<LVImageColorkey, _> = yaml_serde::from_str(yaml);

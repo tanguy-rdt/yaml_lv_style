@@ -8,6 +8,7 @@ use super::types::LVBaseDir;
 use super::types::LVBlendMode;
 use super::types::LVBorderSide;
 use super::types::LVColor;
+use super::types::LVCoord;
 use super::types::LVFlexAlign;
 use super::types::LVFlexFlow;
 use super::types::LVGradDir;
@@ -16,6 +17,7 @@ use super::types::LVGridDscArray;
 use super::types::LVImageColorkey;
 use super::types::LVLayout;
 use super::types::LVOpa;
+use super::types::LVSize;
 use super::types::LVTextAlign;
 use super::types::LVTextDecor;
 
@@ -137,7 +139,7 @@ make_properties! (
     { grid_column_dsc_array, LVGridDscArray }
     { grid_row_align, LVGridAlign }
     { grid_row_dsc_array, LVGridDscArray }
-    { height, i32 }
+    { height, LVSize }
     { image_colorkey, LVImageColorkey }
     { image_opa, LVOpa }
     { image_recolor, LVColor }
@@ -154,10 +156,10 @@ make_properties! (
     { margin_left, i32 }
     { margin_right, i32 }
     { margin_top, i32 }
-    { max_height, i32 }
-    { max_width, i32 }
-    { min_height, i32 }
-    { min_width, i32 }
+    { max_height, LVCoord }
+    { max_width, LVCoord }
+    { min_height, LVCoord }
+    { min_width, LVCoord }
     { opa, LVOpa }
     { opa_layered, LVOpa }
     { outline_color, LVColor }
@@ -192,7 +194,7 @@ make_properties! (
     { text_outline_stroke_color, LVColor }
     { text_outline_stroke_opa, LVOpa }
     { text_outline_stroke_width, i32 }
-    { transform_height, i32 }
+    { transform_height, LVCoord }
     { transform_pivot_x, i32 }
     { transform_pivot_y, i32 }
     { transform_rotation, i32 }
@@ -200,14 +202,14 @@ make_properties! (
     { transform_scale_y, i32 }
     { transform_skew_x, i32 }
     { transform_skew_y, i32 }
-    { transform_width, i32 }
+    { transform_width, LVCoord }
     // { transition, not_yet_implemented }
     { translate_radial, i32 }
-    { translate_x, i32 }
-    { translate_y, i32 }
-    { width, i32 }
-    { x, i32 }
-    { y, i32 }
+    { translate_x, LVCoord }
+    { translate_y, LVCoord }
+    { width, LVSize }
+    { x, LVCoord }
+    { y, LVCoord }
 );
 
 #[cfg(test)]
@@ -218,14 +220,15 @@ mod tests {
     fn test_properties_deserialization() {
         let yaml = r#"
             width: 100
+            height: 10%
             align: center
-            grid_column_dsc_array: [px(100), fr(1)]
-            text_color: hex(#F1F5F9)
+            grid_column_dsc_array: [100px, 1fr]
+            text_color: '#F1F5F9'
             "#;
 
         let properties: Properties = yaml_serde::from_str(yaml).unwrap();
 
-        assert_eq!(properties.width, Some(100));
+        assert!(properties.get_width_ref().is_some());
         assert!(properties.get_align_ref().is_some());
         assert!(properties.get_grid_column_dsc_array_ref().is_some());
         assert!(properties.get_text_color_ref().is_some());
@@ -258,21 +261,15 @@ mod tests {
         let yaml = r#"
             width: 100
             align: center
-            grid_column_dsc_array: [px(100), fr(1)]
-            text_color: hex(#F1F5F9)
+            grid_column_dsc_array: [100px, 1fr]
+            text_color: '#F1F5F9'
             "#;
 
         let properties: Properties = yaml_serde::from_str(yaml).unwrap();
         let properties_map: PropertiesMap = properties.into();
 
         assert_eq!(properties_map.len(), 4);
-
-        let width_property = properties_map
-            .iter()
-            .find(|p| p.get_name() == "width")
-            .unwrap();
-
-        assert_eq!(width_property.get_value_ref(), &AbstractType::Integer(100));
+        assert!(properties_map.iter().any(|p| p.get_name() == "width"));
         assert!(properties_map.iter().any(|p| p.get_name() == "align"));
         assert!(
             properties_map

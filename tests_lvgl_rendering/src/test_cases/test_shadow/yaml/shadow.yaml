@@ -6,14 +6,14 @@ styles:
       shadow_offset_x: 5
       shadow_offset_y: 5
       shadow_spread: 0
-      shadow_color: hex(#000000)
+      shadow_color: "#000000"
       shadow_opa: cover
     user_1:
       shadow_width: 20
       shadow_offset_x: 10
       shadow_offset_y: 10
       shadow_spread: 5
-      shadow_color: hex(#FF0000)
+      shadow_color: "#FF0000"
       shadow_opa: opa_50
     user_2:
       shadow_width: 0
@@ -23,7 +23,7 @@ styles:
     const: @CONST_STYLE@
     default:
       shadow_width: 10
-      shadow_color: hex(#000000)
+      shadow_color: "#000000"
       shadow_opa: cover
       shadow_spread: 0
     user_1:
@@ -35,7 +35,7 @@ styles:
     const: @CONST_STYLE@
     default:
       shadow_width: 10
-      shadow_color: hex(#000000)
+      shadow_color: "#000000"
       shadow_opa: cover
       shadow_offset_x: 0
       shadow_offset_y: 0

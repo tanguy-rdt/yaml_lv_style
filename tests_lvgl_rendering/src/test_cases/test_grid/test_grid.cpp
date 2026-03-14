@@ -5,16 +5,10 @@
 
 #include "styles_gen/stylesheets_macros.h"
 
-static const lv_coord_t col_dsc[] = {100, 100, 100, LV_GRID_TEMPLATE_LAST};
-static const lv_coord_t row_dsc[] = {100, 100, 100, LV_GRID_TEMPLATE_LAST};
-
 static lv_obj_t* create_grid_container(lv_obj_t* parent) {
     lv_obj_t* container = lv_obj_create(parent);
     lv_obj_set_size(container, 350, 350);
     lv_obj_center(container);
-    lv_obj_set_style_layout(container, LV_LAYOUT_GRID, LV_PART_MAIN);
-    lv_obj_set_style_grid_column_dsc_array(container, col_dsc, LV_PART_MAIN);
-    lv_obj_set_style_grid_row_dsc_array(container, row_dsc, LV_PART_MAIN);
     return container;
 }
 

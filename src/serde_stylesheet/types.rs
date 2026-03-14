@@ -3,6 +3,7 @@ mod lv_base_dir;
 mod lv_blend_mode;
 mod lv_border_side;
 mod lv_color;
+mod lv_coord;
 mod lv_flex_align;
 mod lv_flex_flow;
 mod lv_grad_dir;
@@ -24,6 +25,8 @@ pub use lv_base_dir::LVBaseDir;
 pub use lv_blend_mode::LVBlendMode;
 pub use lv_border_side::LVBorderSide;
 pub use lv_color::LVColor;
+pub use lv_coord::LVCoord;
+pub use lv_coord::LVSize;
 pub use lv_flex_align::LVFlexAlign;
 pub use lv_flex_flow::LVFlexFlow;
 pub use lv_grad_dir::LVGradDir;
@@ -71,6 +74,7 @@ make_abstract_type! {
     LVBlendMode => LVBlendMode,
     LVBorderSide => LVBorderSide,
     LVColor => LVColor,
+    LVCoord => LVCoord,
     LVFlexAlign => LVFlexAlign,
     LVFlexFlow => LVFlexFlow,
     LVGradDir => LVGradDir,
@@ -79,6 +83,7 @@ make_abstract_type! {
     LVImageColorkey => LVImageColorkey,
     LVLayout => LVLayout,
     LVOpa => LVOpa,
+    LVSize => LVSize,
     LVTextAlign => LVTextAlign,
     LVTextDecor => LVTextDecor
 }

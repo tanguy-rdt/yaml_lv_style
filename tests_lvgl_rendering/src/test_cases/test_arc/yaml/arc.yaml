@@ -3,12 +3,12 @@ styles:
     const: @CONST_STYLE@
     default:
       arc_width: 5
-      arc_color: hex(#FF0000)
+      arc_color: "#FF0000"
       arc_opa: cover
       arc_rounded: false
     user_1:
       arc_width: 15
-      arc_color: hex(#00FF00)
+      arc_color: "#00FF00"
       arc_opa: opa_50
       arc_rounded: true
     user_2:

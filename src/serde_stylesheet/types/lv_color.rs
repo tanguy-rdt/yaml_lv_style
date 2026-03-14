@@ -55,13 +55,12 @@ impl<'de> Deserialize<'de> for LVColor {
         let s = s.trim();
 
         let hex_re = HEX_RE.get_or_init(|| {
-            Regex::new(r"^(?:hex|lv_color_hex)\(\s*(?:0x|#)?([0-9a-fA-F]{6})\s*\)$")
-                .expect("Failed to compile HEX_RE regex")
+            Regex::new(r"^(?:0x|#)([0-9a-fA-F]{6})$").expect("Failed to compile HEX_RE regex")
         });
 
         if let Some(caps) = hex_re.captures(s) {
             let val = u32::from_str_radix(&caps[1], 16)
-                .map_err(|_| DeError::custom(format!("Hex invalid: {}", s)))?;
+                .map_err(|_| DeError::custom(format!("invalid hex color: {}", s)))?;
             return Ok(LVColor {
                 color: LVColorValue::Hex(val),
                 serialize_as_const: false,
@@ -69,7 +68,7 @@ impl<'de> Deserialize<'de> for LVColor {
         }
 
         let rgb_re = RGB_RE.get_or_init(|| {
-            Regex::new(r"^(?:rgb|lv_color_make)\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$")
+            Regex::new(r"^rgb\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)$")
                 .expect("Failed to compile RGB_RE regex")
         });
 
@@ -90,7 +89,7 @@ impl<'de> Deserialize<'de> for LVColor {
         }
 
         Err(DeError::custom(format!(
-            "invalid color format: {}, use hex(000000) or rgb(0, 0, 0)",
+            "invalid color format: '{}', use '#FF0000', '0xFF0000' or 'rgb(255, 0, 0)'",
             s
         )))
     }
@@ -121,8 +120,14 @@ mod tests {
             _ => panic!("expected Rgb"),
         }
 
-        let hex: LVColor = yaml_serde::from_str("hex(0xFF00FF)").unwrap();
-        match hex.color {
+        let hex_hash: LVColor = yaml_serde::from_str("\"#FF00FF\"").unwrap();
+        match hex_hash.color {
+            LVColorValue::Hex(v) => assert_eq!(v, 0xFF00FF),
+            _ => panic!("expected Hex"),
+        }
+
+        let hex_0x: LVColor = yaml_serde::from_str("0xFF00FF").unwrap();
+        match hex_0x.color {
             LVColorValue::Hex(v) => assert_eq!(v, 0xFF00FF),
             _ => panic!("expected Hex"),
         }
@@ -164,10 +169,13 @@ mod tests {
         let bad: Result<LVColor, _> = yaml_serde::from_str("rgb(256, 0, 0)");
         assert!(bad.is_err());
 
-        let bad: Result<LVColor, _> = yaml_serde::from_str("hex(000000f)");
+        let bad: Result<LVColor, _> = yaml_serde::from_str("hex(FF0000)");
         assert!(bad.is_err());
 
-        let bad: Result<LVColor, _> = yaml_serde::from_str("hex(00000g)");
+        let bad: Result<LVColor, _> = yaml_serde::from_str("#GG0000");
+        assert!(bad.is_err());
+
+        let bad: Result<LVColor, _> = yaml_serde::from_str("#FF000");
         assert!(bad.is_err());
     }
 }

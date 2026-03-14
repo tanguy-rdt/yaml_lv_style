@@ -3,12 +3,12 @@ styles:
     const: @CONST_STYLE@
     default:
       line_width: 2
-      line_color: hex(#FF0000)
+      line_color: "#FF0000"
       line_opa: cover
       line_rounded: false
     user_1:
       line_width: 5
-      line_color: hex(#00FF00)
+      line_color: "#00FF00"
       line_opa: opa_50
       line_rounded: true
     user_2:
@@ -19,7 +19,7 @@ styles:
     const: @CONST_STYLE@
     default:
       line_width: 2
-      line_color: hex(#FF0000)
+      line_color: "#FF0000"
       line_opa: cover
       line_dash_width: 0
       line_dash_gap: 0

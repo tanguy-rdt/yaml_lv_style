@@ -19,6 +19,8 @@ pub enum LVState {
     Hovered,
     #[serde(rename = "LV_STATE_PRESSED", alias = "pressed")]
     Pressed,
+    #[serde(rename = "LV_STATE_SCROLLED", alias = "scrolled")]
+    Scrolled,
     #[serde(rename = "LV_STATE_DISABLED", alias = "disabled")]
     Disabled,
     #[serde(rename = "LV_STATE_USER_1", alias = "user_1")]
@@ -43,6 +45,7 @@ impl LVState {
             LVState::Edited => "edited",
             LVState::Hovered => "hovered",
             LVState::Pressed => "pressed",
+            LVState::Scrolled => "scrolled",
             LVState::Disabled => "disabled",
             LVState::User1 => "user_1",
             LVState::User2 => "user_2",
@@ -65,6 +68,7 @@ impl FromStr for LVState {
             "edited" | "LV_STATE_EDITED" => Ok(LVState::Edited),
             "hovered" | "LV_STATE_HOVERED" => Ok(LVState::Hovered),
             "pressed" | "LV_STATE_PRESSED" => Ok(LVState::Pressed),
+            "scrolled" | "LV_STATE_SCROLLED" => Ok(LVState::Scrolled),
             "disabled" | "LV_STATE_DISABLED" => Ok(LVState::Disabled),
             "user_1" | "LV_STATE_USER_1" => Ok(LVState::User1),
             "user_2" | "LV_STATE_USER_2" => Ok(LVState::User2),
@@ -86,6 +90,7 @@ impl From<&LVState> for String {
             LVState::Edited => "LV_STATE_EDITED".to_string(),
             LVState::Hovered => "LV_STATE_HOVERED".to_string(),
             LVState::Pressed => "LV_STATE_PRESSED".to_string(),
+            LVState::Scrolled => "LV_STATE_SCROLLED".to_string(),
             LVState::Disabled => "LV_STATE_DISABLED".to_string(),
             LVState::User1 => "LV_STATE_USER_1".to_string(),
             LVState::User2 => "LV_STATE_USER_2".to_string(),
@@ -120,6 +125,7 @@ mod tests {
             ("edited", LVState::Edited),
             ("hovered", LVState::Hovered),
             ("pressed", LVState::Pressed),
+            ("scrolled", LVState::Scrolled),
             ("disabled", LVState::Disabled),
             ("user_1", LVState::User1),
             ("user_2", LVState::User2),

@@ -32,7 +32,7 @@ mod tests {
     #[test]
     fn test_lv_blend_mode_aliases() {
         let aliases = vec![
-            ("none", LVBlendMode::Normal),
+            ("normal", LVBlendMode::Normal),
             ("additive", LVBlendMode::Additive),
             ("subtractive", LVBlendMode::Subtractive),
             ("multiply", LVBlendMode::Multiply),

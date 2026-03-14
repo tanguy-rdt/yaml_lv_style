@@ -56,29 +56,26 @@ impl<'de> Deserialize<'de> for LVGridDscArrayValue {
         let s = String::deserialize(deserializer)?;
         let s = s.trim();
 
-        let px_re = PX_RE.get_or_init(|| {
-            Regex::new(r"^px\(\s*(\d+)\s*\)$").expect("Failed to compile PX_RE regex")
-        });
+        let px_re =
+            PX_RE.get_or_init(|| Regex::new(r"^(\d+)px$").expect("Failed to compile PX_RE regex"));
 
         if let Some(caps) = px_re.captures(s) {
             let value = caps[1].parse::<u32>().map_err(|_| {
                 DeError::custom(format!(
-                    "Invalid grid cell px value {}: use px(u32)",
+                    "invalid grid cell px value '{}': use '100px'",
                     &caps[1]
                 ))
             })?;
             return Ok(LVGridDscArrayValue::Px(value));
         };
 
-        let fr_re = FR_RE.get_or_init(|| {
-            Regex::new(r"^(?:fr|lv_grid_fr)\(\s*(\d+)\s*\)$")
-                .expect("Failed to compile FR_RE regex")
-        });
+        let fr_re =
+            FR_RE.get_or_init(|| Regex::new(r"^(\d+)fr$").expect("Failed to compile FR_RE regex"));
 
         if let Some(caps) = fr_re.captures(s) {
             let value = caps[1].parse::<u32>().map_err(|_| {
                 DeError::custom(format!(
-                    "Invalid grid cell fr value {}: use fr(u32)",
+                    "invalid grid cell fr value '{}': use '1fr'",
                     &caps[1]
                 ))
             })?;
@@ -86,7 +83,8 @@ impl<'de> Deserialize<'de> for LVGridDscArrayValue {
         };
 
         Err(DeError::custom(format!(
-            "Invalid grid cell size: {s}, use px(u32) or fr(u32)"
+            "invalid grid cell size: '{}', use '100px' or '1fr'",
+            s
         )))
     }
 }
@@ -106,7 +104,7 @@ mod tests {
 
     #[test]
     fn test_lv_grid_dsc_array_serde() {
-        let yaml = r#"[px(100), px(50), fr(1)]"#;
+        let yaml = r#"[100px, 50px, 1fr]"#;
 
         let mut parsed: LVGridDscArray = yaml_serde::from_str(yaml).unwrap();
         parsed.make_declaration("lv_grid_dsc_test");
@@ -127,11 +125,15 @@ mod tests {
         let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
         assert!(result.is_err());
 
-        let yaml = r#"px(100), px(50), fr(1)"#;
+        let yaml = r#"100px, 50px, 1fr"#;
         let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
         assert!(result.is_err());
 
-        let yaml = r#"{px(100), px(50), fr(1)}"#;
+        let yaml = r#"{100px, 50px, 1fr}"#;
+        let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
+        assert!(result.is_err());
+
+        let yaml = r#"[100px, 50px, 1]"#;
         let result: Result<LVGridDscArray, _> = yaml_serde::from_str(yaml);
         assert!(result.is_err());
     }

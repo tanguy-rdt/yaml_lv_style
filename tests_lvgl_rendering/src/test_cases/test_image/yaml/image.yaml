@@ -11,22 +11,22 @@ styles:
   - name: test_image_recolor
     const: @CONST_STYLE@
     default:
-      image_recolor: hex(#FF0000)
+      image_recolor: "#FF0000"
       image_recolor_opa: transparent
     user_1:
-      image_recolor: hex(#00FF00)
+      image_recolor: "#00FF00"
       image_recolor_opa: opa_50
     user_2:
-      image_recolor: hex(#0000FF)
+      image_recolor: "#0000FF"
       image_recolor_opa: cover
 
   - name: test_image_colorkey
     const: @CONST_STYLE@
     default:
       image_colorkey:
-        low: hex(#000000)
-        high: hex(#FFFFFF)
+        low: "#000000"
+        high: "#FFFFFF"
     user_1:
       image_colorkey:
-        low: hex(#000000)
-        high: hex(#55ff66)
+        low: "#000000"
+        high: "#55ff66"

@@ -2,6 +2,9 @@ styles:
   - name: test_grid_layout
     const: @CONST_STYLE@
     default:
+      layout: grid
+      grid_column_dsc_array: [100px, 100px, 100px]
+      grid_row_dsc_array: [100px, 100px, 100px]
       grid_column_align: start
       grid_row_align: start
     user_1:
@@ -17,6 +20,9 @@ styles:
   - name: test_grid_cell
     const: @CONST_STYLE@
     default:
+      layout: grid
+      grid_column_dsc_array: [ 100px, 100px, 100px ]
+      grid_row_dsc_array: [ 100px, 100px, 100px ]
       grid_cell_column_pos: 0
       grid_cell_row_pos: 0
       grid_cell_column_span: 1

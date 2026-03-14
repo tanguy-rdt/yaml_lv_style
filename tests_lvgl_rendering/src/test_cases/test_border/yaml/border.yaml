@@ -2,15 +2,15 @@ styles:
   - name: test_border_basic
     const: @CONST_STYLE@
     default:
-      border_color: hex(#FF0000)
+      border_color: "#FF0000"
       border_opa: cover
       border_width: 2
     user_1:
-      border_color: hex(#00FF00)
+      border_color: "#00FF00"
       border_opa: opa_50
       border_width: 5
     user_2:
-      border_color: hex(#0000FF)
+      border_color: "#0000FF"
       border_opa: transparent
       border_width: 0
 
@@ -18,7 +18,7 @@ styles:
     const: @CONST_STYLE@
     default:
       border_width: 3
-      border_color: hex(#FF0000)
+      border_color: "#FF0000"
       border_side: full
     user_1:
       border_side: top
@@ -33,7 +33,7 @@ styles:
     const: @CONST_STYLE@
     default:
       border_width: 3
-      border_color: hex(#FF0000)
+      border_color: "#FF0000"
       border_post: false
     user_1:
       border_post: true
