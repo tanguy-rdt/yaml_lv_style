@@ -73,8 +73,6 @@ struct Opt {
 }
 
 fn main() {
-    env_logger::init();
-
     let opt = Opt::parse();
 
     let mut stylesheets = Vec::new();

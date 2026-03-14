@@ -9,7 +9,6 @@ pub fn get_lv_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Val
     let str = match value.as_str() {
         Some(str) => str.to_string(),
         None => {
-            log::warn!("Unable to extract the state");
             return Ok(Value::Null);
         }
     };
@@ -17,7 +16,6 @@ pub fn get_lv_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Val
     match yaml_serde::from_str::<LVState>(str.trim()) {
         Ok(lv_state) => Ok(tera::to_value(lv_state)?),
         Err(_) => {
-            log::warn!("Unable to convert the state to a lvgl state");
             Ok(Value::Null)
         }
     }

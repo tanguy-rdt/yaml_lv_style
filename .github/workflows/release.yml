@@ -59,20 +59,17 @@ jobs:
       - name: Create archive
         run: |
           STAGING="${{ matrix.artifact_name }}"
-          DOC_DIR="${STAGING}/doc"
           COPYRIGHT_DIR="${STAGING}/copyright"
           CMAKE_DIR="${STAGING}/cmake"
           
-          mkdir -p "${DOC_DIR}"
           mkdir -p "${COPYRIGHT_DIR}"
           mkdir -p "${CMAKE_DIR}"
           
           cp "target/${{ matrix.target }}/release/yaml_lv_style" "${STAGING}/"
           
-          [ -f README.md ] && cp README.md "${DOC_DIR}/"
-          [ -f CHANGELOG.md ] && cp CHANGELOG.md "${DOC_DIR}/"
           [ -f LICENSE-MIT ] && cp LICENSE-MIT "${COPYRIGHT_DIR}/"
           [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "${COPYRIGHT_DIR}/"
+          [ -f NOTICE ] && cp NOTICE "${COPYRIGHT_DIR}/"
           [ -f cmake/FindYamlLvStyle.cmake ] && cp cmake/FindYamlLvStyle.cmake "${CMAKE_DIR}/"
           [ -f cmake/YamlLvStyleMacros.cmake ] && cp cmake/YamlLvStyleMacros.cmake "${CMAKE_DIR}/"
           
@@ -94,10 +91,9 @@ jobs:
           cp "target/${{ matrix.target }}/release/yaml_lv_style" "${DPKG_DIR}/usr/bin/"
           chmod 755 "${DPKG_DIR}/usr/bin/yaml_lv_style"
           
-          [ -f README.md ] && cp README.md "${DOC_DIR}/"
           [ -f LICENSE-APACHE ] && cp LICENSE-APACHE "${DOC_DIR}/"
           [ -f LICENSE-MIT ] && cp LICENSE-MIT "${DOC_DIR}/"
-          [ -f CHANGELOG.md ] && cp CHANGELOG.md "${DOC_DIR}/"
+          [ -f NOTICE ] && cp NOTICE "${DOC_DIR}/"
           
           cat > "${DOC_DIR}/copyright" <<EOF
           Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
