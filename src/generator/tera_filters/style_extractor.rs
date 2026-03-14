@@ -15,9 +15,7 @@ pub fn get_lv_state(value: &Value, _: &HashMap<String, Value>) -> TeraResult<Val
 
     match yaml_serde::from_str::<LVState>(str.trim()) {
         Ok(lv_state) => Ok(tera::to_value(lv_state)?),
-        Err(_) => {
-            Ok(Value::Null)
-        }
+        Err(_) => Ok(Value::Null),
     }
 }
 
