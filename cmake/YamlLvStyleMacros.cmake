@@ -100,19 +100,26 @@ function(_yaml_lv_style_make_lib target_name alias output_dir generated_sources)
         cannot be found.")
     endif()
 
-    add_library(${target_name})
-
-    if (alias)
-        add_library(${alias} ALIAS ${target_name})
-    endif ()
-
-    target_sources(${target_name} PRIVATE ${generated_sources})
-
-    target_include_directories(${target_name}
-        PUBLIC
+    set(names_target "${target_name}_names")
+    add_library(${names_target} INTERFACE)
+    target_include_directories(${names_target}
+        INTERFACE
         ${output_dir}/styles/include/
-        ${output_dir}/stylesheets/include/
     )
 
-    target_link_libraries(${target_name} PUBLIC lvgl)
+    add_library(${target_name})
+    target_sources(${target_name} PRIVATE ${generated_sources})
+    target_include_directories(${target_name}
+        PUBLIC
+        ${output_dir}/stylesheets/include/
+    )
+    target_link_libraries(${target_name} PUBLIC lvgl ${names_target})
+
+    if(alias)
+        add_library(${alias} ALIAS ${target_name})
+        add_library(${alias}_names ALIAS ${names_target})
+    else()
+        add_library(${target_name}::${target_name} ALIAS ${target_name})
+        add_library(${target_name}::style_names ALIAS ${names_target})
+    endif()
 endfunction()

@@ -241,15 +241,24 @@ yaml_lv_style_generate_cpp(my_styles
 Two targets are generated:
 
 - `my_styles::my_styles` — full stylesheet library, depends publicly on LVGL, includes `style_names`
-- `my_styles::style_names` — style enums only, with no LVGL dependency
+- `my_styles::style_names` — style enums only, without the LVGL dependency
+
+If an `ALIAS` is provided, the targets are named accordingly:
+- `<alias>` — full stylesheet library
+- `<alias>_names` — style enums only
 
 ```cmake
 # Link the full stylesheet
 target_link_libraries(my_app PRIVATE my_styles::my_styles)
 
-# Or link only the enums, without dependency with LVGL
+# Or link only the enums, without pulling in LVGL
 target_link_libraries(my_app PRIVATE my_styles::style_names)
+
+# With a custom alias
+target_link_libraries(my_app PRIVATE styles::my_styles)
+target_link_libraries(my_app PRIVATE styles::my_styles_names)
 ```
+
 ---
 
 ## CLI
