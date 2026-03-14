@@ -42,6 +42,13 @@ allowed_values = [
     { name = "LV_BLEND_MODE_DIFFERENCE",  alias = "difference"  },
 ]
 
+[LVBlurQuality]
+allowed_values = [
+    { name = "LV_BLUR_QUALITY_AUTO",      alias = "auto"      },
+    { name = "LV_BLUR_QUALITY_SPEED",     alias = "speed"     },
+    { name = "LV_BLUR_QUALITY_PRECISION", alias = "precision" },
+]
+
 [LVBorderSide]
 allowed_values = [
     { name = "LV_BORDER_SIDE_NONE",     alias = "none"     },

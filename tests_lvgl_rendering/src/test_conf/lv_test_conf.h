@@ -32,6 +32,8 @@ extern "C" {
 #define LV_USE_ASSERT_OBJ 1
 #define LV_USE_ASSERT_STYLE 1
 
+#define LV_FONT_MONTSERRAT_48   1
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

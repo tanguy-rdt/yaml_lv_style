@@ -1,0 +1,33 @@
+styles:
+  - name: test_blur_radius
+    const: @CONST_STYLE@
+    default:
+      bg_opa: opa_50
+      bg_color: "0x3B82F6"
+      blur_radius: 0
+    user_1:
+      blur_radius: 5
+    user_2:
+      blur_radius: 20
+
+  - name: test_blur_backdrop
+    const: @CONST_STYLE@
+    default:
+      bg_opa: opa_50
+      bg_color: "0x3B82F6"
+      blur_radius: 20
+      blur_backdrop: false
+    user_1:
+      blur_backdrop: true
+
+  - name: test_blur_quality
+    const: @CONST_STYLE@
+    default:
+      bg_opa: opa_50
+      bg_color: "0x3B82F6"
+      blur_radius: 10
+      blur_quality: auto
+    user_1:
+      blur_quality: speed
+    user_2:
+      blur_quality: precision

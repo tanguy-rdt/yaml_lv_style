@@ -794,6 +794,85 @@ layout = false
 ext_draw = false
 
 # ==============================================================================
+# Blur
+# ==============================================================================
+
+[blur]
+desc = "Blur the widget or its background"
+
+[blur.blur_radius]
+desc = "Sets the intensity of blurring. Applied on each lv_part separately before the children are rendered."
+allowed_values = "Integer"
+default = "0"
+inherited = false
+layout = false
+ext_draw = false
+
+[blur.blur_backdrop]
+desc = "If true the background of the widget will be blurred. The part should have < 100% opacity to make it visible. If false the given part will be blurred when it's rendered but before drawing the children."
+allowed_values = "Boolean"
+default = "false"
+inherited = false
+layout = false
+ext_draw = false
+
+[blur.blur_quality]
+desc = "Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality. LV_BLUR_QUALITY_PRECISION will force using higher quality but slower blur. With LV_BLUR_QUALITY_AUTO the quality will be selected automatically."
+allowed_values = "LVBlurQuality"
+default = "LV_BLUR_QUALITY_AUTO"
+inherited = false
+layout = false
+ext_draw = false
+
+
+# ==============================================================================
+# Drop Shadow
+# ==============================================================================
+
+[drop_shadow]
+desc = "Take an A8 snapshot of the given part and blur it."
+
+[drop_shadow.drop_shadow_radius]
+desc = "Sets the intensity of blurring. Applied on each lv_part separately before the children are rendered."
+allowed_values = "Integer"
+default = "0"
+inherited = false
+layout = false
+ext_draw = false
+
+[drop_shadow.drop_shadow_offset_x]
+desc = "Set an offset on the shadow in pixels in X direction."
+allowed_values = "LVCoord"
+default = "0"
+inherited = false
+layout = false
+ext_draw = false
+
+[drop_shadow.drop_shadow_offset_y]
+desc = "Set an offset on the shadow in pixels in Y direction."
+allowed_values = "LVCoord"
+default = "0"
+inherited = false
+layout = false
+ext_draw = false
+
+[drop_shadow.drop_shadow_color]
+desc = "Set the color of the shadow."
+allowed_values = "LVColor"
+default = "0x000000"
+inherited = false
+layout = false
+ext_draw = false
+
+[drop_shadow.drop_shadow_quality]
+desc = "Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality. LV_BLUR_QUALITY_PRECISION will force using higher quality but slower blur. With LV_BLUR_QUALITY_AUTO the quality will be selected automatically."
+allowed_values = "LVBlurQuality"
+default = "LV_BLUR_QUALITY_PRECISION"
+inherited = false
+layout = false
+ext_draw = false
+
+# ==============================================================================
 # Miscellaneous
 # ==============================================================================
 

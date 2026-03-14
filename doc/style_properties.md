@@ -104,6 +104,16 @@
   - [`text_outline_stroke_color`](#text_outline_stroke_color) — Sets the color of letter outline stroke
   - [`text_outline_stroke_width`](#text_outline_stroke_width) — Set the letter outline stroke width in pixels
   - [`text_outline_stroke_opa`](#text_outline_stroke_opa) — Set the opacity of the letter outline stroke
+- [Blur](#blur)
+  - [`blur_radius`](#blur_radius) — Sets the intensity of blurring
+  - [`blur_backdrop`](#blur_backdrop) — If true the background of the widget will be blurred
+  - [`blur_quality`](#blur_quality) — Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality
+- [Drop Shadow](#drop-shadow)
+  - [`drop_shadow_radius`](#drop_shadow_radius) — Sets the intensity of blurring
+  - [`drop_shadow_offset_x`](#drop_shadow_offset_x) — Set an offset on the shadow in pixels in X direction
+  - [`drop_shadow_offset_y`](#drop_shadow_offset_y) — Set an offset on the shadow in pixels in Y direction
+  - [`drop_shadow_color`](#drop_shadow_color) — Set the color of the shadow
+  - [`drop_shadow_quality`](#drop_shadow_quality) — Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality
 - [Miscellaneous](#miscellaneous)
   - [`radius`](#radius) — Set radius on every corner
   - [`clip_corner`](#clip_corner) — Enable clipping of content that overflows rounded corners of parent Widget
@@ -1331,6 +1341,100 @@ Set the opacity of the letter outline stroke.
 - `LV_OPA_COVER` *(alias: `cover`)*
 
 **Default:** `LV_OPA_COVER` &nbsp;&nbsp;&nbsp; **Inherited:** Yes &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+## Blur
+
+Blur the widget or its background
+
+### `blur_radius`
+
+Sets the intensity of blurring. Applied on each lv_part separately before the children are rendered.
+
+**Allowed values:** Integer
+
+**Default:** `0` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `blur_backdrop`
+
+If true the background of the widget will be blurred. The part should have < 100% opacity to make it visible. If false the given part will be blurred when it's rendered but before drawing the children.
+
+**Allowed values:** Boolean
+
+**Default:** `false` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `blur_quality`
+
+Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality. LV_BLUR_QUALITY_PRECISION will force using higher quality but slower blur. With LV_BLUR_QUALITY_AUTO the quality will be selected automatically.
+
+**Allowed values:**
+- `LV_BLUR_QUALITY_AUTO` *(alias: `auto`)*
+- `LV_BLUR_QUALITY_SPEED` *(alias: `speed`)*
+- `LV_BLUR_QUALITY_PRECISION` *(alias: `precision`)*
+
+**Default:** `LV_BLUR_QUALITY_AUTO` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+## Drop Shadow
+
+Take an A8 snapshot of the given part and blur it.
+
+### `drop_shadow_radius`
+
+Sets the intensity of blurring. Applied on each lv_part separately before the children are rendered.
+
+**Allowed values:** Integer
+
+**Default:** `0` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `drop_shadow_offset_x`
+
+Set an offset on the shadow in pixels in X direction.
+
+**Allowed values:** Pixel or percentage values (e.g. '10', '10%').
+
+**Default:** `0` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `drop_shadow_offset_y`
+
+Set an offset on the shadow in pixels in Y direction.
+
+**Allowed values:** Pixel or percentage values (e.g. '10', '10%').
+
+**Default:** `0` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `drop_shadow_color`
+
+Set the color of the shadow.
+
+**Allowed values:** Hexadecimal or RGB values (e.g. '#FF0000', '0xFF0000', 'rgb(255, 0, 0)').
+
+**Default:** `0x000000` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
+
+---
+
+### `drop_shadow_quality`
+
+Setting to LV_BLUR_QUALITY_SPEED the blurring algorithm will prefer speed over quality. LV_BLUR_QUALITY_PRECISION will force using higher quality but slower blur. With LV_BLUR_QUALITY_AUTO the quality will be selected automatically.
+
+**Allowed values:**
+- `LV_BLUR_QUALITY_AUTO` *(alias: `auto`)*
+- `LV_BLUR_QUALITY_SPEED` *(alias: `speed`)*
+- `LV_BLUR_QUALITY_PRECISION` *(alias: `precision`)*
+
+**Default:** `LV_BLUR_QUALITY_PRECISION` &nbsp;&nbsp;&nbsp; **Inherited:** No &nbsp;&nbsp;&nbsp; **Layout:** No &nbsp;&nbsp;&nbsp; **Ext. draw:** No
 
 ---
 

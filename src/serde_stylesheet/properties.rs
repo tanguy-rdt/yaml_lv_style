@@ -6,6 +6,7 @@ use super::types::AbstractType;
 use super::types::LVAlign;
 use super::types::LVBaseDir;
 use super::types::LVBlendMode;
+use super::types::LVBlurQuality;
 use super::types::LVBorderSide;
 use super::types::LVColor;
 use super::types::LVCoord;
@@ -116,6 +117,9 @@ make_properties! (
     { bg_opa, LVOpa }
     // { bitmap_mask_src, not_yet_implemented }
     { blend_mode, LVBlendMode }
+    { blur_radius, i32 }
+    { blur_backdrop, bool }
+    { blur_quality,  LVBlurQuality }
     { border_color, LVColor }
     { border_opa, LVOpa }
     { border_post, bool }
@@ -124,6 +128,12 @@ make_properties! (
     { clip_corner, bool }
     // { color_filter_dsc, not_yet_implemented }
     { color_filter_opa, LVOpa }
+    { drop_shadow_radius, i32 }
+    { drop_shadow_offset_x, LVCoord }
+    { drop_shadow_offset_y, LVCoord }
+    { drop_shadow_color, LVColor }
+    { drop_shadow_opa, LVOpa }
+    { drop_shadow_quality, LVBlurQuality }
     { flex_cross_place, LVFlexAlign }
     { flex_flow, LVFlexFlow }
     { flex_grow, i32 }

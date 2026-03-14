@@ -55,7 +55,7 @@ mod tests {
         parsed.make_declaration("lv_image_colorkey_test");
 
         let out = yaml_serde::to_string(&parsed).unwrap();
-        let out = out.trim_end().trim_matches('\'');;
+        let out = out.trim_end().trim_matches('\'');
 
         let expected_declaration = "static const lv_image_colorkey_t lv_image_colorkey_test = {LV_COLOR_MAKE(255, 255, 255), LV_COLOR_MAKE(255, 255, 255)};";
 

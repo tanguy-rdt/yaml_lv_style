@@ -7,6 +7,8 @@ use serde::{Deserialize, Serialize};
 pub enum LVState {
     #[serde(rename = "LV_STATE_DEFAULT", alias = "default")]
     Default,
+    #[serde(rename = "LV_STATE_ALT", alias = "alt")]
+    Alt,
     #[serde(rename = "LV_STATE_CHECKED", alias = "checked")]
     Checked,
     #[serde(rename = "LV_STATE_FOCUSED", alias = "focused")]
@@ -39,6 +41,7 @@ impl LVState {
     pub fn to_snake_case(&self) -> &str {
         match self {
             LVState::Default => "default",
+            LVState::Alt => "alt",
             LVState::Checked => "checked",
             LVState::Focused => "focused",
             LVState::FocusKey => "focus_key",
@@ -62,6 +65,7 @@ impl FromStr for LVState {
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
             "default" | "LV_STATE_DEFAULT" => Ok(LVState::Default),
+            "alt" | "LV_STATE_ALT" => Ok(LVState::Alt),
             "checked" | "LV_STATE_CHECKED" => Ok(LVState::Checked),
             "focused" | "LV_STATE_FOCUSED" => Ok(LVState::Focused),
             "focus_key" | "LV_STATE_FOCUS_KEY" => Ok(LVState::FocusKey),
@@ -84,6 +88,7 @@ impl From<&LVState> for String {
     fn from(state: &LVState) -> Self {
         match state {
             LVState::Default => "LV_STATE_DEFAULT".to_string(),
+            LVState::Alt => "LV_STATE_ALT".to_string(),
             LVState::Checked => "LV_STATE_CHECKED".to_string(),
             LVState::Focused => "LV_STATE_FOCUSED".to_string(),
             LVState::FocusKey => "LV_STATE_FOCUS_KEY".to_string(),
@@ -119,6 +124,7 @@ mod tests {
     fn test_lv_state_aliases() {
         let aliases = vec![
             ("default", LVState::Default),
+            ("alt", LVState::Alt),
             ("checked", LVState::Checked),
             ("focused", LVState::Focused),
             ("focus_key", LVState::FocusKey),

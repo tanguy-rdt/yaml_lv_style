@@ -1,6 +1,7 @@
 mod lv_align;
 mod lv_base_dir;
 mod lv_blend_mode;
+mod lv_blur_quality;
 mod lv_border_side;
 mod lv_color;
 mod lv_coord;
@@ -23,6 +24,7 @@ use serde::Serialize;
 pub use lv_align::LVAlign;
 pub use lv_base_dir::LVBaseDir;
 pub use lv_blend_mode::LVBlendMode;
+pub use lv_blur_quality::LVBlurQuality;
 pub use lv_border_side::LVBorderSide;
 pub use lv_color::LVColor;
 pub use lv_coord::LVCoord;
@@ -72,6 +74,7 @@ make_abstract_type! {
     LVAlign => LVAlign,
     LVBaseDir => LVBaseDir,
     LVBlendMode => LVBlendMode,
+    LVBlurQuality => LVBlurQuality,
     LVBorderSide => LVBorderSide,
     LVColor => LVColor,
     LVCoord => LVCoord,

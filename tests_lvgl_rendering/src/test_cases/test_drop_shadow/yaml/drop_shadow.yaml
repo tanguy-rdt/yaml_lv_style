@@ -1,0 +1,76 @@
+styles:
+  - name: test_drop_shadow_basic
+    const: @CONST_STYLE@
+    default:
+      bg_color: "0xFFFFFF"
+      drop_shadow_radius: 0
+      drop_shadow_offset_x: 0
+      drop_shadow_offset_y: 0
+      drop_shadow_color: "0xff0000"
+      drop_shadow_opa: cover
+    user_1:
+      drop_shadow_radius: 10
+      drop_shadow_offset_x: 5
+      drop_shadow_offset_y: 5
+    user_2:
+      drop_shadow_radius: 40
+      drop_shadow_offset_x: 10
+      drop_shadow_offset_y: 10
+
+  - name: test_drop_shadow_color
+    const: @CONST_STYLE@
+    default:
+      drop_shadow_radius: 10
+      drop_shadow_offset_x: 10
+      drop_shadow_offset_y: 10
+      drop_shadow_color: "0x000000"
+      drop_shadow_opa: cover
+    user_1:
+      drop_shadow_color: "0xFF0000"
+    user_2:
+      drop_shadow_color: rgb(0, 0, 255)
+
+  - name: test_drop_shadow_opa
+    const: @CONST_STYLE@
+    default:
+      bg_color: "0xFFFFFF"
+      drop_shadow_radius: 10
+      drop_shadow_color: "0x000000"
+      drop_shadow_offset_x: 10
+      drop_shadow_offset_y: 10
+      drop_shadow_opa: transparent
+    user_1:
+      drop_shadow_opa: opa_50
+    user_2:
+      drop_shadow_opa: cover
+
+  - name: test_drop_shadow_quality
+    const: @CONST_STYLE@
+    default:
+      bg_color: "0xFFFFFF"
+      drop_shadow_radius: 10
+      drop_shadow_color: "0x000000"
+      drop_shadow_offset_x: 10
+      drop_shadow_offset_y: 10
+      drop_shadow_opa: cover
+      drop_shadow_quality: auto
+    user_1:
+      drop_shadow_quality: speed
+    user_2:
+      drop_shadow_quality: precision
+
+  - name: test_drop_shadow_offset
+    const: @CONST_STYLE@
+    default:
+      bg_color: "0xFFFFFF"
+      drop_shadow_radius: 10
+      drop_shadow_color: "0x000000"
+      drop_shadow_opa: cover
+      drop_shadow_offset_x: 0
+      drop_shadow_offset_y: 0
+    user_1:
+      drop_shadow_offset_x: 10%
+      drop_shadow_offset_y: 10%
+    user_2:
+      drop_shadow_offset_x: 20
+      drop_shadow_offset_y: 20
