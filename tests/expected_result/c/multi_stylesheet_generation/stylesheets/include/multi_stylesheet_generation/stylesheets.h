@@ -9,11 +9,19 @@
 
 #include <lvgl.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "multi_stylesheet_generation/styles.h"
 
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */
-void init_stylesheets();
+void init_style_sheets();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // YAML_LV_STYLE_STYLESHEETS_H

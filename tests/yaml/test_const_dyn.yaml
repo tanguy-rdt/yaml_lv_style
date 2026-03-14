@@ -1,0 +1,42 @@
+name: test_const_dyn
+
+styles:
+  - name: test_const
+    const: true
+    default:
+      bg_color: "0x3B82F6"
+      text_color: "0xF1F5F9"
+      radius: 8
+      border_width: 1
+      border_color: "0x2563EB"
+    hovered:
+      bg_color: "0x2563EB"
+
+  - name: test_dyn
+    const: false
+    default:
+      bg_color: "0x3B82F6"
+      text_color: "0xF1F5F9"
+      radius: 8
+      border_width: 1
+      border_color: "0x2563EB"
+    hovered:
+      bg_color: "0x2563EB"
+
+  - name: test_const_multipart
+    const: true
+    default.main:
+      bg_color: "0xFFFFFF"
+    default.indicator:
+      bg_color: "0x3B82F6"
+    hovered.indicator:
+      bg_color: "0x2563EB"
+
+  - name: test_dyn_multipart
+    const: false
+    default.main:
+      bg_color: "0xFFFFFF"
+    default.indicator:
+      bg_color: "0x3B82F6"
+    hovered.indicator:
+      bg_color: "0x2563EB"

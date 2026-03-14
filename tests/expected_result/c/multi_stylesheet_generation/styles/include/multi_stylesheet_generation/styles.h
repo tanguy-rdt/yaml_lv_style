@@ -7,14 +7,26 @@
 #ifndef YAML_LV_STYLE_STYLES_H
 #define YAML_LV_STYLE_STYLES_H
 
-typedef enum {
-  CONST_STYLE_STYLE1,
-  CONST_STYLE_STYLE2,
-} const_style_t;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
-  DYN_STYLE_STYLE1,
-  DYN_STYLE_STYLE2,
-} dyn_style_t;
+  TEST_CONST_DYN_STYLE_TEST_CONST,
+  TEST_CONST_DYN_STYLE_TEST_CONST_MULTIPART,
+  TEST_CONST_DYN_STYLE_TEST_DYN,
+  TEST_CONST_DYN_STYLE_TEST_DYN_MULTIPART,
+} test_const_dyn_style_t;
+
+typedef enum {
+  TEST_SELECTORS_STYLE_TEST_LVGL_SELECTOR_NAMES,
+  TEST_SELECTORS_STYLE_TEST_PART_ONLY,
+  TEST_SELECTORS_STYLE_TEST_STATE_AND_PART,
+  TEST_SELECTORS_STYLE_TEST_STATE_ONLY,
+} test_selectors_style_t;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // YAML_LV_STYLE_STYLES_H

@@ -1,0 +1,23 @@
+name: test_grid
+
+styles:
+  - name: test_grid_dsc
+    const: false
+    default:
+      layout: grid
+      grid_column_dsc_array: [100px, 100px, 100px]
+      grid_row_dsc_array: [50px, 50px]
+
+  - name: test_grid_dsc_fr
+    const: false
+    default:
+      layout: grid
+      grid_column_dsc_array: [1fr, 2fr, 1fr]
+      grid_row_dsc_array: [1fr, 1fr]
+
+  - name: test_grid_dsc_mixed
+    const: false
+    default:
+      layout: grid
+      grid_column_dsc_array: [100px, 1fr, 2fr]
+      grid_row_dsc_array: [50px, 1fr]

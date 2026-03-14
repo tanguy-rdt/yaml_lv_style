@@ -1,0 +1,28 @@
+name: test_colors
+
+styles:
+  - name: test_hex_color
+    const: false
+    default:
+      bg_color: "0xFF0000"
+      border_color: "0x00FF00"
+      text_color: "0x0000FF"
+
+  - name: test_rgb_color
+    const: false
+    default:
+      bg_color: rgb(255, 0, 0)
+      border_color: rgb(0, 255, 0)
+      text_color: rgb(0, 0, 255)
+
+  - name: test_colorkey
+    const: false
+    default:
+      image_colorkey:
+        low: "0x000000"
+        high: "0x0F0F0F"
+
+  - name: test_colorkey_inline
+    const: false
+    default:
+      image_colorkey: { low: "0x000000", high: "0x0F0F0F" }

@@ -6,24 +6,53 @@
 
 #include "multi_stylesheet_generation/stylesheets.h"
 
-#include "multi_stylesheet_generation/stylesheet_const.h"
-#include "multi_stylesheet_generation/stylesheet_dyn.h"
+#include "multi_stylesheet_generation/stylesheet_test_const_dyn.h"
+#include "multi_stylesheet_generation/stylesheet_test_selectors.h"
 
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */
-void initStyleSheets() { initDynStyleSheet(); }
+void initStyleSheets() {
+  initTestConstDynStyleSheet();
+  initTestSelectorsStyleSheet();
+}
 
 /**
- * @brief Applies a style from "const" stylesheet to a given LVGL object
+ * @brief Applies a style from "test_const_dyn" stylesheet to a given LVGL
+ * object
  * @param obj The LVGL object pointer
  * @param name The enum value of the style to apply
  */
-void setStyle(lv_obj_t* obj, ConstStyle name) { setConstStyle(obj, name); }
+void setStyle(lv_obj_t* obj, TestConstDynStyle name) {
+  setTestConstDynStyle(obj, name);
+}
 
 /**
- * @brief Applies a style from "dyn" stylesheet to a given LVGL object
+ * @brief Applies a style from "test_selectors" stylesheet to a given LVGL
+ * object
  * @param obj The LVGL object pointer
  * @param name The enum value of the style to apply
  */
-void setStyle(lv_obj_t* obj, DynStyle name) { setDynStyle(obj, name); }
+void setStyle(lv_obj_t* obj, TestSelectorsStyle name) {
+  setTestSelectorsStyle(obj, name);
+}
+
+/**
+ * @brief Gets a style from "test_const_dyn" stylesheet
+ * @param name The enum value of the style to apply
+ * @param selector The LVGL part and state selector
+ * @return The style pointer
+ */
+lv_style_t* getStyle(TestConstDynStyle name, lv_style_selector_t selector) {
+  return getTestConstDynStyle(name, selector);
+}
+
+/**
+ * @brief Gets a style from "test_selectors" stylesheet
+ * @param name The enum value of the style to apply
+ * @param selector The LVGL part and state selector
+ * @return The style pointer
+ */
+lv_style_t* getStyle(TestSelectorsStyle name, lv_style_selector_t selector) {
+  return getTestSelectorsStyle(name, selector);
+}

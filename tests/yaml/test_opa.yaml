@@ -1,0 +1,29 @@
+name: test_opa
+
+styles:
+  - name: test_opa_aliases
+    const: false
+    default:
+      bg_opa: transparent
+      border_opa: cover
+      text_opa: opa_50
+
+  - name: test_opa_lvgl_names
+    const: false
+    default:
+      bg_opa: LV_OPA_TRANSP
+      border_opa: LV_OPA_COVER
+      text_opa: LV_OPA_50
+
+  - name: test_opa_all_values
+    const: false
+    default:
+      bg_opa: opa_0
+    user_1:
+      bg_opa: opa_10
+    user_2:
+      bg_opa: opa_20
+    user_3:
+      bg_opa: opa_30
+    user_4:
+      bg_opa: opa_40

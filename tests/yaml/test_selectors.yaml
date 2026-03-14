@@ -1,0 +1,54 @@
+name: test_selectors
+
+styles:
+  - name: test_state_only
+    const: false
+    default:
+      bg_color: "0xFFFFFF"
+    hovered:
+      bg_color: "0xEEEEEE"
+    pressed:
+      bg_color: "0xDDDDDD"
+    focused:
+      bg_color: "0xCCCCCC"
+    user_1:
+      bg_color: "0xBBBBBB"
+    user_2:
+      bg_color: "0xAAAAAA"
+    user_3:
+      bg_color: "0x999999"
+    user_4:
+      bg_color: "0x888888"
+
+  - name: test_part_only
+    const: false
+    default.main:
+      bg_color: "0xFFFFFF"
+    default.scrollbar:
+      bg_color: "0xEEEEEE"
+    default.indicator:
+      bg_color: "0xDDDDDD"
+    default.knob:
+      bg_color: "0xCCCCCC"
+    default.selected:
+      bg_color: "0xBBBBBB"
+
+  - name: test_state_and_part
+    const: false
+    default.main:
+      bg_color: "0xFFFFFF"
+    hovered.main:
+      bg_color: "0xEEEEEE"
+    pressed.indicator:
+      bg_color: "0xDDDDDD"
+    focused.knob:
+      bg_color: "0xCCCCCC"
+    user_1.indicator:
+      bg_color: "0xBBBBBB"
+
+  - name: test_lvgl_selector_names
+    const: false
+    LV_STATE_DEFAULT.LV_PART_MAIN:
+      bg_color: "0xFFFFFF"
+    LV_STATE_HOVERED.LV_PART_INDICATOR:
+      bg_color: "0xEEEEEE"

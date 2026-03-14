@@ -7,14 +7,18 @@
 #ifndef YAML_LV_STYLE_STYLES_H
 #define YAML_LV_STYLE_STYLES_H
 
-enum class ConstStyle {
-  Style1,
-  Style2,
+enum class TestConstDynStyle {
+  TestConst,
+  TestConstMultipart,
+  TestDyn,
+  TestDynMultipart,
 };
 
-enum class DynStyle {
-  Style1,
-  Style2,
+enum class TestSelectorsStyle {
+  TestLvglSelectorNames,
+  TestPartOnly,
+  TestStateAndPart,
+  TestStateOnly,
 };
 
 #endif  // YAML_LV_STYLE_STYLES_H

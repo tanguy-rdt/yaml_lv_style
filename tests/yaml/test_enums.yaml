@@ -1,0 +1,63 @@
+name: test_enums
+
+styles:
+  - name: test_align_aliases
+    const: false
+    default:
+      align: center
+    user_1:
+      align: top_left
+    user_2:
+      align: bottom_right
+
+  - name: test_align_lvgl_names
+    const: false
+    default:
+      align: LV_ALIGN_CENTER
+    user_1:
+      align: LV_ALIGN_TOP_LEFT
+    user_2:
+      align: LV_ALIGN_BOTTOM_RIGHT
+
+  - name: test_border_side
+    const: false
+    default:
+      border_side: full
+    user_1:
+      border_side: LV_BORDER_SIDE_TOP
+    user_2:
+      border_side: bottom
+
+  - name: test_text_align
+    const: false
+    default:
+      text_align: left
+    user_1:
+      text_align: center
+    user_2:
+      text_align: LV_TEXT_ALIGN_RIGHT
+
+  - name: test_grad_dir
+    const: false
+    default:
+      bg_grad_dir: none
+    user_1:
+      bg_grad_dir: horizontal
+    user_2:
+      bg_grad_dir: LV_GRAD_DIR_VER
+
+  - name: test_blend_mode
+    const: false
+    default:
+      blend_mode: normal
+    user_1:
+      blend_mode: LV_BLEND_MODE_ADDITIVE
+
+  - name: test_base_dir
+    const: false
+    default:
+      base_dir: ltr
+    user_1:
+      base_dir: rtl
+    user_2:
+      base_dir: LV_BASE_DIR_AUTO

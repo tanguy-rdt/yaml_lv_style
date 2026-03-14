@@ -6,10 +6,13 @@
 
 #include "multi_stylesheet_generation/stylesheets.h"
 
-#include "multi_stylesheet_generation/stylesheet_const.h"
-#include "multi_stylesheet_generation/stylesheet_dyn.h"
+#include "multi_stylesheet_generation/stylesheet_test_const_dyn.h"
+#include "multi_stylesheet_generation/stylesheet_test_selectors.h"
 
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */
-void init_stylesheets() { init_dyn_stylesheet(); }
+void init_style_sheets() {
+  init_test_const_dyn_style_sheet();
+  init_test_selectors_style_sheet();
+}

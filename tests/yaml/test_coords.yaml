@@ -1,0 +1,46 @@
+name: test_coords
+
+styles:
+  - name: test_coord_px
+    const: false
+    default:
+      x: 10
+      y: 20
+      min_width: 100
+      min_height: 50
+      max_width: 500
+      max_height: 300
+
+  - name: test_coord_pct
+    const: false
+    default:
+      x: 10%
+      y: 20%
+      min_width: 50%
+      min_height: 25%
+      max_width: 100%
+      max_height: 75%
+
+  - name: test_size_px
+    const: false
+    default:
+      width: 100
+      height: 50
+
+  - name: test_size_pct
+    const: false
+    default:
+      width: 50%
+      height: 25%
+
+  - name: test_size_content
+    const: false
+    default:
+      width: content
+      height: content
+
+  - name: test_size_lvgl_alias
+    const: false
+    default:
+      width: LV_SIZE_CONTENT
+      height: LV_SIZE_CONTENT
