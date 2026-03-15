@@ -7,7 +7,9 @@
 #include "grid_values_generation/stylesheet_test_grid.h"
 
 lv_style_t TestGridDscDefaultMain;
+
 lv_style_t TestGridDscFrDefaultMain;
+
 lv_style_t TestGridDscMixedDefaultMain;
 
 /**

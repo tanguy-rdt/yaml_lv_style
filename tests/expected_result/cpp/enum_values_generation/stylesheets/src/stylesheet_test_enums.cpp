@@ -9,20 +9,26 @@
 lv_style_t TestAlignAliasesDefaultMain;
 lv_style_t TestAlignAliasesUser1Main;
 lv_style_t TestAlignAliasesUser2Main;
+
 lv_style_t TestAlignLvglNamesDefaultMain;
 lv_style_t TestAlignLvglNamesUser1Main;
 lv_style_t TestAlignLvglNamesUser2Main;
+
 lv_style_t TestBaseDirDefaultMain;
 lv_style_t TestBaseDirUser1Main;
 lv_style_t TestBaseDirUser2Main;
+
 lv_style_t TestBlendModeDefaultMain;
 lv_style_t TestBlendModeUser1Main;
+
 lv_style_t TestBorderSideDefaultMain;
 lv_style_t TestBorderSideUser1Main;
 lv_style_t TestBorderSideUser2Main;
+
 lv_style_t TestGradDirDefaultMain;
 lv_style_t TestGradDirUser1Main;
 lv_style_t TestGradDirUser2Main;
+
 lv_style_t TestTextAlignDefaultMain;
 lv_style_t TestTextAlignUser1Main;
 lv_style_t TestTextAlignUser2Main;

@@ -19,7 +19,7 @@ namespace {
 {%- for props_by_selector in style.properties_by_selector | sort(attribute='0.identifier') %}
 {%- set selector = props_by_selector[0] %}
 {%- set props= props_by_selector[1] %}
-const lv_style_const_prop_t {{ style.name | pascal_case }}{{ selector.identifier | pascal_case }}Props[] = {
+constexpr lv_style_const_prop_t {{ style.name | pascal_case }}{{ selector.identifier | pascal_case }}Props[] = {
 {%- for prop in props | sort(attribute='0') %}
 {%- set prop_name = prop[0] %}
 {%- set prop_value = prop[1] %}
@@ -27,7 +27,7 @@ const lv_style_const_prop_t {{ style.name | pascal_case }}{{ selector.identifier
 {%- endfor %}
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT({{ style.name | pascal_case }}{{ selector.identifier | pascal_case}}, {{ style.name | pascal_case }}{{ selector.identifier | pascal_case }}Props);
+constexpr LV_STYLE_CONST_INIT({{ style.name | pascal_case }}{{ selector.identifier | pascal_case}}, {{ style.name | pascal_case }}{{ selector.identifier | pascal_case }}Props);
 {% endfor %}
 {%- endfor %}
 
@@ -35,7 +35,7 @@ LV_STYLE_CONST_INIT({{ style.name | pascal_case }}{{ selector.identifier | pasca
 {%- for style in stylesheet.styles | sort(attribute='name') -%}
 {%- if style.const_style %}{% continue %}{% endif %}
 {%- for props_by_selector in style.properties_by_selector | sort(attribute='0.identifier') %}
-{%- set selector = props_by_selector[0] -%}
+{%- set selector = props_by_selector[0] %}
 lv_style_t {{ style.name | pascal_case }}{{ selector.identifier | pascal_case}};
 {%- endfor %}
 {% endfor -%}

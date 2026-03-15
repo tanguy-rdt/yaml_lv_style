@@ -8,16 +8,19 @@
 
 lv_style_t TestLvglSelectorNamesDefaultMain;
 lv_style_t TestLvglSelectorNamesHoveredIndicator;
+
 lv_style_t TestPartOnlyDefaultIndicator;
 lv_style_t TestPartOnlyDefaultKnob;
 lv_style_t TestPartOnlyDefaultMain;
 lv_style_t TestPartOnlyDefaultScrollbar;
 lv_style_t TestPartOnlyDefaultSelected;
+
 lv_style_t TestStateAndPartDefaultMain;
 lv_style_t TestStateAndPartFocusedKnob;
 lv_style_t TestStateAndPartHoveredMain;
 lv_style_t TestStateAndPartPressedIndicator;
 lv_style_t TestStateAndPartUser1Indicator;
+
 lv_style_t TestStateOnlyDefaultMain;
 lv_style_t TestStateOnlyFocusedMain;
 lv_style_t TestStateOnlyHoveredMain;

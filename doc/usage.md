@@ -49,7 +49,8 @@ The optional top-level `name` field sets the name of the stylesheet. If omitted,
 - `false` — the style is a dynamic style, initialized at runtime. `initStyleSheets()` must be called before use.
 
 > [!NOTE]
-> If `const` field is not specified, it is assumed to be `false`.
+> If `const` field is not specified, it defaults to `false`. 
+> In C++ output, `const: true` styles are generated as `constexpr`.
 
 ### Selectors
 

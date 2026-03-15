@@ -7,8 +7,11 @@
 #include "colors_values_generation/stylesheet_test_colors.h"
 
 lv_style_t TestColorkeyDefaultMain;
+
 lv_style_t TestColorkeyInlineDefaultMain;
+
 lv_style_t TestHexColorDefaultMain;
+
 lv_style_t TestRgbColorDefaultMain;
 
 /**

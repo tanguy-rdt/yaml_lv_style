@@ -9,7 +9,7 @@
 namespace {
 
 // test_const
-const lv_style_const_prop_t TestConstDefaultMainProps[] = {
+constexpr lv_style_const_prop_t TestConstDefaultMainProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(59, 130, 246)),
     LV_STYLE_CONST_BORDER_COLOR(LV_COLOR_MAKE(37, 99, 235)),
     LV_STYLE_CONST_BORDER_WIDTH(1),
@@ -17,38 +17,39 @@ const lv_style_const_prop_t TestConstDefaultMainProps[] = {
     LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE(241, 245, 249)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(TestConstDefaultMain, TestConstDefaultMainProps);
+constexpr LV_STYLE_CONST_INIT(TestConstDefaultMain, TestConstDefaultMainProps);
 
-const lv_style_const_prop_t TestConstHoveredMainProps[] = {
+constexpr lv_style_const_prop_t TestConstHoveredMainProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(37, 99, 235)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(TestConstHoveredMain, TestConstHoveredMainProps);
+constexpr LV_STYLE_CONST_INIT(TestConstHoveredMain, TestConstHoveredMainProps);
 
 // test_const_multipart
-const lv_style_const_prop_t TestConstMultipartDefaultIndicatorProps[] = {
+constexpr lv_style_const_prop_t TestConstMultipartDefaultIndicatorProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(59, 130, 246)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(TestConstMultipartDefaultIndicator,
-                    TestConstMultipartDefaultIndicatorProps);
+constexpr LV_STYLE_CONST_INIT(TestConstMultipartDefaultIndicator,
+                              TestConstMultipartDefaultIndicatorProps);
 
-const lv_style_const_prop_t TestConstMultipartDefaultMainProps[] = {
+constexpr lv_style_const_prop_t TestConstMultipartDefaultMainProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(255, 255, 255)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(TestConstMultipartDefaultMain,
-                    TestConstMultipartDefaultMainProps);
+constexpr LV_STYLE_CONST_INIT(TestConstMultipartDefaultMain,
+                              TestConstMultipartDefaultMainProps);
 
-const lv_style_const_prop_t TestConstMultipartHoveredIndicatorProps[] = {
+constexpr lv_style_const_prop_t TestConstMultipartHoveredIndicatorProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(37, 99, 235)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(TestConstMultipartHoveredIndicator,
-                    TestConstMultipartHoveredIndicatorProps);
+constexpr LV_STYLE_CONST_INIT(TestConstMultipartHoveredIndicator,
+                              TestConstMultipartHoveredIndicatorProps);
 
 lv_style_t TestDynDefaultMain;
 lv_style_t TestDynHoveredMain;
+
 lv_style_t TestDynMultipartDefaultIndicator;
 lv_style_t TestDynMultipartDefaultMain;
 lv_style_t TestDynMultipartHoveredIndicator;

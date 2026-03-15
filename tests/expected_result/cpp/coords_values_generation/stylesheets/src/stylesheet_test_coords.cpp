@@ -7,10 +7,15 @@
 #include "coords_values_generation/stylesheet_test_coords.h"
 
 lv_style_t TestCoordPctDefaultMain;
+
 lv_style_t TestCoordPxDefaultMain;
+
 lv_style_t TestSizeContentDefaultMain;
+
 lv_style_t TestSizeLvglAliasDefaultMain;
+
 lv_style_t TestSizePctDefaultMain;
+
 lv_style_t TestSizePxDefaultMain;
 
 /**

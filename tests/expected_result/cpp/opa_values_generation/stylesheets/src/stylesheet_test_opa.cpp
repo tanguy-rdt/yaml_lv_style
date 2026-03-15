@@ -7,11 +7,13 @@
 #include "opa_values_generation/stylesheet_test_opa.h"
 
 lv_style_t TestOpaAliasesDefaultMain;
+
 lv_style_t TestOpaAllValuesDefaultMain;
 lv_style_t TestOpaAllValuesUser1Main;
 lv_style_t TestOpaAllValuesUser2Main;
 lv_style_t TestOpaAllValuesUser3Main;
 lv_style_t TestOpaAllValuesUser4Main;
+
 lv_style_t TestOpaLvglNamesDefaultMain;
 
 /**
