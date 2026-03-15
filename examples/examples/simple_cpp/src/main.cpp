@@ -16,11 +16,11 @@ static void button_event_cb(lv_event_t * e) {
         is_dark = !is_dark;
 
         if(is_dark) {
-            setStyle(screen, DarkStyle::Screen);
-            setStyle(btn, DarkStyle::Button);
+            ui::setStyle(screen, ui::DarkStyle::Screen);
+            ui::setStyle(btn, ui::DarkStyle::Button);
         } else {
-            setStyle(screen, LightStyle::Screen);
-            setStyle(btn, LightStyle::Button);
+            ui::setStyle(screen, ui::LightStyle::Screen);
+            ui::setStyle(btn, ui::LightStyle::Button);
         }
     }
 }
@@ -35,9 +35,9 @@ int main() {
     lv_obj_t* label = lv_label_create(button);
     lv_label_set_text(label, "Switch Theme");
 
-    initStyleSheets();
-    setStyle(lv_screen_active(), LightStyle::Screen);
-    setStyle(button, LightStyle::Button);
+    ui::initStyleSheets();
+    ui::setStyle(lv_screen_active(), ui::LightStyle::Screen);
+    ui::setStyle(button, ui::LightStyle::Button);
 
     lv_obj_add_event_cb(button, button_event_cb, LV_EVENT_CLICKED, nullptr);
 

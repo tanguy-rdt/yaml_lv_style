@@ -11,7 +11,7 @@
 
 #include "styles/styles.h"
 
-
+namespace ui {
 
 /**
  * @brief Initializes all dynamic styles in the stylesheet
@@ -33,6 +33,6 @@ void setDarkStyle(lv_obj_t* obj, DarkStyle name);
  */
 lv_style_t* getDarkStyle(DarkStyle name, lv_style_selector_t selector = LV_PART_MAIN | LV_STATE_DEFAULT);
 
-
+} // ui
 
 #endif   // YAML_LV_STYLE_STYLESHEET_DARK_H

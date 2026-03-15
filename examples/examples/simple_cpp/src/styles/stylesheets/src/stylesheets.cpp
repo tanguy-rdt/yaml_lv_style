@@ -9,6 +9,7 @@
 #include "styles/stylesheet_dark.h"
 #include "styles/stylesheet_light.h"
 
+namespace ui {
 
 /**
  * @brief Initializes all dynamic styles of the stylesheets
@@ -60,3 +61,4 @@ lv_style_t* getStyle(LightStyle name, lv_style_selector_t selector) {
 }
 
 
+} // ui

@@ -11,7 +11,7 @@
 
 #include "styles/styles.h"
 
-
+namespace ui {
 
 /**
  * @brief Initializes all dynamic styles of the stylesheets
@@ -52,6 +52,6 @@ lv_style_t* getStyle(DarkStyle name, lv_style_selector_t selector);
 lv_style_t* getStyle(LightStyle name, lv_style_selector_t selector);
 
 
-
+} // ui
 
 #endif   // YAML_LV_STYLE_STYLESHEETS_H

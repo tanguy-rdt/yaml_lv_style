@@ -7,6 +7,7 @@
 #ifndef YAML_LV_STYLE_STYLES_H
 #define YAML_LV_STYLE_STYLES_H
 
+namespace ui {
 
 enum class DarkStyle {
     Button,
@@ -18,5 +19,6 @@ enum class LightStyle {
     Screen,
 };
 
+} // ui
 
 #endif   // YAML_LV_STYLE_STYLES_H

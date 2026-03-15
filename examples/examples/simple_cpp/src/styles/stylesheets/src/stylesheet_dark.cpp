@@ -14,6 +14,8 @@ lv_style_t ScreenDefaultMain;
 
 
 
+namespace ui {
+
 /**
  * @brief Initializes all dynamic styles in the stylesheet
  * Sets properties at runtime for styles not marked as 'const'.
@@ -73,3 +75,4 @@ lv_style_t* getDarkStyle(DarkStyle name, lv_style_selector_t selector) {
     }
 }
 
+} // ui

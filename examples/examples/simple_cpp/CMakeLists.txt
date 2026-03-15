@@ -2,6 +2,7 @@ add_executable(simple_cpp_example)
 
 yaml_lv_style_generate_cpp(simple_cpp_style
     FORMAT
+    NAMESPACE ui
     FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/styles/dark.yaml"
         "${CMAKE_CURRENT_SOURCE_DIR}/styles/light.yaml"
