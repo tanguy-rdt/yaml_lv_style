@@ -8,7 +8,10 @@
 
 
 
-lv_style_t ButtonDefaultMain;lv_style_t ButtonHoveredMain;
+
+lv_style_t ButtonDefaultMain;
+lv_style_t ButtonHoveredMain;
+
 lv_style_t ScreenDefaultMain;
 
 

@@ -10,19 +10,20 @@
 namespace {
 
 // button
-const lv_style_const_prop_t ButtonDefaultMainProps[] = {
+constexpr lv_style_const_prop_t ButtonDefaultMainProps[] = {
     LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(59, 130, 246)),
     LV_STYLE_CONST_TEXT_COLOR(LV_COLOR_MAKE(241, 245, 249)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(ButtonDefaultMain, ButtonDefaultMainProps);
+constexpr LV_STYLE_CONST_INIT(ButtonDefaultMain, ButtonDefaultMainProps);
 
-const lv_style_const_prop_t ButtonHoveredMainProps[] = {
+constexpr lv_style_const_prop_t ButtonHoveredMainProps[] = {
     LV_STYLE_CONST_BG_COLOR(LV_COLOR_MAKE(37, 99, 235)),
     LV_STYLE_CONST_PROPS_END,
 };
-LV_STYLE_CONST_INIT(ButtonHoveredMain, ButtonHoveredMainProps);
+constexpr LV_STYLE_CONST_INIT(ButtonHoveredMain, ButtonHoveredMainProps);
+
 
 
 lv_style_t ScreenDefaultMain;
