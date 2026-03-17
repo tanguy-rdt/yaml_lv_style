@@ -1,5 +1,9 @@
 # yaml_lv_style
 
+> [!IMPORTANT]
+> This project is in alpha (0.x). The API of the generated files may change between minor versions.
+
+
 Writing LVGL styles in C or C++ is verbose and repetitive. `yaml_lv_style` lets you define your styles in a clean YAML 
 file and generates all the boilerplate for you.
 

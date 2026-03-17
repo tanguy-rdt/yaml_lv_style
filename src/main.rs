@@ -12,7 +12,7 @@ use crate::generator::Generator;
 use crate::generator::Language;
 
 #[derive(Parser)]
-#[command(version = "1.0.0 (lvgl v9.5.0)")]
+#[command(version = "0.1.0 (lvgl v9.5.0)")]
 struct Opt {
     #[arg(
         short,
