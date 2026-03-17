@@ -3,13 +3,6 @@ include(FetchContent)
 function(get_yaml_lv_style version)
     message(STATUS "Searching for yaml_lv_style (version: ${version})...")
 
-    set(auth_headers "")
-    if(GITHUB_TOKEN)
-        list(APPEND auth_headers "Authorization: Bearer ${GITHUB_TOKEN}")
-    else ()
-        message(FATAL_ERROR "You need to set a GITHUB_TOKEN")
-    endif()
-
     if("${version}" STREQUAL "latest")
         set(api_url "https://api.github.com/repos/tanguy-rdt/yaml_lv_style/releases/latest")
     else()
@@ -19,7 +12,6 @@ function(get_yaml_lv_style version)
     set(json_file "${CMAKE_BINARY_DIR}/yaml_lv_style_release.json")
 
     file(DOWNLOAD "${api_url}" "${json_file}"
-        HTTPHEADER "${auth_headers}"
         STATUS download_status)
 
     list(GET download_status 0 status_code)
@@ -82,7 +74,6 @@ function(get_yaml_lv_style version)
 
         message(STATUS "Downloading yaml_lv_style from ${found_url}...")
         file(DOWNLOAD "${found_url}" "${archive_file}"
-            HTTPHEADER "Authorization: Bearer ${GITHUB_TOKEN}"
             HTTPHEADER "Accept: application/octet-stream"
             TLS_VERIFY ON
             STATUS download_status
