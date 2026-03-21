@@ -1,4 +1,7 @@
-#[derive(Debug, Clone, PartialEq, Eq, clap::ValueEnum)]
+use serde::Deserialize;
+
+#[derive(Deserialize, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+#[serde(rename_all = "lowercase")]
 pub enum ClangFormatStyle {
     Llvm,
     Gnu,
@@ -11,16 +14,16 @@ pub enum ClangFormatStyle {
 }
 
 impl ClangFormatStyle {
-    pub fn to_clang_preset(&self) -> &str {
+    pub fn to_clang_preset(self) -> String {
         match self {
-            Self::Llvm => "LLVM",
-            Self::Google => "Google",
-            Self::Chromium => "Chromium",
-            Self::Mozilla => "Mozilla",
-            Self::WebKit => "WebKit",
-            Self::Microsoft => "Microsoft",
-            Self::Gnu => "GNU",
-            Self::File => "file",
+            Self::Llvm => "LLVM".to_string(),
+            Self::Google => "Google".to_string(),
+            Self::Chromium => "Chromium".to_string(),
+            Self::Mozilla => "Mozilla".to_string(),
+            Self::WebKit => "WebKit".to_string(),
+            Self::Microsoft => "Microsoft".to_string(),
+            Self::Gnu => "GNU".to_string(),
+            Self::File => "file".to_string(),
         }
     }
 }

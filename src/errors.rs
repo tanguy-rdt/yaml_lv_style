@@ -1,6 +1,5 @@
-use std::path::PathBuf;
-
 use miette::{Diagnostic, SourceSpan};
+use std::path::PathBuf;
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -38,6 +37,10 @@ pub enum Error {
         _span: Option<SourceSpan>,
         _path: PathBuf,
     },
+
+    #[error("Incorrect configuration: {0}")]
+    #[diagnostic(code(yaml_lv_style::config_error))]
+    Config(String),
 
     #[error("Style {0} is empty in {1:?}")]
     #[diagnostic(
