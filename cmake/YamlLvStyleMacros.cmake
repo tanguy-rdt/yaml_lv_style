@@ -35,70 +35,43 @@ function(_yaml_lv_style_generate target_name lang)
         endif()
     endif()
 
-    _yaml_lv_style_expected_generated_files("${args_OUTPUT_DIR}" "${lang}" "${args_FILES}" generated_files generated_sources)
-    _yaml_lv_style_run("${args_FILES}" "${args_OUTPUT_DIR}" "${args}" "${generated_files}")
-    _yaml_lv_style_make_lib("${target_name}" "${args_ALIAS}" "${args_OUTPUT_DIR}" "${generated_sources}")
+    set(gen_files_list "${CMAKE_CURRENT_BINARY_DIR}/generated/yls/gen_list.txt")
+
+    _yaml_lv_style_run("${args_FILES}" "${args_OUTPUT_DIR}" "${args}" "${gen_files_list}")
+    _yaml_lv_style_make_lib("${target_name}" "${args_ALIAS}" "${args_OUTPUT_DIR}" "${gen_files_list}")
 endfunction()
 
-function(_yaml_lv_style_expected_generated_files output_dir lang yaml_files generated_files generated_sources)
-    set(gen_files "")
-
-    foreach(yaml_file IN LISTS yaml_files)
-        get_filename_component(yaml_name "${yaml_file}" NAME_WE)
-        get_filename_component(parent_output_dir_name "${output_dir}" NAME)
-
-        list(APPEND gen_files
-            "${output_dir}/styles/include/${parent_output_dir_name}/styles.h"
-        )
-
-        list(APPEND gen_files
-            "${output_dir}/stylesheets/include/${parent_output_dir_name}/stylesheet_${yaml_name}.h"
-            "${output_dir}/stylesheets/include/${parent_output_dir_name}/stylesheets.h"
-        )
-
-        if("${lang}" STREQUAL "c")
-            list(APPEND gen_files
-                "${output_dir}/stylesheets/src/stylesheet_${yaml_name}.c"
-                "${output_dir}/stylesheets/src/stylesheets.c"
-            )
-        else()
-            list(APPEND gen_files
-                "${output_dir}/stylesheets/src/stylesheet_${yaml_name}.cpp"
-                "${output_dir}/stylesheets/src/stylesheets.cpp"
-            )
-        endif()
-    endforeach()
-
-    list(REMOVE_DUPLICATES gen_files)
-
-    set(gen_sources "")
-    foreach(file ${gen_files})
-        if(file MATCHES ".*\\.cpp$" OR file MATCHES ".*\\.c$")
-            list(APPEND gen_sources "${file}")
-        endif()
-    endforeach()
-
-    set(${generated_files} "${gen_files}" PARENT_SCOPE)
-    set(${generated_sources} "${gen_sources}" PARENT_SCOPE)
-endfunction()
-
-function(_yaml_lv_style_run yaml_files output_dir args generated_files)
+function(_yaml_lv_style_run yaml_files output_dir args gen_files_list)
     file(MAKE_DIRECTORY ${output_dir})
 
-    add_custom_command(
-        OUTPUT ${generated_files}
-        COMMAND ${YAML_LV_STYLE_EXECUTABLE} ${args}
-        DEPENDS ${yaml_files}
-        COMMENT "Generating LVGL styles from YAML"
-        VERBATIM
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${yaml_files})
+
+    execute_process(
+        COMMAND ${YAML_LV_STYLE_EXECUTABLE} ${args} --output-list ${gen_files_list}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE yaml_lv_style_result
     )
+
+    if(NOT yaml_lv_style_result EQUAL 0)
+        message(FATAL_ERROR "yaml_lv_style_generate: Error generating styles: ${yaml_lv_style_result}")
+    endif()
 endfunction()
 
-function(_yaml_lv_style_make_lib target_name alias output_dir generated_sources)
+function(_yaml_lv_style_make_lib target_name alias output_dir gen_files_list)
     if(NOT TARGET lvgl)
         message(FATAL_ERROR "yaml_lv_style_generate: The target 'lvgl' is required for the style generator
         cannot be found.")
     endif()
+
+    file(STRINGS ${gen_files_list} generated_files)
+
+    set(generated_sources "")
+    set(generated_headers "")
+    foreach(file ${generated_files})
+        if(file MATCHES "\\.cpp$" OR file MATCHES "\\.c$")
+            list(APPEND generated_sources ${file})
+        endif()
+    endforeach()
 
     set(names_target "${target_name}_names")
     add_library(${names_target} INTERFACE)
