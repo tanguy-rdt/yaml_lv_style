@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - master
 
 jobs:
   build-and-release:
@@ -36,6 +38,9 @@ jobs:
             artifact_name: yaml_lv_style
             asset_name: yaml_lv_style-macos-arm64.tar.gz
 
+    env:
+      IS_RELEASE: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -54,6 +59,17 @@ jobs:
             cross build --release --target ${{ matrix.target }}
           else
             cargo build --release --target ${{ matrix.target }}
+          fi
+
+      - name: Set version
+        id: version
+        run: |
+          if [ "${{ env.IS_RELEASE }}" = "true" ]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+            echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=nightly-$(date +%Y%m%d)" >> $GITHUB_OUTPUT
+            echo "TAG_NAME=nightly" >> $GITHUB_OUTPUT
           fi
 
       - name: Create archive
@@ -76,10 +92,10 @@ jobs:
           tar -czf "${{ matrix.asset_name }}" "${STAGING}"
 
       - name: Create Debian Package
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu') && env.IS_RELEASE == 'true'
         run: |
           COPYRIGHT_YEARS="2026 - $(date "+%Y")"
-          VERSION=${GITHUB_REF#refs/tags/v}
+          VERSION=${{ steps.version.outputs.VERSION }}
           DPKG_DIR="target/debian"
           DOC_DIR="${DPKG_DIR}/usr/share/doc/yaml_lv_style"
           
@@ -143,11 +159,20 @@ jobs:
             
           fakeroot dpkg-deb --build "${DPKG_DIR}" "yaml_lv_style_${VERSION}_${{ matrix.dpkg_arch }}.deb"
 
-      - name: Upload Assets
+      - name: Update Nightly Tag
+        if: env.IS_RELEASE != 'true'
+        run: |
+          git tag -f nightly
+          git push -f origin nightly
+
+      - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.TAG_NAME }}
+          name: ${{ env.IS_RELEASE == 'true' && steps.version.outputs.TAG_NAME || 'Development Build (Nightly)' }}
+          prerelease: ${{ env.IS_RELEASE != 'true' }}
           files: |
             ${{ matrix.asset_name }}
-            *.deb
+            ${{ env.IS_RELEASE == 'true' && '*.deb' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
