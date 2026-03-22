@@ -17,12 +17,10 @@ set(REPOSITORY ${CMAKE_SOURCE_DIR}/..)
 set(RUST_BUILD_DIR ${CMAKE_BINARY_DIR}/rust)
 set(YAML_LV_STYLE_EXECUTABLE ${RUST_BUILD_DIR}/release/yaml_lv_style)
 
-add_custom_target(yaml_lv_style_rust_build
+execute_process(
     COMMAND cargo build --release --target-dir ${RUST_BUILD_DIR} --features macros
     WORKING_DIRECTORY ${REPOSITORY}
-    BYPRODUCTS ${YAML_LV_STYLE_EXECUTABLE}
-    COMMENT "Building yaml_lv_style (Rust)"
-    VERBATIM
+    RESULT_VARIABLE rust_build_result
 )
 
 include(${REPOSITORY}/cmake/YamlLvStyleMacros.cmake)

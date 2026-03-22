@@ -45,10 +45,20 @@ fn main() {
             .collect::<Vec<_>>()
             .join("\n");
 
+        if let Some(parent) = output_list.parent()
+            && let Err(e) = std::fs::create_dir_all(parent)
+        {
+            eprintln!(
+                "{:?}",
+                miette::Report::new(Error::Io(e, parent.to_path_buf()))
+            );
+            std::process::exit(4);
+        }
+
         if let Err(e) = std::fs::write(&output_list, content).map_err(|e| Error::Io(e, output_list))
         {
             eprintln!("{:?}", miette::Report::new(e));
-            std::process::exit(4);
+            std::process::exit(5);
         }
     }
 }

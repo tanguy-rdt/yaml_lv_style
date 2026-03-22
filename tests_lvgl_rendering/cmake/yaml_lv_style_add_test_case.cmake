@@ -69,8 +69,6 @@ function(_yaml_lv_style_run_codegen test_case variant lang)
     else()
         yaml_lv_style_generate_c("${codegen_lib}"   FORMAT FILES ${configured_yamls} OUTPUT_DIR "${codegen_outdir}")
     endif()
-
-    add_dependencies("${codegen_lib}" yaml_lv_style_rust_build)
 endfunction()
 
 function(_yaml_lv_style_register_target test_case variant lang style_def)
