@@ -6,7 +6,6 @@
 
 #include "styles/stylesheet_light.h"
 
-
 namespace {
 
 // button
@@ -24,14 +23,9 @@ constexpr lv_style_const_prop_t ButtonHoveredMainProps[] = {
 };
 constexpr LV_STYLE_CONST_INIT(ButtonHoveredMain, ButtonHoveredMainProps);
 
-
-
 lv_style_t ScreenDefaultMain;
 
-} // unnamed namespace
-
-
-
+}  // unnamed namespace
 
 namespace ui {
 
@@ -43,7 +37,6 @@ void initLightStyleSheet() {
     // screen
     lv_style_init(&ScreenDefaultMain);
     lv_style_set_bg_color(&ScreenDefaultMain, lv_color_make(248, 250, 252));
-    
 }
 
 /**
@@ -56,10 +49,10 @@ void setLightStyle(lv_obj_t* obj, LightStyle name) {
         case LightStyle::Button:
             lv_obj_add_style(obj, &ButtonDefaultMain, LV_STATE_DEFAULT | LV_PART_MAIN);
             lv_obj_add_style(obj, &ButtonHoveredMain, LV_STATE_HOVERED | LV_PART_MAIN);
-        break;
+            break;
         case LightStyle::Screen:
             lv_obj_add_style(obj, &ScreenDefaultMain, LV_STATE_DEFAULT | LV_PART_MAIN);
-        break;
+            break;
     }
 }
 /**
@@ -72,11 +65,14 @@ lv_style_t* getLightStyle(LightStyle name, lv_style_selector_t selector) {
     switch (name) {
         case LightStyle::Screen:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &ScreenDefaultMain;
-                default: return nullptr;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &ScreenDefaultMain;
+                default:
+                    return nullptr;
             }
-        default: return nullptr;
+        default:
+            return nullptr;
     }
 }
 
-} // ui
+}  // namespace ui

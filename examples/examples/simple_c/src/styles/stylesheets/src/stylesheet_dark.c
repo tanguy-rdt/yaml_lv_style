@@ -6,15 +6,10 @@
 
 #include "styles/stylesheet_dark.h"
 
-
-
-
-
 static lv_style_t button_default_main;
 static lv_style_t button_hovered_main;
 
 static lv_style_t screen_default_main;
-
 
 /**
  * @brief Initializes all dynamic styles in the stylesheet
@@ -26,14 +21,13 @@ void init_dark_style_sheet() {
     lv_style_set_align(&button_default_main, LV_ALIGN_CENTER);
     lv_style_set_bg_color(&button_default_main, lv_color_make(30, 41, 59));
     lv_style_set_text_color(&button_default_main, lv_color_make(241, 245, 249));
-    
+
     lv_style_init(&button_hovered_main);
     lv_style_set_bg_color(&button_hovered_main, lv_color_make(51, 65, 85));
-    
+
     // screen
     lv_style_init(&screen_default_main);
     lv_style_set_bg_color(&screen_default_main, lv_color_make(15, 23, 42));
-    
 }
 
 /**
@@ -46,10 +40,10 @@ void set_dark_style(lv_obj_t* obj, dark_style_t name) {
         case DARK_STYLE_BUTTON:
             lv_obj_add_style(obj, &button_default_main, LV_STATE_DEFAULT | LV_PART_MAIN);
             lv_obj_add_style(obj, &button_hovered_main, LV_STATE_HOVERED | LV_PART_MAIN);
-        break;
+            break;
         case DARK_STYLE_SCREEN:
             lv_obj_add_style(obj, &screen_default_main, LV_STATE_DEFAULT | LV_PART_MAIN);
-        break;
+            break;
     }
 }
 /**
@@ -62,15 +56,21 @@ lv_style_t* get_dark_style(dark_style_t name, lv_style_selector_t selector) {
     switch (name) {
         case DARK_STYLE_BUTTON:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &button_default_main;
-                case LV_STATE_HOVERED | LV_PART_MAIN: return &button_hovered_main;
-                default: return NULL;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &button_default_main;
+                case LV_STATE_HOVERED | LV_PART_MAIN:
+                    return &button_hovered_main;
+                default:
+                    return NULL;
             }
         case DARK_STYLE_SCREEN:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &screen_default_main;
-                default: return NULL;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &screen_default_main;
+                default:
+                    return NULL;
             }
-        default: return NULL;
+        default:
+            return NULL;
     }
 }

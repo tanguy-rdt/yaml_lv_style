@@ -19,7 +19,6 @@ void initStyleSheets() {
     initLightStyleSheet();
 }
 
-
 /**
  * @brief Applies a style from "dark" stylesheet to a given LVGL object
  * @param obj The LVGL object pointer
@@ -37,8 +36,6 @@ void setStyle(lv_obj_t* obj, DarkStyle name) {
 void setStyle(lv_obj_t* obj, LightStyle name) {
     setLightStyle(obj, name);
 }
-
-
 
 /**
  * @brief Gets a style from "dark" stylesheet
@@ -60,5 +57,4 @@ lv_style_t* getStyle(LightStyle name, lv_style_selector_t selector) {
     return getLightStyle(name, selector);
 }
 
-
-} // ui
+}  // namespace ui

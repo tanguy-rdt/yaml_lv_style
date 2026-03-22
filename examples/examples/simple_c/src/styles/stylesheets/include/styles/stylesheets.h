@@ -24,4 +24,4 @@ void init_style_sheets();
 }
 #endif
 
-#endif   // YAML_LV_STYLE_STYLESHEETS_H
+#endif  // YAML_LV_STYLE_STYLESHEETS_H

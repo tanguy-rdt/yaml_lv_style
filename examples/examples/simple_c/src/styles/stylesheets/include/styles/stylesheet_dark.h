@@ -28,7 +28,6 @@ void init_dark_style_sheet();
  */
 void set_dark_style(lv_obj_t* obj, dark_style_t name);
 
-
 /**
  * @brief Gets a style from "dark" stylesheet
  * @param name The enum value of the style to apply
@@ -41,4 +40,4 @@ lv_style_t* get_dark_style(dark_style_t name, lv_style_selector_t selector);
 }
 #endif
 
-#endif   // YAML_LV_STYLE_STYLESHEET_DARK_H
+#endif  // YAML_LV_STYLE_STYLESHEET_DARK_H

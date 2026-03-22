@@ -6,16 +6,10 @@
 
 #include "styles/stylesheet_dark.h"
 
-
-
-
 lv_style_t ButtonDefaultMain;
 lv_style_t ButtonHoveredMain;
 
 lv_style_t ScreenDefaultMain;
-
-
-
 
 namespace ui {
 
@@ -29,14 +23,13 @@ void initDarkStyleSheet() {
     lv_style_set_align(&ButtonDefaultMain, LV_ALIGN_CENTER);
     lv_style_set_bg_color(&ButtonDefaultMain, lv_color_make(30, 41, 59));
     lv_style_set_text_color(&ButtonDefaultMain, lv_color_make(241, 245, 249));
-    
+
     lv_style_init(&ButtonHoveredMain);
     lv_style_set_bg_color(&ButtonHoveredMain, lv_color_make(51, 65, 85));
-    
+
     // screen
     lv_style_init(&ScreenDefaultMain);
     lv_style_set_bg_color(&ScreenDefaultMain, lv_color_make(15, 23, 42));
-    
 }
 
 /**
@@ -49,10 +42,10 @@ void setDarkStyle(lv_obj_t* obj, DarkStyle name) {
         case DarkStyle::Button:
             lv_obj_add_style(obj, &ButtonDefaultMain, LV_STATE_DEFAULT | LV_PART_MAIN);
             lv_obj_add_style(obj, &ButtonHoveredMain, LV_STATE_HOVERED | LV_PART_MAIN);
-        break;
+            break;
         case DarkStyle::Screen:
             lv_obj_add_style(obj, &ScreenDefaultMain, LV_STATE_DEFAULT | LV_PART_MAIN);
-        break;
+            break;
     }
 }
 /**
@@ -65,17 +58,23 @@ lv_style_t* getDarkStyle(DarkStyle name, lv_style_selector_t selector) {
     switch (name) {
         case DarkStyle::Button:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &ButtonDefaultMain;
-                case LV_STATE_HOVERED | LV_PART_MAIN: return &ButtonHoveredMain;
-                default: return nullptr;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &ButtonDefaultMain;
+                case LV_STATE_HOVERED | LV_PART_MAIN:
+                    return &ButtonHoveredMain;
+                default:
+                    return nullptr;
             }
         case DarkStyle::Screen:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &ScreenDefaultMain;
-                default: return nullptr;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &ScreenDefaultMain;
+                default:
+                    return nullptr;
             }
-        default: return nullptr;
+        default:
+            return nullptr;
     }
 }
 
-} // ui
+}  // namespace ui

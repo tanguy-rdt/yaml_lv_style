@@ -9,7 +9,6 @@
 #include "styles/stylesheet_dark.h"
 #include "styles/stylesheet_light.h"
 
-
 /**
  * @brief Initializes all dynamic styles of the stylesheets
  */

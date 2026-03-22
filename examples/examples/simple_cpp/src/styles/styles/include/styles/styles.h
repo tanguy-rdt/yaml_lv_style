@@ -19,6 +19,6 @@ enum class LightStyle {
     Screen,
 };
 
-} // ui
+}  // namespace ui
 
-#endif   // YAML_LV_STYLE_STYLES_H
+#endif  // YAML_LV_STYLE_STYLES_H

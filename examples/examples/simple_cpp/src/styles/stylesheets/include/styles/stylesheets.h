@@ -18,7 +18,6 @@ namespace ui {
  */
 void initStyleSheets();
 
-
 /**
  * @brief Applies a style from "dark" stylesheet to a given LVGL object
  * @param obj The LVGL object pointer
@@ -32,8 +31,6 @@ void setStyle(lv_obj_t* obj, DarkStyle name);
  * @param name The enum value of the style to apply
  */
 void setStyle(lv_obj_t* obj, LightStyle name);
-
-
 
 /**
  * @brief Gets a style from "dark" stylesheet
@@ -51,7 +48,6 @@ lv_style_t* getStyle(DarkStyle name, lv_style_selector_t selector);
  */
 lv_style_t* getStyle(LightStyle name, lv_style_selector_t selector);
 
+}  // namespace ui
 
-} // ui
-
-#endif   // YAML_LV_STYLE_STYLESHEETS_H
+#endif  // YAML_LV_STYLE_STYLESHEETS_H

@@ -8,36 +8,42 @@ endfunction()
 
 function(_yaml_lv_style_generate target_name lang)
     set(options)
-    set(oneValueArgs ALIAS OUTPUT_DIR NAMESPACE FORMAT)
+    set(oneValueArgs ALIAS OUTPUT_DIR CONFIG NAMESPACE FORMAT)
     set(multiValueArgs FILES)
-
     cmake_parse_arguments(args "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-    if(NOT args_FILES)
-        message(FATAL_ERROR "yaml_lv_style_generate: You must specify at least one file in FILES")
-    endif()
 
     if(NOT args_OUTPUT_DIR)
         set(args_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/generated_styles")
     endif()
 
-    set(args -i ${args_FILES} -o ${args_OUTPUT_DIR} -l ${lang})
+    set(cli_args -o "${args_OUTPUT_DIR}" -l "${lang}")
 
-    if(args_NAMESPACE AND "${lang}" STREQUAL "cpp")
-        list(APPEND args -n ${args_NAMESPACE})
+    if(args_FILES)
+        list(APPEND cli_args -i ${args_FILES})
     endif()
 
-    if("FORMAT" IN_LIST yaml_KEYWORDS_MISSING_VALUES OR args_FORMAT)
-        list(APPEND args -f)
+    if(args_CONFIG)
+        list(APPEND cli_args -c "${args_CONFIG}")
+    endif()
 
+    if(NOT args_FILES AND NOT args_CONFIG)
+        message(FATAL_ERROR "yaml_lv_style_generate: Vous devez spécifier FILES ou CONFIG.")
+    endif()
+
+    if(args_NAMESPACE AND "${lang}" STREQUAL "cpp")
+        list(APPEND cli_args -n "${args_NAMESPACE}")
+    endif()
+
+    if("FORMAT" IN_LIST ARGN OR args_FORMAT)
+        list(APPEND cli_args -f)
         if(args_FORMAT)
-            list(APPEND args ${args_FORMAT})
+            list(APPEND cli_args "${args_FORMAT}")
         endif()
     endif()
 
     set(gen_files_list "${CMAKE_CURRENT_BINARY_DIR}/generated/yls/gen_list.txt")
 
-    _yaml_lv_style_run("${args_FILES}" "${args_OUTPUT_DIR}" "${args}" "${gen_files_list}")
+    _yaml_lv_style_run("${args_FILES}" "${args_OUTPUT_DIR}" "${cli_args}" "${gen_files_list}")
     _yaml_lv_style_make_lib("${target_name}" "${args_ALIAS}" "${args_OUTPUT_DIR}" "${gen_files_list}")
 endfunction()
 

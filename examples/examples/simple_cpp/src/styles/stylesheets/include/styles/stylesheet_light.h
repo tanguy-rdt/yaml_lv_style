@@ -33,6 +33,6 @@ void setLightStyle(lv_obj_t* obj, LightStyle name);
  */
 lv_style_t* getLightStyle(LightStyle name, lv_style_selector_t selector = LV_PART_MAIN | LV_STATE_DEFAULT);
 
-} // ui
+}  // namespace ui
 
-#endif   // YAML_LV_STYLE_STYLESHEET_LIGHT_H
+#endif  // YAML_LV_STYLE_STYLESHEET_LIGHT_H

@@ -6,8 +6,6 @@
 
 #include "styles/stylesheet_light.h"
 
-
-
 // button
 const lv_style_const_prop_t button_default_main_props[] = {
     LV_STYLE_CONST_ALIGN(LV_ALIGN_CENTER),
@@ -23,11 +21,7 @@ const lv_style_const_prop_t button_hovered_main_props[] = {
 };
 LV_STYLE_CONST_INIT(button_hovered_main, button_hovered_main_props);
 
-
-
-
 static lv_style_t screen_default_main;
-
 
 /**
  * @brief Initializes all dynamic styles in the stylesheet
@@ -37,7 +31,6 @@ void init_light_style_sheet() {
     // screen
     lv_style_init(&screen_default_main);
     lv_style_set_bg_color(&screen_default_main, lv_color_make(248, 250, 252));
-    
 }
 
 /**
@@ -50,10 +43,10 @@ void set_light_style(lv_obj_t* obj, light_style_t name) {
         case LIGHT_STYLE_BUTTON:
             lv_obj_add_style(obj, &button_default_main, LV_STATE_DEFAULT | LV_PART_MAIN);
             lv_obj_add_style(obj, &button_hovered_main, LV_STATE_HOVERED | LV_PART_MAIN);
-        break;
+            break;
         case LIGHT_STYLE_SCREEN:
             lv_obj_add_style(obj, &screen_default_main, LV_STATE_DEFAULT | LV_PART_MAIN);
-        break;
+            break;
     }
 }
 /**
@@ -66,9 +59,12 @@ lv_style_t* get_light_style(light_style_t name, lv_style_selector_t selector) {
     switch (name) {
         case LIGHT_STYLE_SCREEN:
             switch (selector) {
-                case LV_STATE_DEFAULT | LV_PART_MAIN: return &screen_default_main;
-                default: return NULL;
+                case LV_STATE_DEFAULT | LV_PART_MAIN:
+                    return &screen_default_main;
+                default:
+                    return NULL;
             }
-        default: return NULL;
+        default:
+            return NULL;
     }
 }

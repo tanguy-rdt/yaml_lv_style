@@ -11,20 +11,18 @@
 extern "C" {
 #endif
 
-
 typedef enum {
     DARK_STYLE_BUTTON,
     DARK_STYLE_SCREEN,
-} dark_style_t ;
+} dark_style_t;
 
 typedef enum {
     LIGHT_STYLE_BUTTON,
     LIGHT_STYLE_SCREEN,
-} light_style_t ;
-
+} light_style_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif   // YAML_LV_STYLE_STYLES_H
+#endif  // YAML_LV_STYLE_STYLES_H

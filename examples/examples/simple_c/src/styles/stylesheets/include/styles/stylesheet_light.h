@@ -28,7 +28,6 @@ void init_light_style_sheet();
  */
 void set_light_style(lv_obj_t* obj, light_style_t name);
 
-
 /**
  * @brief Gets a style from "light" stylesheet
  * @param name The enum value of the style to apply
@@ -41,4 +40,4 @@ lv_style_t* get_light_style(light_style_t name, lv_style_selector_t selector);
 }
 #endif
 
-#endif   // YAML_LV_STYLE_STYLESHEET_LIGHT_H
+#endif  // YAML_LV_STYLE_STYLESHEET_LIGHT_H
